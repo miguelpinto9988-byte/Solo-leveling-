@@ -1,6 +1,7 @@
 package com.gymbreaker.app.data
 
 import android.content.Context
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
@@ -49,8 +50,11 @@ data class ExerciseVariantEntity(
     val equipment: String,
     val sourceRefsCsv: String,
     // Unknown difficulties are excluded from automated planning.
+    @ColumnInfo(defaultValue = "'sin_determinar'")
     val difficulty: String = "sin_determinar",
+    @ColumnInfo(defaultValue = "'catalog_only'")
     val planningEligibility: String = "catalog_only",
+    @ColumnInfo(defaultValue = "''")
     val restrictionTagsCsv: String = ""
 )
 
@@ -66,6 +70,7 @@ data class SessionEntity(
     val confirmedComplete: Boolean = true,
     val reportedDiscomfort: Boolean = false,
     // ID familiar => realización elegida; no se cuenta como nuevo ejercicio.
+    @ColumnInfo(defaultValue = "''")
     val variantSelectionsCsv: String = ""
 )
 
@@ -74,6 +79,7 @@ data class TrainingProfileEntity(
     @PrimaryKey val id: Int = 1,
     val experience: String = "BEGINNER",
     // Preferencia del jugador independiente de su experiencia declarada.
+    @ColumnInfo(defaultValue = "'inicio'")
     val preferredDifficulty: String = "inicio",
     val availableMinutes: Int = 25,
     val excludedCategoriesCsv: String = "",
