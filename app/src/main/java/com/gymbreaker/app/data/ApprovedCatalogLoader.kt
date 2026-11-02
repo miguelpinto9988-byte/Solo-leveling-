@@ -56,6 +56,10 @@ object ApprovedCatalogLoader {
                             id = v.getString("id"),
                             name = v.getString("name"),
                             equipment = v.getString("equipment"),
+                            difficulty = v.getString("difficulty"),
+                            planningEligibility = v.getString("planningEligibility"),
+                            restrictionTags = v.getJSONArray("restrictionTags").strings().toSet(),
+                            difficultyEvidence = v.getString("difficultyEvidence"),
                             sourceReferences = (0 until vr.length()).map { refIndex ->
                                 val ref = vr.getJSONObject(refIndex)
                                 ref.getString("source") + ":" + ref.getString("sourceId")
@@ -92,7 +96,10 @@ object ApprovedCatalogLoader {
                     variantId = variant.id,
                     name = variant.name,
                     equipment = variant.equipment,
-                    sourceRefsCsv = variant.sourceReferences.joinToString(";")
+                    sourceRefsCsv = variant.sourceReferences.joinToString(";"),
+                    difficulty = variant.difficulty,
+                    planningEligibility = variant.planningEligibility,
+                    restrictionTagsCsv = variant.restrictionTags.joinToString(",")
                 )
             }
         }
