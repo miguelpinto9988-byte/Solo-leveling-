@@ -42,7 +42,7 @@ object ApprovedCatalogGate {
         require(families.map { it.localId }.distinct().size == families.size) {
             "Hay identificadores locales duplicados"
         }
-        require(families.map { it.mainCategory to it.patternKey.lowercase() }.distinct().size ==
+        require(families.map { it.patternKey.lowercase() }.distinct().size ==
             families.size) { "Un mismo patrón se cuenta como dos ejercicios" }
 
         for (f in families) {
