@@ -1,13 +1,43 @@
 # Solo Leveling Gym Breaker
 
-Aplicación Android nativa en Kotlin + XML. Proyecto en desarrollo incremental.
+Aplicación Android nativa desarrollada con **Kotlin + XML**, Room, Coroutines
+y arquitectura orientada a estado con ViewModel/StateFlow.
 
-## Estado
-- Fase 1: estructura Android, interfaz inicial, datos Room, motor local de rutinas y misiones, ajustes de tema y alarmas.
-- Pendientes: catálogo validado de 2000 ejercicios, modelo generativo offline compatible, recursos oficiales autorizados, respaldos completos, iconografía PNG final y pruebas en dispositivos reales.
-- Las misiones Monarca son opcionales y **no aumentan automáticamente la carga física por incumplimiento**.
+## Estado: prototipo 0.3.0
 
-## Construcción
-GitHub Actions ejecutará la compilación `assembleDebug` y pruebas unitarias. La APK compilada se encontrará en los artefactos del flujo, cuando la compilación sea satisfactoria.
+**Shadow Core AI (offline)** está integrado en el código fuente:
 
-Las imágenes oficiales de la franquicia solo se incluirán cuando sus archivos y licencias estén disponibles.
+- Interpreta solicitudes habituales de rutinas en español, sin Internet.
+- Extrae tiempo disponible, equipamiento y grupos musculares.
+- Propone rutinas mediante un planificador que aplica restricciones obligatorias.
+- Analiza descriptivamente esfuerzos de sesiones confirmadas.
+- Genera mensajes de progreso y misiones RPG sin penalizaciones físicas.
+- Guarda las sesiones y preferencias en Room/SQLite.
+
+No es un modelo de lenguaje generativo. No contiene modelos descargados ni acceso a
+servidores. La selección de un modelo neuronal adicional está pendiente de evaluación.
+
+**Presupuesto de modelos offline: como máximo 60 MiB.** El proyecto verifica los
+archivos de modelos empaquetados; no se debe interpretar como tamaño medido de la
+APK, memoria RAM o base de datos. Los componentes actuales son compactos y
+no se rellenarán artificialmente hasta 60 MB.
+
+## Compilación
+
+El flujo [Android Debug CI](.github/workflows/android.yml) ejecuta las pruebas
+unitarias, la comprobación del presupuesto y `assembleDebug`. Consultar el
+resultado real de GitHub Actions antes de afirmar que existe una APK funcional.
+
+## Documentación
+
+- [Shadow Core AI: arquitectura, límites y próximas pruebas](docs/SHADOW_CORE_AI.md)
+- [Estado de implementación y tareas pendientes](docs/IMPLEMENTATION_STATUS.md)
+
+## Limitaciones actuales
+
+El catálogo contiene solamente doce fichas de demostración. Faltan el catálogo
+revisado de 2.000 ejercicios, recursos visuales oficiales autorizados, animaciones
+definitivas, editor de rutinas, evaluación de inferencia y pruebas en dispositivos.
+
+Las decisiones sobre entrenamiento son propuestas revisables, no diagnósticos;
+el progreso RPG no determina la capacidad física del usuario.
