@@ -1,13 +1,13 @@
-# Registro de implementación · 0.1.0
+# Registro de implementación · 0.2.0
 
 ## Integrado al código fuente (sin certificación de ejecución)
 - Proyecto Kotlin + interfaces XML, Gradle Kotlin DSL, Android SDK.
 - MVVM con ViewModel, StateFlow, Coroutines y Flow.
 - Room + SQLite: ejercicios de demostración y sesiones completadas.
-- Motor local determinista que filtra ejercicios por equipamiento.
+- Motor local determinista con exclusiones por categorías y ejercicios, experiencia declarada y bloqueo de revisión.\n- Estimador de esfuerzo offline que requiere cinco sesiones comparables.\n- Perfil Room y metadatos de sesiones con migración 1→2.
 - Sistema RPG básico: experiencia virtual, nivel, rango y avance semanal.
 - Misiones Monarca narrativas, opcionales; sin incrementos punitivos de carga.
-- Asistente contextual local basado en reglas (NO generativo).
+- Asistente contextual por reglas y adaptador Gemini Nano ML Kit Prompt (modelo generativo condicional, NO verificado en dispositivo).
 - Navegación: Sistema, Misiones, Entrenar, Sombras, IA y Ajustes.
 - Temas claro y oscuro, texto en negrita y cuatro colores de acento para botones y marcos.
 - Gradientes suaves para tarjetas y seis acompañantes originales PNG transparentes 256 × 256.
@@ -20,8 +20,8 @@
 - Editor completo de rutinas, sesión guiada por series/descansos y estadísticas avanzadas.
 - Sistema de acompañantes animados con partículas y aura reactiva.
 - Imágenes oficiales/escenarios autorizados: se necesitan los archivos y el alcance de las licencias.
-- Motor de IA generativa offline: requiere elección de modelo y compatibilidad real por dispositivo.
-- Aprendizaje estadístico local de suficientes sesiones comparables.
+- Gemini Nano requiere hardware compatible y modelo disponible. LiteRT-LM queda pendiente de un toolchain Kotlin >=2.3 y la selección/verificación del modelo.
+- Comprobación con datos reales de las estimaciones estadísticas y de su calidad.
 - Misiones Monarca y recompensas complejas.
 - Alarmas por días, sonidos personalizados y ajustes de precisión según permisos.
 - Exportación/restauración segura, migraciones de base de datos y pruebas instrumentadas.
