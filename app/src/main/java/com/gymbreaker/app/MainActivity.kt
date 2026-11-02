@@ -26,11 +26,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.gymbreaker.app.alarms.TrainingAlarms
 import com.gymbreaker.app.databinding.ActivityMainBinding
+import com.gymbreaker.app.data.ResearchCatalogLoader
+import com.gymbreaker.app.data.ResearchExerciseCandidate
+import com.gymbreaker.app.domain.CatalogCategory
 import com.gymbreaker.app.domain.TrainingPlace
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS }
+private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS, CATALOG }
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         binding.navShadows.setOnClickListener { navigate(Screen.SHADOWS) }
         binding.navAi.setOnClickListener { navigate(Screen.AI) }
         binding.navSettings.setOnClickListener { navigate(Screen.SETTINGS) }
+        binding.navCatalog.setOnClickListener { navigate(Screen.CATALOG) }
     }
 
     private fun navigate(screen: Screen) {
@@ -106,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         binding.secondaryAction.backgroundTintList = ColorStateList.valueOf(accent)
         val tabs = arrayOf(
             binding.navSystem, binding.navMissions, binding.navTrain,
-            binding.navShadows, binding.navAi, binding.navSettings
+            binding.navShadows, binding.navAi, binding.navSettings, binding.navCatalog
         )
         tabs.forEachIndexed { index, button ->
             button.alpha = if (currentScreen.ordinal == index) 1f else 0.58f
@@ -120,6 +124,7 @@ class MainActivity : AppCompatActivity() {
             Screen.SHADOWS -> renderShadows(state)
             Screen.AI -> renderAi(state)
             Screen.SETTINGS -> renderSettings(state)
+            Screen.CATALOG -> renderCatalog(state)
         }
     }
 
@@ -177,7 +182,11 @@ class MainActivity : AppCompatActivity() {
     private fun renderTrain(state: DashboardState) {
         val routine = state.routine
         val body = if (routine != null) {
-            routine.exercises.joinToString(separator = "\n") { "• " + it.name } +
+            routine.exercises.joinToString(separator = "\n") {
+                val form = routine.selectedVariants[it.id]
+                "• " + (form?.displayName ?: it.name) +
+                    (form?.let { choice -> " · " + choice.level } ?: "")
+            } +
                 "\n\n" + (state.planningMessage ?: "") +
                 (state.effortEstimate?.let {
                     "\nEstimación local con " + it.sampleSize + " sesiones: esfuerzo declarado medio " +
@@ -187,7 +196,8 @@ class MainActivity : AppCompatActivity() {
             ?: "No hay una rutina activa. Elige Casa, Mancuernas o Gimnasio para crearla."
         show(
             "ENTRENAR",
-            "Motor local de reglas · rutina editable en próximas entregas",
+            "Dificultad seleccionada: " + state.profile.experience +
+                " · solo variantes compatibles y autorizadas",
             routine?.title ?: "TU PRÓXIMA RUTINA",
             body,
             if (routine == null) "GENERAR RUTINA" else "REGISTRAR SESIÓN",
@@ -253,6 +263,139 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun renderCatalog(state: DashboardState) {
+        val approved = state.exercises.count { it.id >= 10_000 }
+        show(
+            "CATÁLOGO DE FAMILIAS",
+            "Ejercicio principal · variantes · dificultad · equipamiento",
+            "2.186 REGISTROS DOCUMENTALES",
+            "Investigación offline organizada en 1.823 grupos nominales de las " +
+                "cinco categorías. Las posibles variantes se muestran dentro " +
+                "de grupos relacionados, pero su identidad aún requiere revisión. " +
+                "No son 2.000 ejercicios únicos acreditados.",
+            "EXPLORAR FAMILIAS", { showResearchCategoryDialog() },
+            "FICHAS AUTORIZADAS PARA LA IA",
+            approved.toString() + " familias nuevas importadas. " +
+                state.variants.size + " variantes subordinadas en la base de datos. " +
+                "Solo los niveles y las variantes aprobados pueden proponerse " +
+                "en Entrenar; las entradas documentales quedan en consulta.",
+            "VER FAMILIAS APROBADAS", { showApprovedFamiliesDialog() }
+        )
+    }
+
+    private fun showApprovedFamiliesDialog() {
+        val state = model.state.value
+        val approved = state.exercises.filter { it.id >= 10_000 }
+        if (approved.isEmpty()) {
+            AlertDialog.Builder(this).setTitle("Familias autorizadas")
+                .setMessage("Todavía no existen ejercicios nuevos con revisión técnica " +
+                    "documentada. Los 2.186 registros de investigación pueden consultarse " +
+                    "en el catálogo, pero Shadow Core AI no los utiliza.")
+                .setPositiveButton("Entendido", null).show()
+            return
+        }
+        AlertDialog.Builder(this).setTitle("Ejercicios principales aprobados")
+            .setItems(approved.map { it.name }.toTypedArray()) { _, index ->
+                val family = approved[index]
+                val variants = state.variants.filter { it.exerciseId == family.id }
+                val details = if (variants.isEmpty()) "No tiene variantes aprobadas." else
+                    variants.joinToString("\n") {
+                        "• " + it.name + " · " + it.difficulty +
+                            " · " + it.equipment +
+                            " · " + if (it.planningEligibility == "approved")
+                                "Elegible" else "Solo consulta"
+                    }
+                AlertDialog.Builder(this).setTitle(family.name)
+                    .setMessage("Familia única · " + family.category +
+                        "\nNivel base: " + family.level + "\n\n" + details)
+                    .setPositiveButton("Cerrar", null).show()
+            }.setNegativeButton("Cerrar", null).show()
+    }
+
+    private fun showResearchCategoryDialog() {
+        val categories = CatalogCategory.entries
+        AlertDialog.Builder(this).setTitle("Selecciona una categoría")
+            .setItems(categories.map { it.label }.toTypedArray()) { _, index ->
+                showResearchDifficultyDialog(categories[index])
+            }.setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showResearchDifficultyDialog(category: CatalogCategory) {
+        val labels = arrayOf("Todas", "Inicial (informado)", "Intermedio (informado)",
+            "Avanzado (informado)", "Sin determinar")
+        val levels = arrayOf(null, "inicio", "intermedio", "avanzado", "sin_determinar")
+        AlertDialog.Builder(this).setTitle("Dificultad · " + category.label)
+            .setItems(labels) { _, index -> showResearchSearchDialog(category, levels[index]) }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showResearchSearchDialog(category: CatalogCategory, difficulty: String?) {
+        val input = EditText(this).apply {
+            hint = "Nombre de ejercicio o familia (opcional)"
+            setSingleLine(true)
+        }
+        AlertDialog.Builder(this).setTitle("Buscar en " + category.label)
+            .setMessage("Datos de investigación. Dificultades declaradas por las fuentes, " +
+                "no comprobadas para uso automático.")
+            .setView(input)
+            .setPositiveButton("Buscar") { _, _ ->
+                lifecycleScope.launch {
+                    try {
+                        val families = ResearchCatalogLoader.load(
+                            this@MainActivity, category
+                        )
+                        showResearchResults(
+                            families,
+                            ResearchCatalogLoader.search(
+                                families, input.text.toString().take(120), difficulty
+                            )
+                        )
+                    } catch (error: Exception) {
+                        if (!isFinishing && !isDestroyed) {
+                            AlertDialog.Builder(this@MainActivity)
+                                .setTitle("Catálogo no disponible")
+                                .setMessage("No fue posible abrir los datos offline. " +
+                                    "Las rutinas existentes permanecen disponibles.")
+                                .setPositiveButton("Cerrar", null).show()
+                        }
+                    }
+                }
+            }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showResearchResults(
+        all: List<ResearchExerciseCandidate>,
+        matches: List<ResearchExerciseCandidate>
+    ) {
+        if (isFinishing || isDestroyed) return
+        if (matches.isEmpty()) {
+            AlertDialog.Builder(this).setTitle("Sin coincidencias")
+                .setMessage("No se encontraron nombres con esos criterios. " +
+                    "Prueba otra dificultad o búsqueda.")
+                .setPositiveButton("Cerrar", null).show()
+            return
+        }
+        val visible = matches.take(40)
+        val labels = visible.map {
+            it.name + " · " + it.records.size + " entradas de origen"
+        }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Familias nominales · " + matches.size + " resultados")
+            .setMessage("Se muestran hasta 40. Afina la búsqueda para encontrar otras. " +
+                "El catálogo aún está en revisión.")
+            .setItems(labels) { _, index ->
+                val selected = visible[index]
+                AlertDialog.Builder(this)
+                    .setTitle(selected.name)
+                    .setMessage(ResearchCatalogLoader.preview(selected, all))
+                    .setPositiveButton("Cerrar", null)
+                    .show()
+            }
+            .setNegativeButton("Cerrar", null)
+            .show()
+    }
+
     private fun showPlaceDialog() {
         val names = arrayOf("En casa", "Con mancuernas", "En el gimnasio")
         AlertDialog.Builder(this)
@@ -267,7 +410,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCompletedExerciseDialog() {
         val routine = model.state.value.routine ?: return
-        val names = routine.exercises.map { it.name }.toTypedArray()
+        val names = routine.exercises.map { exercise ->
+            routine.selectedVariants[exercise.id]?.displayName ?: exercise.name
+        }.toTypedArray()
         val checked = BooleanArray(names.size)
         AlertDialog.Builder(this)
             .setTitle("Confirma solo los ejercicios realizados")
