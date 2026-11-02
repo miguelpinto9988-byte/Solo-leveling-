@@ -41,7 +41,7 @@ La generación de texto puede producir respuestas erróneas. El modelo solo expl
 - No hay permisos de Internet solicitados directamente por esta app en su prototipo.
 - Los datos registrados se conservan localmente en Room; las funcionalidades de exportación y cifrado de copias están pendientes.
 
-## Antes de elegir LiteRT-LM o descargar un modelo
+**Compatibilidad relevante:** LiteRT-LM 0.18+ utiliza metadatos de Kotlin 2.4 y requiere un compilador Kotlin 2.3 o superior, mientras el proyecto utiliza Kotlin 2.2.21. Es obligatorio actualizar y verificar el toolchain en una etapa separada antes de integrar ese SDK. Fuentes: https://github.com/google-ai-edge/LiteRT-LM/blob/main/docs/api/kotlin/getting_started.md\n\n## Antes de elegir LiteRT-LM o descargar un modelo
 
 Verificar en teléfonos concretos la RAM disponible, el tamaño cuantizado, latencia, generación en español, consumo, licencias de modelo y recursos, límites de memoria y funcionamiento sin red. No se incorporará un archivo de modelo enorme al repositorio sin confirmar estas restricciones y los derechos de redistribución.
 
