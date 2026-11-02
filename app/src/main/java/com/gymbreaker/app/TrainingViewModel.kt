@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.gymbreaker.app.data.ExerciseEntity
+import com.gymbreaker.app.data.ExerciseVariantEntity
 import com.gymbreaker.app.data.SessionEntity
 import com.gymbreaker.app.data.TrainingDatabase
 import com.gymbreaker.app.data.TrainingProfileEntity
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 
 data class DashboardState(
     val exercises: List<ExerciseEntity> = emptyList(),
+    val variants: List<ExerciseVariantEntity> = emptyList(),
     val sessions: List<SessionEntity> = emptyList(),
     val profile: TrainingProfileEntity = TrainingProfileEntity(),
     val routine: PlannedRoutine? = null,
@@ -43,15 +45,21 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
     private val selectedCompanion = MutableStateFlow(prefs.getString("companion", "Beru") ?: "Beru")
     private val latestDecision = MutableStateFlow<PlanningDecision?>(null)
 
+    private val localCatalog = combine(repository.exercises, repository.variants) {
+            exercises, variants -> exercises to variants
+    }
+
     val state: StateFlow<DashboardState> = combine(
-        repository.exercises, repository.sessions, repository.profile,
+        localCatalog, repository.sessions, repository.profile,
         selectedCompanion, latestDecision
-    ) { exercises, sessions, savedProfile, companion, decision ->
+    ) { catalog, sessions, savedProfile, companion, decision ->
+        val (exercises, variants) = catalog
         val xp = sessions.sumOf { it.xpEarned }
         val monday = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
             .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
         DashboardState(
             exercises = exercises,
+            variants = variants,
             sessions = sessions,
             profile = savedProfile ?: TrainingProfileEntity(),
             routine = (decision as? PlanningDecision.Candidate)?.routine,
@@ -93,7 +101,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
             s.exercises,
             TrainingPreferences(place, experience, p.availableMinutes, restrictions,
                 excludedIds, p.requiresReview),
-            observations
+            observations,
+            variants = s.variants
         )
     }
 
@@ -103,7 +112,9 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         if (selected.isEmpty() || effort !in 1..10) return
         viewModelScope.launch {
             repository.completeSession(
-                summary = selected.joinToString(", ") { it.name }, effort = effort,
+                summary = selected.joinToString(", ") {
+                    routine.selectedVariants[it.id]?.displayName ?: it.name
+                }, effort = effort,
                 equipment = routine.place.name, exerciseIds = selected.map { it.id },
                 confirmed = true, discomfort = discomfort
             )
@@ -189,7 +200,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                             requiresReview = p.requiresReview,
                             requestedCategories = requested.focusCategories
                         ),
-                        observations = observed
+                        observations = observed,
+                        variants = s.variants
                     )
                     latestDecision.value = decision
                     when (decision) {
