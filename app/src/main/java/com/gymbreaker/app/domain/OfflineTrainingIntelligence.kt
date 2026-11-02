@@ -23,7 +23,8 @@ data class TrainingObservation(
     val exerciseIds: Set<Int>,
     val perceivedEffort: Int,
     val confirmedComplete: Boolean,
-    val reportedDiscomfort: Boolean = false
+    val reportedDiscomfort: Boolean = false,
+    val selectedVariants: Map<Int, String> = emptyMap()
 )
 
 data class LocalEffortEstimate(
@@ -85,6 +86,16 @@ object OfflineTrainingIntelligence {
                 "Descansa o revisa una propuesta más ligera antes de continuar."
             )
         }
+        // Frecuencias de variantes realmente confirmadas (últimas diez sesiones
+        // sin molestias). Solo desempatan alternativas del mismo nivel.
+        val selectionCounts = observations.takeLast(10)
+            .filter { it.confirmedComplete && !it.reportedDiscomfort }
+            .flatMap { observation ->
+                observation.selectedVariants.map { (familyId, variantId) ->
+                    familyId.toString() + ":" + variantId
+                }
+            }.groupingBy { it }.eachCount()
+
         // Seleccionar previamente una realización compatible para cada familia.
         // Una variante sólo entra aquí si tiene nivel y autorización explícitos.
         val variantsByFamily = variants.groupBy { it.exerciseId }
@@ -102,7 +113,8 @@ object OfflineTrainingIntelligence {
             .mapNotNull { exercise ->
                 val choice = ExerciseVariantSelector.choose(
                     exercise, variantsByFamily[exercise.id].orEmpty(),
-                    p.equipment, p.experience
+                    p.equipment, p.experience,
+                    recentSelections = selectionCounts
                 )
                 if (choice == null) null else exercise.id to choice
             }
