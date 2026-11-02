@@ -84,6 +84,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: DashboardState) {
         val accent = Color.parseColor(preferences.getString("accent", "#A56CFF"))
+        val companionImage = when (state.companion) {
+            "Igris" -> R.drawable.shadow_igris
+            "Iron" -> R.drawable.shadow_iron
+            "Tank" -> R.drawable.shadow_tank
+            "Tusk" -> R.drawable.shadow_tusk
+            "Kaisel" -> R.drawable.shadow_kaisel
+            else -> R.drawable.shadow_beru
+        }
+        binding.shadowPortrait.setImageResource(companionImage)
+        binding.shadowPortrait.contentDescription = "Sombra " + state.companion
         binding.heroCard.strokeColor = accent
         binding.secondaryCard.strokeColor = accent
         binding.xpBar.progressTintList = ColorStateList.valueOf(accent)
