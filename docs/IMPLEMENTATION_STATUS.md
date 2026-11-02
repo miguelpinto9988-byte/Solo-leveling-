@@ -19,15 +19,18 @@
 - Pruebas unitarias nuevas para la comprensión local y el aprendizaje descriptivo.
 
 ## Investigación del catálogo (no integrada en la app)
-- Cinco categorías primarias definidas en `CatalogTaxonomy.kt`.
-- 996 registros de investigación procedentes de dos fuentes abiertas:
-  721 de Free Exercise DB y 275 de Glowupp.
-- 986 nombres normalizados diferentes tras eliminar 10 coincidencias exactas.
-- Sin revisión semántica definitiva de variantes ni verificación individual de
-  los 2.000 ejercicios principales; ninguno de los registros de investigación
-  está habilitado en Shadow Core AI.
-- Auditoría reproducible: `python3 scripts/audit_catalog.py`.
-- Detalle: [CATALOG_RESEARCH.md](CATALOG_RESEARCH.md).
+- Cinco categorías principales en `CatalogTaxonomy.kt`: tren superior, tren inferior,
+  zona central, cardio y movilidad.
+- 2.186 registros de metadatos de cuatro fuentes abiertas conservados en staging.
+- 1.823 pares categoría/nombre distintos, 1.794 nombres distintos globales.
+- 44 grupos léxicos de posibles variantes en cola de revisión manual.
+- **No son 2.000 ejercicios principales comprobados**: el solapamiento semántico
+  y la existencia de muchas variantes impiden certificar la cifra.
+- Cardio y movilidad concentran los mayores déficits de nombres (272 y 255
+  antes de la revisión de variantes).
+- Ningún ejercicio de staging se activa en Shadow Core AI hasta revisión.
+- Auditoría automática: `python3 scripts/audit_catalog.py`.
+- Información: [CATALOG_RESEARCH.md](CATALOG_RESEARCH.md).
 
 ## Pendiente para el producto objetivo
 - Los **2000 ejercicios revisados**: por ahora hay 12 ejemplos, sin validación biomecánica.
