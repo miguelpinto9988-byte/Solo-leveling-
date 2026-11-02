@@ -212,3 +212,32 @@ El catálogo activo no se ha inflado con variantes ni registros sin revisar.
 - Documentación: [VARIANTES_Y_DIFICULTAD.md](VARIANTES_Y_DIFICULTAD.md).
 
 **No se han aprobado nuevas familias mediante inferencia o agrupación automática.**
+
+
+## Nueva capa de agrupaciones propuestas por nivel — 0.6.0
+
+Los datos de investigación se organizaron en cinco archivos de lectura local
+`family_groups_*.json` mediante las pistas de parentesco que ya se
+documentaban en el catálogo. Se conservan **2.186 registros de procedencia**,
+**1.823 nombres por categoría** y se generan **1.089 agrupaciones
+provisionales**. De ellas, **28** contienen más de una denominación
+relacionada de manera léxica y requieren revisión específica. No se trata
+de 1.089 ejercicios biomecánicos verificados.
+
+Cada agrupación incluye variantes por nivel inicial, intermedio,
+avanzado y sin determinar, equipo informado, identificador de fuente,
+estado de verificación y señal de exclusión para planificación.
+Ningún registro de investigación puede saltar la puerta de aprobación.
+
+Fuentes adicionales investigadas: Kinetic Exercises Database (MIT,
+derivada sustancialmente de catálogos abiertos previos), Yoga API
+(código MIT pero con recursos y datos de terceros), OpenExerciseDB
+(fork del proyecto wger con atribuciones por entrada) y RepDB
+(condiciones específicas de redistribución y atribución). Se evitaron
+importaciones automáticas por solapamiento o derechos sin aclarar.
+Los detalles constan en [SHADOW_CORE_90MB_FAMILIAS.md](SHADOW_CORE_90MB_FAMILIAS.md).
+
+La tarea `scripts/validate_family_groups.py` verifica los grupos,
+las fuentes, la asignación de niveles sin validar y la prohibición
+de habilitar automáticamente las variantes. El objetivo original de
+2.000 movimientos principales diferentes permanece pendiente.
