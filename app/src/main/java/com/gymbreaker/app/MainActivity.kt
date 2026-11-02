@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             "100 % local en esta etapa · clasificación por reglas",
             "SALUDOS, CAZADOR",
             "Puedo consultar tus misiones, sesiones, XP y opciones de planificación. " +
-                "No soy todavía una IA generativa ni un sistema médico.",
+                "Gemini Nano puede responder en dispositivos compatibles; el planificador siempre aplica reglas locales y no ofrece diagnósticos.",
             "PREGUNTAR", { askAssistant() },
             "ESTADO DE LA INTELIGENCIA",
             "Reglas y restricciones: integradas. " +
