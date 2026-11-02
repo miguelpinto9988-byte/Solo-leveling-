@@ -88,4 +88,22 @@ class OfflineTrainingIntelligenceTest {
     @Test fun monarchFailureOnlyChangesStory() {
         assertTrue(OfflineTrainingIntelligence.monarchNarrative(false).contains("no la carga"))
     }
+
+    @Test fun recentUsageFavoursAlternativeCompatibleExercise() {
+        val exercises = listOf(
+            ExerciseEntity(1, "Movilidad A", "Movilidad", "none", "inicio"),
+            ExerciseEntity(2, "Movilidad B", "Movilidad", "none", "inicio"),
+            ExerciseEntity(3, "Caminata", "Cardio", "none", "inicio")
+        )
+        val records = List(5) {
+            TrainingObservation(
+                TrainingPlace.HOME, setOf(1, 3), 4, true
+            )
+        }
+        val result = OfflineTrainingIntelligence.propose(
+            exercises, TrainingPreferences(TrainingPlace.HOME), records
+        ) as PlanningDecision.Candidate
+        assertTrue(result.routine.exercises.any { it.id == 2 })
+        assertFalse(result.routine.exercises.any { it.id == 1 })
+    }
 }
