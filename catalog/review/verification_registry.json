@@ -3,26 +3,27 @@
   "policy": "strict_source_concordance_not_professional_training_approval",
   "originalRecordCount": 2186,
   "originalNominalNames": 1823,
-  "retainedNominalNames": 209,
-  "retainedSourceEvidence": 425,
-  "removedNominalNames": 1614,
+  "retainedNominalNames": 198,
+  "retainedSourceEvidence": 402,
+  "removedNominalNames": 1625,
   "retainedByCategory": {
     "Cardio": 3,
-    "Movilidad": 12,
-    "Tren inferior": 37,
-    "Tren superior": 131,
-    "Zona central": 26
+    "Movilidad": 11,
+    "Tren inferior": 35,
+    "Tren superior": 125,
+    "Zona central": 24
   },
   "retainedByLevel": {
-    "intermedio": 60,
-    "inicio": 149
+    "intermedio": 53,
+    "inicio": 145
   },
   "removedReasonCounts": {
     "single_source_no_external_confirmation": 1189,
     "technical_risk_or_ambiguous_pattern": 297,
     "source_difficulty_conflict": 68,
     "category_conflict": 58,
-    "conflicting_professional_level": 2
+    "conflicting_professional_level": 2,
+    "unclear_pattern_or_unstable_execution": 11
   },
   "additionalIndependentSourceNote": "Coincidencia entre repositorios no prueba independencia editorial; las fichas solo son consultables hasta revisión técnica.",
   "ACEreferences": [
@@ -131,18 +132,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Groiners",
         "rthepen/workout-database:bodyweight_groiners"
-      ]
-    },
-    {
-      "key": "Movilidad|hug a ball",
-      "name": "Hug A Ball",
-      "category": "Movilidad",
-      "level": "inicio",
-      "familyKey": "name:hug a ball",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Hug_A_Ball",
-        "rthepen/workout-database:stability_ball_hug_a_ball"
       ]
     },
     {
@@ -382,18 +371,6 @@
       ]
     },
     {
-      "key": "Tren inferior|jefferson squats",
-      "name": "Jefferson Squats",
-      "category": "Tren inferior",
-      "level": "intermedio",
-      "familyKey": "squat",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Jefferson_Squats",
-        "rthepen/workout-database:barbell_jefferson_squats"
-      ]
-    },
-    {
       "key": "Tren inferior|leg extensions",
       "name": "Leg Extensions",
       "category": "Tren inferior",
@@ -439,18 +416,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Lying_Leg_Curls",
         "rthepen/workout-database:machine_lying_leg_curls"
-      ]
-    },
-    {
-      "key": "Tren inferior|lying machine squat",
-      "name": "Lying Machine Squat",
-      "category": "Tren inferior",
-      "level": "intermedio",
-      "familyKey": "squat",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Lying_Machine_Squat",
-        "rthepen/workout-database:machine_lying_machine_squat"
       ]
     },
     {
@@ -695,18 +660,6 @@
       ]
     },
     {
-      "key": "Tren superior|anti gravity press",
-      "name": "Anti-Gravity Press",
-      "category": "Tren superior",
-      "level": "inicio",
-      "familyKey": "name:anti gravity press",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Anti-Gravity_Press",
-        "rthepen/workout-database:barbell_anti_gravity_press"
-      ]
-    },
-    {
       "key": "Tren superior|arnold dumbbell press",
       "name": "Arnold Dumbbell Press",
       "category": "Tren superior",
@@ -716,18 +669,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Arnold_Dumbbell_Press",
         "rthepen/workout-database:dumbbells_arnold_press"
-      ]
-    },
-    {
-      "key": "Tren superior|around the worlds",
-      "name": "Around The Worlds",
-      "category": "Tren superior",
-      "level": "intermedio",
-      "familyKey": "name:around the worlds",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Around_The_Worlds",
-        "rthepen/workout-database:dumbbells_around_the_worlds"
       ]
     },
     {
@@ -876,18 +817,6 @@
       ]
     },
     {
-      "key": "Tren superior|clock push up",
-      "name": "Clock Push-Up",
-      "category": "Tren superior",
-      "level": "intermedio",
-      "familyKey": "push-up",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Clock_Push-Up",
-        "rthepen/workout-database:bodyweight_clock_push_up"
-      ]
-    },
-    {
       "key": "Tren superior|close grip dumbbell press",
       "name": "Close-Grip Dumbbell Press",
       "category": "Tren superior",
@@ -945,18 +874,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Cross_Body_Hammer_Curl",
         "rthepen/workout-database:dumbbells_cross_body_hammer_curl"
-      ]
-    },
-    {
-      "key": "Tren superior|cuban press",
-      "name": "Cuban Press",
-      "category": "Tren superior",
-      "level": "intermedio",
-      "familyKey": "name:cuban press",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Cuban_Press",
-        "rthepen/workout-database:dumbbells_cuban_press"
       ]
     },
     {
@@ -1226,7 +1143,7 @@
       "name": "Front Raise And Pullover",
       "category": "Tren superior",
       "level": "inicio",
-      "familyKey": "shoulder-front-raise",
+      "familyKey": "front-raise-pullover",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Front_Raise_And_Pullover",
@@ -1375,18 +1292,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Inverted_Row_with_Straps",
         "buzops9/exercisedb:0498"
-      ]
-    },
-    {
-      "key": "Tren superior|iron cross",
-      "name": "Iron Cross",
-      "category": "Tren superior",
-      "level": "intermedio",
-      "familyKey": "name:iron cross",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Iron_Cross",
-        "rthepen/workout-database:dumbbells_iron_cross"
       ]
     },
     {
@@ -1654,18 +1559,6 @@
       ]
     },
     {
-      "key": "Tren superior|push ups with feet on an exercise ball",
-      "name": "Push-Ups With Feet On An Exercise Ball",
-      "category": "Tren superior",
-      "level": "intermedio",
-      "familyKey": "push-up",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Push-Ups_With_Feet_On_An_Exercise_Ball",
-        "rthepen/workout-database:stability_ball_push_ups_with_feet_on_an_exercise_ball"
-      ]
-    },
-    {
       "key": "Tren superior|reverse barbell curl",
       "name": "Reverse Barbell Curl",
       "category": "Tren superior",
@@ -1742,7 +1635,7 @@
       "name": "Reverse Triceps Bench Press",
       "category": "Tren superior",
       "level": "intermedio",
-      "familyKey": "chest-press",
+      "familyKey": "triceps-press",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Reverse_Triceps_Bench_Press",
@@ -1886,7 +1779,7 @@
       "name": "Side Laterals to Front Raise",
       "category": "Tren superior",
       "level": "inicio",
-      "familyKey": "shoulder-lateral-raise",
+      "familyKey": "multi-plane-shoulder-raise",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Side_Laterals_to_Front_Raise",
@@ -1982,7 +1875,7 @@
       "name": "Smith Machine Upright Row",
       "category": "Tren superior",
       "level": "inicio",
-      "familyKey": "back-row",
+      "familyKey": "upright-row",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Smith_Machine_Upright_Row",
@@ -2018,7 +1911,7 @@
       "name": "Standing Dumbbell Upright Row",
       "category": "Tren superior",
       "level": "inicio",
-      "familyKey": "back-row",
+      "familyKey": "upright-row",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Standing_Dumbbell_Upright_Row",
@@ -2090,7 +1983,7 @@
       "name": "Straight-Arm Pulldown",
       "category": "Tren superior",
       "level": "inicio",
-      "familyKey": "lat-pulldown",
+      "familyKey": "straight-arm-pulldown",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Straight-Arm_Pulldown",
@@ -2174,7 +2067,7 @@
       "name": "Upright Cable Row",
       "category": "Tren superior",
       "level": "intermedio",
-      "familyKey": "back-row",
+      "familyKey": "upright-row",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Upright_Cable_Row",
@@ -2354,7 +2247,7 @@
       "name": "Cross-Body Crunch",
       "category": "Zona central",
       "level": "inicio",
-      "familyKey": "trunk-crunch",
+      "familyKey": "rotational-crunch",
       "externalEvidence": [],
       "sourceReferences": [
         "yuhonas/free-exercise-db:Cross-Body_Crunch",
@@ -2467,18 +2360,6 @@
       ]
     },
     {
-      "key": "Zona central|otis up",
-      "name": "Otis-Up",
-      "category": "Zona central",
-      "level": "inicio",
-      "familyKey": "name:otis up",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Otis-Up",
-        "rthepen/workout-database:dumbbells_otis_up"
-      ]
-    },
-    {
       "key": "Zona central|pallof press",
       "name": "Pallof Press",
       "category": "Zona central",
@@ -2549,19 +2430,6 @@
       "sourceReferences": [
         "yuhonas/free-exercise-db:Smith_Machine_Hip_Raise",
         "rthepen/workout-database:machine_smith_machine_hip_raise"
-      ]
-    },
-    {
-      "key": "Zona central|spell caster",
-      "name": "Spell Caster",
-      "category": "Zona central",
-      "level": "inicio",
-      "familyKey": "name:spell caster",
-      "externalEvidence": [],
-      "sourceReferences": [
-        "yuhonas/free-exercise-db:Spell_Caster",
-        "rthepen/workout-database:dumbbells_spell_caster",
-        "buzops9/exercisedb:0777"
       ]
     },
     {
@@ -15647,6 +15515,106 @@
       "reason": "category_conflict",
       "sources": [
         "buzops9/exercisedb:1428"
+      ]
+    },
+    {
+      "name": "Hug A Ball",
+      "category": "Movilidad",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Hug_A_Ball",
+        "rthepen/workout-database:stability_ball_hug_a_ball"
+      ]
+    },
+    {
+      "name": "Jefferson Squats",
+      "category": "Tren inferior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Jefferson_Squats",
+        "rthepen/workout-database:barbell_jefferson_squats"
+      ]
+    },
+    {
+      "name": "Lying Machine Squat",
+      "category": "Tren inferior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Lying_Machine_Squat",
+        "rthepen/workout-database:machine_lying_machine_squat"
+      ]
+    },
+    {
+      "name": "Anti-Gravity Press",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Anti-Gravity_Press",
+        "rthepen/workout-database:barbell_anti_gravity_press"
+      ]
+    },
+    {
+      "name": "Around The Worlds",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Around_The_Worlds",
+        "rthepen/workout-database:dumbbells_around_the_worlds"
+      ]
+    },
+    {
+      "name": "Clock Push-Up",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Clock_Push-Up",
+        "rthepen/workout-database:bodyweight_clock_push_up"
+      ]
+    },
+    {
+      "name": "Cuban Press",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Cuban_Press",
+        "rthepen/workout-database:dumbbells_cuban_press"
+      ]
+    },
+    {
+      "name": "Iron Cross",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Iron_Cross",
+        "rthepen/workout-database:dumbbells_iron_cross"
+      ]
+    },
+    {
+      "name": "Push-Ups With Feet On An Exercise Ball",
+      "category": "Tren superior",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Push-Ups_With_Feet_On_An_Exercise_Ball",
+        "rthepen/workout-database:stability_ball_push_ups_with_feet_on_an_exercise_ball"
+      ]
+    },
+    {
+      "name": "Otis-Up",
+      "category": "Zona central",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Otis-Up",
+        "rthepen/workout-database:dumbbells_otis_up"
+      ]
+    },
+    {
+      "name": "Spell Caster",
+      "category": "Zona central",
+      "reason": "unclear_pattern_or_unstable_execution",
+      "sources": [
+        "yuhonas/free-exercise-db:Spell_Caster",
+        "rthepen/workout-database:dumbbells_spell_caster",
+        "buzops9/exercisedb:0777"
       ]
     }
   ]
