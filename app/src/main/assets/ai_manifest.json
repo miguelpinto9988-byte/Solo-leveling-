@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "engine": "Shadow Core AI",
+  "engineType": "reglas deterministas + estadísticas locales + descodificación JSON",
+  "networkRequired": false,
+  "storageBudgetBytes": 90000000,
+  "includesCompiledDex": false,
+  "modelWeightsIncluded": false,
+  "documentedRecords": 2186,
+  "nominalNamesByCategory": 1823,
+  "proposedGroups": 1089,
+  "biomechanicallyApprovedGroups": 0,
+  "sourceDatasets": 4,
+  "categoryBreakdown": [
+    {
+      "slug": "upper",
+      "name": "Tren superior",
+      "nominal": 789,
+      "proposed": 376,
+      "records": 1009
+    },
+    {
+      "slug": "lower",
+      "name": "Tren inferior",
+      "nominal": 417,
+      "proposed": 232,
+      "records": 479
+    },
+    {
+      "slug": "core",
+      "name": "Zona central",
+      "nominal": 344,
+      "proposed": 236,
+      "records": 400
+    },
+    {
+      "slug": "cardio",
+      "name": "Cardio",
+      "nominal": 128,
+      "proposed": 109,
+      "records": 139
+    },
+    {
+      "slug": "mobility",
+      "name": "Movilidad",
+      "nominal": 145,
+      "proposed": 136,
+      "records": 159
+    }
+  ],
+  "assetList": [
+    "research_upper.json",
+    "family_groups_upper.json",
+    "research_lower.json",
+    "family_groups_lower.json",
+    "research_core.json",
+    "family_groups_core.json",
+    "research_cardio.json",
+    "family_groups_cardio.json",
+    "research_mobility.json",
+    "family_groups_mobility.json",
+    "catalog_approved.json",
+    "catalog_source_licenses.txt",
+    "ai_manifest.json"
+  ],
+  "privacy": "Datos de entrenamiento en el dispositivo, sin conexión requerida",
+  "warning": "La cantidad de grupos propuestos no equivale al número de ejercicios biomecánicamente verificados."
+}
