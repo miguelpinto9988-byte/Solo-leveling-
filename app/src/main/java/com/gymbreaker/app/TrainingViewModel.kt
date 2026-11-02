@@ -13,6 +13,9 @@ import com.gymbreaker.app.domain.*
 import com.gymbreaker.app.ai.ShadowCoreAI
 import com.gymbreaker.app.ai.ShadowIntent
 import com.gymbreaker.app.ai.ShadowLearning
+import com.gymbreaker.app.ai.ShadowDecisionAudit
+import com.gymbreaker.app.ai.ShadowAuditReport
+import com.gymbreaker.app.ai.ShadowInterpretation
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
@@ -53,6 +56,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
     private val repository = TrainingRepository(TrainingDatabase.get(application).trainingDao(), application.applicationContext)
     private val selectedCompanion = MutableStateFlow(prefs.getString("companion", "Beru") ?: "Beru")
     private val latestDecision = MutableStateFlow<PlanningDecision?>(null)
+    private var lastAuditPreferences: TrainingPreferences? = null
+    private var lastInterpretation: ShadowInterpretation? = null
 
     private val localCatalog = combine(repository.exercises, repository.variants) {
             exercises, variants -> exercises to variants
@@ -88,6 +93,66 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
 
     init { viewModelScope.launch { repository.initializeSampleData() } }
 
+    private fun observationsFrom(sessions: List<SessionEntity>): List<TrainingObservation> =
+        sessions.asReversed().map { session ->
+            TrainingObservation(
+                equipment = TrainingPlace.entries.firstOrNull {
+                    it.name == session.equipment
+                } ?: TrainingPlace.HOME,
+                exerciseIds = session.exerciseIdsCsv.split(',')
+                    .mapNotNull { it.toIntOrNull() }.toSet(),
+                perceivedEffort = session.perceivedEffort,
+                confirmedComplete = session.confirmedComplete,
+                reportedDiscomfort = session.reportedDiscomfort,
+                selectedVariants = decodeVariantSelections(session.variantSelectionsCsv)
+            )
+        }
+
+    fun lastDecisionAudit(): ShadowAuditReport {
+        val s = state.value
+        val p = s.profile
+        val fallback = TrainingPreferences(
+            equipment = s.routine?.place ?: TrainingPlace.HOME,
+            experience = Experience.entries.firstOrNull { it.name == p.experience }
+                ?: Experience.BEGINNER,
+            availableMinutes = p.availableMinutes,
+            excludedCategories = p.excludedCategoriesCsv.split(',')
+                .map { it.trim() }.filter { it.isNotBlank() }.toSet(),
+            excludedExerciseIds = p.excludedExerciseIdsCsv.split(',')
+                .mapNotNull { it.toIntOrNull() }.toSet(),
+            requiresReview = p.requiresReview,
+            preferredDifficulty = p.preferredDifficulty
+        )
+        return ShadowDecisionAudit.evaluate(
+            exercises = s.exercises,
+            variants = s.variants,
+            preferences = lastAuditPreferences ?: fallback,
+            observations = observationsFrom(s.sessions),
+            decision = latestDecision.value
+        )
+    }
+
+    fun lastInterpretationDetails(): String {
+        val r = lastInterpretation
+            ?: return "Aún no se ha interpretado ninguna consulta en esta sesión."
+        return "INTENCIÓN: " + r.intent.name +
+            "\nCoincidencia léxica orientativa: " +
+            "%.1f".format(r.confidence * 100.0) + "%" +
+            "\nEquipamiento detectado: " +
+            (r.parameters.preferredPlace?.name ?: "No especificado") +
+            "\nTiempo detectado: " +
+            (r.parameters.minutes?.toString() ?: "No indicado") + " min." +
+            "\nCategorías detectadas: " +
+            r.parameters.focusCategories.ifEmpty { setOf("Ninguna") }.joinToString(", ") +
+            "\nRevisión pendiente: " + if (r.needsHumanReview) "Sí" else "No"
+    }
+
+    fun clearCurrentProposal() {
+        latestDecision.value = null
+        lastAuditPreferences = null
+        lastInterpretation = null
+    }
+
     fun generateRoutine(place: TrainingPlace) {
         val s = state.value
         val p = s.profile
@@ -107,13 +172,13 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                 selectedVariants = decodeVariantSelections(session.variantSelectionsCsv)
             )
         }
+        val preferences = TrainingPreferences(
+            place, experience, p.availableMinutes, restrictions,
+            excludedIds, p.requiresReview, preferredDifficulty = p.preferredDifficulty
+        )
+        lastAuditPreferences = preferences
         latestDecision.value = OfflineTrainingIntelligence.propose(
-            s.exercises,
-            TrainingPreferences(place, experience, p.availableMinutes, restrictions,
-                excludedIds, p.requiresReview,
-                preferredDifficulty = p.preferredDifficulty),
-            observations,
-            variants = s.variants
+            s.exercises, preferences, observations, variants = s.variants
         )
     }
 
@@ -170,6 +235,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
      */
     fun askAssistant(question: String): String {
         val parsed = ShadowCoreAI.interpret(question)
+        lastInterpretation = parsed
         val s = state.value
         return when (parsed.intent) {
             ShadowIntent.RECOVERY ->
@@ -206,18 +272,20 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                         )
                     }
                     val choice = requested.preferredPlace ?: TrainingPlace.HOME
+                    val preferences = TrainingPreferences(
+                        equipment = choice,
+                        experience = experience,
+                        availableMinutes = minutes ?: p.availableMinutes,
+                        excludedCategories = exclusions,
+                        excludedExerciseIds = excludedIds,
+                        requiresReview = p.requiresReview,
+                        requestedCategories = requested.focusCategories,
+                        preferredDifficulty = p.preferredDifficulty
+                    )
+                    lastAuditPreferences = preferences
                     val decision = OfflineTrainingIntelligence.propose(
                         exercises = s.exercises,
-                        profile = TrainingPreferences(
-                            equipment = choice,
-                            experience = experience,
-                            availableMinutes = minutes ?: p.availableMinutes,
-                            excludedCategories = exclusions,
-                            excludedExerciseIds = excludedIds,
-                            requiresReview = p.requiresReview,
-                            requestedCategories = requested.focusCategories,
-                            preferredDifficulty = p.preferredDifficulty
-                        ),
+                        profile = preferences,
                         observations = observed,
                         variants = s.variants
                     )
