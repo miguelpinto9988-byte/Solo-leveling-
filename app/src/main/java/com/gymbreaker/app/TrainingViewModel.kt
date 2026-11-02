@@ -110,7 +110,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         latestDecision.value = OfflineTrainingIntelligence.propose(
             s.exercises,
             TrainingPreferences(place, experience, p.availableMinutes, restrictions,
-                excludedIds, p.requiresReview),
+                excludedIds, p.requiresReview,
+                preferredDifficulty = p.preferredDifficulty),
             observations,
             variants = s.variants
         )
@@ -138,6 +139,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
 
     fun savePreferences(
         experience: Experience? = null,
+        preferredDifficulty: String? = null,
         availableMinutes: Int? = null,
         excludedCategories: Set<String>? = null,
         requiresReview: Boolean? = null
@@ -146,6 +148,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
             val original = state.value.profile
             repository.saveProfile(original.copy(
                 experience = experience?.name ?: original.experience,
+                preferredDifficulty = preferredDifficulty ?: original.preferredDifficulty,
                 availableMinutes = (availableMinutes ?: original.availableMinutes).coerceIn(10, 90),
                 excludedCategoriesCsv = excludedCategories?.joinToString(",")
                     ?: original.excludedCategoriesCsv,
@@ -212,7 +215,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                             excludedCategories = exclusions,
                             excludedExerciseIds = excludedIds,
                             requiresReview = p.requiresReview,
-                            requestedCategories = requested.focusCategories
+                            requestedCategories = requested.focusCategories,
+                            preferredDifficulty = p.preferredDifficulty
                         ),
                         observations = observed,
                         variants = s.variants
