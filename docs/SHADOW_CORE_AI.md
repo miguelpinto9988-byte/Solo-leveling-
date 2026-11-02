@@ -1,8 +1,8 @@
-# Shadow Core AI · implementación offline 0.3.0
+# Shadow Core AI · arquitectura offline (revisada para 0.6.0)
 
 ## Objetivo de tamaño
 
-**Máximo: 60 MiB para los archivos de modelos offline empaquetados.** Este es un
+**Máximo: 90 MB decimales (90.000.000 bytes) para los recursos offline de IA y catálogo, incluidos los modelos que eventualmente se empaqueten.** Este es un
 límite superior, no un tamaño que debamos llenar artificialmente. El motor actual
 está escrito principalmente en Kotlin y emplea datos locales, por lo que sus
 archivos de modelo pueden ocupar **0 MiB**. La clase de modelo opcional (si se añade
@@ -57,6 +57,11 @@ la compilación debug además del presupuesto de modelos.
 la compilación. Revisar la ejecución exitosa de GitHub Actions y probar la APK
 en un teléfono para verificar inferencia y consumo.
 
+La versión 0.6 añade acceso a la explicación de reglas, codificación y
+descodificación JSON, métricas de recursos y 1.089 agrupaciones de familias
+propuestas con niveles. Consulta [SHADOW_CORE_90MB_FAMILIAS.md](SHADOW_CORE_90MB_FAMILIAS.md)
+para la arquitectura vigente; la IA no incluye un LLM generativo.
+
 ## Próximos pasos sugeridos
 
 1. Probar intenciones con expresiones reales en español y medir errores.
@@ -64,5 +69,5 @@ en un teléfono para verificar inferencia y consumo.
 3. Medir memoria RAM, latencia y tamaño APK en varios dispositivos.
 4. Extender el aprendizaje estadístico con calibración y evaluación de datos.
 5. Añadir, por separado y solo si está justificado, un pequeño modelo
-   cuantizado real sujeto al presupuesto de 60 MiB y una licencia compatible.
+   cuantizado real sujeto al presupuesto global de 90 MB y una licencia compatible.
 6. Implementar una pantalla de revisión de planes antes de registrar sesiones.
