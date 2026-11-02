@@ -100,6 +100,10 @@ class ApprovedCatalogTests(unittest.TestCase):
             "id": "variant-test",
             "name": "Variante ficticia",
             "equipment": "none",
+            "difficulty": "inicio",
+            "planningEligibility": "catalog_only",
+            "restrictionTags": [],
+            "difficultyEvidence": "Pendiente de revisión individual; solo consulta.",
             "sources": [{"source": other_key[0], "sourceId": other_key[1]}]
         }]
         result = validated_export(
@@ -109,6 +113,26 @@ class ApprovedCatalogTests(unittest.TestCase):
         self.assertEqual(len(result["canonicalExercises"]), 1)
         self.assertEqual(len(result["canonicalExercises"][0]["variants"]), 1)
 
+
+
+    def test_variant_must_have_difficulty_and_approval_evidence(self):
+        family = self.valid_family()
+        other_key = next(k for k, r in self.index.items()
+                         if k != self.example_ref and
+                         r["category"] == family["category"])
+        family["variants"] = [{
+            "id": "variant-unreviewed",
+            "name": "Variante de prueba",
+            "equipment": "none",
+            "difficulty": "sin_determinar",
+            "planningEligibility": "approved",
+            "restrictionTags": [],
+            "difficultyEvidence": "",
+            "sources": [{"source": other_key[0], "sourceId": other_key[1]}]
+        }]
+        family["planningEligibility"] = "approved"
+        with self.assertRaises(CatalogReviewError):
+            validated_export({"schemaVersion": 1, "canonicalExercises": [family]}, self.index)
 
 if __name__ == "__main__":
     unittest.main()
