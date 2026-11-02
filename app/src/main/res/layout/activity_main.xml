@@ -41,6 +41,7 @@
                 <com.google.android.material.button.MaterialButton android:id="@+id/navShadows" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sombras"/>
                 <com.google.android.material.button.MaterialButton android:id="@+id/navAi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IA"/>
                 <com.google.android.material.button.MaterialButton android:id="@+id/navSettings" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ajustes"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navCatalog" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Catálogo"/>
             </LinearLayout>
         </HorizontalScrollView>
         <TextView
@@ -101,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="VERSIÓN 0.1 · FUNCIONES EN DESARROLLO"
+            android:text="VERSIÓN 0.5 · CATÁLOGO Y VARIANTES EN REVISIÓN"
             android:textColor="@color/textSecondary"
             android:textSize="12sp"
             android:textStyle="bold"/>
