@@ -98,4 +98,19 @@ class ShadowCoreAITest {
         assertEquals(30, ShadowCoreAI.interpret("Crea una rutina de media hora").parameters.minutes)
         assertEquals(60, ShadowCoreAI.interpret("Crea una rutina de una hora").parameters.minutes)
     }
+    @Test fun familyQueriesRemainCatalogQueriesNotWorkouts() {
+        val query = ShadowCoreAI.interpret("Muéstrame las familias de ejercicios")
+        assertEquals(ShadowIntent.CATALOG, query.intent)
+    }
+
+    @Test fun explainsRuleChoicesOnNaturalLanguageRequest() {
+        val query = ShadowCoreAI.interpret("Explica por qué elegiste esta variante")
+        assertEquals(ShadowIntent.EXPLANATION, query.intent)
+    }
+
+    @Test fun offlineStorageQuestionsAreNotTreatedAsWorkoutCommands() {
+        val query = ShadowCoreAI.interpret("Cuánta memoria usa la inteligencia artificial")
+        assertEquals(ShadowIntent.SYSTEM, query.intent)
+    }
+
 }
