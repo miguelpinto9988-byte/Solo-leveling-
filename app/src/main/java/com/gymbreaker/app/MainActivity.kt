@@ -31,6 +31,8 @@ import com.gymbreaker.app.data.ResearchExerciseCandidate
 import com.gymbreaker.app.domain.CatalogCategory
 import com.gymbreaker.app.domain.TrainingPlace
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS, CATALOG }
@@ -505,7 +507,7 @@ class MainActivity : AppCompatActivity() {
                 "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
                 "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
                 "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación",
-                "Dificultad deseada de las rutinas"
+                "Dificultad deseada de las rutinas", "Licencias del catálogo offline"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
@@ -517,6 +519,7 @@ class MainActivity : AppCompatActivity() {
                     6 -> model.savePreferences(requiresReview = true)
                     7 -> showReviewDialog()
                     8 -> showRoutineDifficultyDialog()
+                    9 -> showCatalogLicenses()
                 }
             }.show()
     }
@@ -527,6 +530,26 @@ class MainActivity : AppCompatActivity() {
             .setItems(options) { _, i ->
                 model.savePreferences(experience = com.gymbreaker.app.domain.Experience.entries[i])
             }.show()
+    }
+
+    private fun showCatalogLicenses() {
+        lifecycleScope.launch {
+            val notices = withContext(Dispatchers.IO) {
+                try {
+                    assets.open("catalog_source_licenses.txt")
+                        .bufferedReader().use { it.readText() }
+                } catch (error: Exception) {
+                    "No se pudo leer la información local de licencias."
+                }
+            }
+            if (!isFinishing && !isDestroyed) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Fuentes y licencias")
+                    .setMessage(notices)
+                    .setPositiveButton("Cerrar", null)
+                    .show()
+            }
+        }
     }
 
     private fun showRoutineDifficultyDialog() {
