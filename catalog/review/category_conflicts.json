@@ -1,0 +1,698 @@
+{
+  "schemaVersion": 1,
+  "description": "Conflictos de categoría detectados por nombre idéntico entre fuentes; ningún movimiento se fusiona ni se autoriza automáticamente.",
+  "count": 29,
+  "conflicts": [
+    {
+      "normalizedName": "battling ropes",
+      "categories": [
+        "Cardio",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Battling_Ropes",
+          "name": "Battling Ropes",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_waves",
+          "name": "Battling Ropes",
+          "category": "Cardio"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "0128",
+          "name": "Battling Ropes",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "chin to chest stretch",
+      "categories": [
+        "Movilidad",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chin_To_Chest_Stretch",
+          "name": "Chin To Chest Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-stretching-chin-to-chest-stretch",
+          "name": "Chin-to-Chest Stretch",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "clean and press",
+      "categories": [
+        "Tren inferior",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Clean_and_Press",
+          "name": "Clean and Press",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "barbell_clean_and_press",
+          "name": "Clean and Press",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_clean_and_press",
+          "name": "Clean and Press",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "crab walk",
+      "categories": [
+        "Movilidad",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_crab_walk",
+          "name": "Crab Walk",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_crab_walk",
+          "name": "Crab Walk",
+          "category": "Movilidad"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "crossover reverse lunge",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Crossover_Reverse_Lunge",
+          "name": "Crossover Reverse Lunge",
+          "category": "Movilidad"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_crossover_reverse_lunge",
+          "name": "Crossover Reverse Lunge",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "downward facing balance",
+      "categories": [
+        "Tren inferior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Downward_Facing_Balance",
+          "name": "Downward Facing Balance",
+          "category": "Tren inferior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "stability_ball_downward_facing_balance",
+          "name": "Downward Facing Balance",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "dynamic chest stretch",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Dynamic_Chest_Stretch",
+          "name": "Dynamic Chest Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1167",
+          "name": "Dynamic Chest Stretch",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "flutter kicks",
+      "categories": [
+        "Tren inferior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Flutter_Kicks",
+          "name": "Flutter Kicks",
+          "category": "Tren inferior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_flutter_kicks",
+          "name": "Flutter Kicks",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "hyperextensions back extensions",
+      "categories": [
+        "Tren inferior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hyperextensions_Back_Extensions",
+          "name": "Hyperextensions (Back Extensions)",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "machine_hyperextensions_back_extensions",
+          "name": "Hyperextensions (Back Extensions)",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "inchworm",
+      "categories": [
+        "Movilidad",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Inchworm",
+          "name": "Inchworm",
+          "category": "Movilidad"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_inchworm",
+          "name": "Inchworm",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_inchworm",
+          "name": "Inchworm",
+          "category": "Movilidad"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell deadlift",
+      "categories": [
+        "Tren inferior",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_deadlift",
+          "name": "Kettlebell Deadlift",
+          "category": "Tren inferior"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-kettlebell-deadlift",
+          "name": "Kettlebell Deadlift",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell figure 8",
+      "categories": [
+        "Tren inferior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kettlebell_Figure_8",
+          "name": "Kettlebell Figure 8",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_figure_8",
+          "name": "Kettlebell Figure 8",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell halo",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kettlebell_Halo",
+          "name": "Kettlebell Halo",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_halo",
+          "name": "Kettlebell Halo",
+          "category": "Movilidad"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell pirate ships",
+      "categories": [
+        "Tren superior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kettlebell_Pirate_Ships",
+          "name": "Kettlebell Pirate Ships",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_pirate_ships",
+          "name": "Kettlebell Pirate Ships",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell swing",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "kettlebell_swing",
+          "name": "kettlebell swing",
+          "category": "Movilidad"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_swing",
+          "name": "Kettlebell Swing",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell thruster",
+      "categories": [
+        "Tren inferior",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kettlebell_Thruster",
+          "name": "Kettlebell Thruster",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_thruster",
+          "name": "Kettlebell Thruster",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "kettlebell windmill",
+      "categories": [
+        "Movilidad",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kettlebell_Windmill",
+          "name": "Kettlebell Windmill",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_windmill",
+          "name": "Kettlebell Windmill",
+          "category": "Movilidad"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "middle back stretch",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Middle_Back_Stretch",
+          "name": "Middle Back Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1405",
+          "name": "Middle Back Stretch",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "one handed hang",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "One_Handed_Hang",
+          "name": "One Handed Hang",
+          "category": "Movilidad"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "monkey_bars_one_handed_hang",
+          "name": "One Handed Hang",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "overhead carry",
+      "categories": [
+        "Tren superior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_overhead_carry",
+          "name": "Overhead Carry",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_overhead_carry",
+          "name": "Overhead Carry",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "peroneals stretch",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Peroneals_Stretch",
+          "name": "Peroneals Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1388",
+          "name": "Peroneals Stretch",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "renegade row",
+      "categories": [
+        "Tren superior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "dumbbells_renegade_row",
+          "name": "Renegade Row",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_renegade_row",
+          "name": "Renegade Row",
+          "category": "Zona central"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "runner s stretch",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Runners_Stretch",
+          "name": "Runner's Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1585",
+          "name": "Runner's Stretch",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "seated calf stretch",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Calf_Stretch",
+          "name": "Seated Calf Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1390",
+          "name": "Seated Calf Stretch",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "split squats",
+      "categories": [
+        "Movilidad",
+        "Tren inferior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Split_Squats",
+          "name": "Split Squats",
+          "category": "Movilidad"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_split_squats",
+          "name": "Split Squats",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "standing lateral stretch",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Lateral_Stretch",
+          "name": "Standing Lateral Stretch",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "0794",
+          "name": "Standing Lateral Stretch",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "superman",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Superman",
+          "name": "Superman",
+          "category": "Movilidad"
+        },
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "superman",
+          "name": "superman",
+          "category": "Tren superior"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_superman",
+          "name": "Superman",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "uppercuts",
+      "categories": [
+        "Tren inferior",
+        "Zona central"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_uppercuts",
+          "name": "Uppercuts",
+          "category": "Zona central"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "standing_punching_bag_uppercuts",
+          "name": "Uppercuts",
+          "category": "Tren inferior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    },
+    {
+      "normalizedName": "wrist circles",
+      "categories": [
+        "Movilidad",
+        "Tren superior"
+      ],
+      "reviewStatus": "category_conflict_pending_human_review",
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Wrist_Circles",
+          "name": "Wrist Circles",
+          "category": "Movilidad"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1428",
+          "name": "Wrist Circles",
+          "category": "Tren superior"
+        }
+      ],
+      "automaticPlanningEligible": false
+    }
+  ]
+}
