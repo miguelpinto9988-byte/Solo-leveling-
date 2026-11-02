@@ -9,7 +9,9 @@ import com.gymbreaker.app.data.TrainingDatabase
 import com.gymbreaker.app.data.TrainingProfileEntity
 import com.gymbreaker.app.data.TrainingRepository
 import com.gymbreaker.app.domain.*
-import com.gymbreaker.app.ai.NanoOfflineAssistant
+import com.gymbreaker.app.ai.ShadowCoreAI
+import com.gymbreaker.app.ai.ShadowIntent
+import com.gymbreaker.app.ai.ShadowLearning
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.ZoneId
@@ -40,7 +42,6 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
     private val repository = TrainingRepository(TrainingDatabase.get(application).trainingDao())
     private val selectedCompanion = MutableStateFlow(prefs.getString("companion", "Beru") ?: "Beru")
     private val latestDecision = MutableStateFlow<PlanningDecision?>(null)
-    private val nanoAssistant = NanoOfflineAssistant()
 
     val state: StateFlow<DashboardState> = combine(
         repository.exercises, repository.sessions, repository.profile,
@@ -136,14 +137,114 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         selectedCompanion.value = name
     }
 
+    /**
+     * El asistente nunca omite el planificador validado. El texto del usuario
+     * no modifica permanentemente el perfil sin una acción explícita en Ajustes.
+     */
     fun askAssistant(question: String): String {
+        val parsed = ShadowCoreAI.interpret(question)
         val s = state.value
-        return LocalAssistant.answer(question, s.sessions.size, s.xp)
+        return when (parsed.intent) {
+            ShadowIntent.RECOVERY ->
+                "He detectado una posible molestia, restricción o necesidad de descanso. " +
+                    "No generaré una rutina a partir de esta consulta. " +
+                    "Revisa tus exclusiones en Ajustes y evita movimientos que provoquen dolor. " +
+                    "Si las molestias continúan, consulta a un profesional adecuado."
+
+            ShadowIntent.ROUTINE -> {
+                val requested = parsed.parameters
+                val minutes = requested.minutes
+                if (minutes != null && minutes !in 10..90) {
+                    "El tiempo solicitado queda fuera del intervalo disponible (10 a 90 minutos). " +
+                        "Indica un tiempo válido o cámbialo en Ajustes."
+                } else {
+                    val p = s.profile
+                    val experience = Experience.entries.firstOrNull { it.name == p.experience }
+                        ?: Experience.BEGINNER
+                    val exclusions = p.excludedCategoriesCsv.split(',')
+                        .map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+                    val excludedIds = p.excludedExerciseIdsCsv.split(',')
+                        .mapNotNull { it.toIntOrNull() }.toSet()
+                    val observed = s.sessions.asReversed().map { session ->
+                        TrainingObservation(
+                            equipment = TrainingPlace.entries.firstOrNull {
+                                it.name == session.equipment
+                            } ?: TrainingPlace.HOME,
+                            exerciseIds = session.exerciseIdsCsv.split(',')
+                                .mapNotNull { it.toIntOrNull() }.toSet(),
+                            perceivedEffort = session.perceivedEffort,
+                            confirmedComplete = session.confirmedComplete,
+                            reportedDiscomfort = session.reportedDiscomfort
+                        )
+                    }
+                    val choice = requested.preferredPlace ?: TrainingPlace.HOME
+                    val decision = OfflineTrainingIntelligence.propose(
+                        exercises = s.exercises,
+                        profile = TrainingPreferences(
+                            equipment = choice,
+                            experience = experience,
+                            availableMinutes = minutes ?: p.availableMinutes,
+                            excludedCategories = exclusions,
+                            excludedExerciseIds = excludedIds,
+                            requiresReview = p.requiresReview,
+                            requestedCategories = requested.focusCategories
+                        ),
+                        observations = observed
+                    )
+                    latestDecision.value = decision
+                    when (decision) {
+                        is PlanningDecision.Candidate ->
+                            "He preparado una propuesta offline con " +
+                                decision.routine.exercises.size +
+                                " ejercicios. Está disponible en Entrenar. " +
+                                "Debes revisarla y confirmar cada ejercicio realizado. " +
+                                decision.warnings.joinToString(" ")
+                        is PlanningDecision.ReviewRequired -> decision.message
+                    }
+                }
+            }
+
+            ShadowIntent.PROGRESS -> {
+                val observed = s.sessions.asReversed().map { session ->
+                    TrainingObservation(
+                        equipment = TrainingPlace.entries.firstOrNull {
+                            it.name == session.equipment
+                        } ?: TrainingPlace.HOME,
+                        exerciseIds = session.exerciseIdsCsv.split(',')
+                            .mapNotNull { it.toIntOrNull() }.toSet(),
+                        perceivedEffort = session.perceivedEffort,
+                        confirmedComplete = session.confirmedComplete,
+                        reportedDiscomfort = session.reportedDiscomfort
+                    )
+                }
+                val insight = ShadowLearning.analyze(observed)
+                "Tienes " + s.sessions.count { it.confirmedComplete } +
+                    " sesiones confirmadas, " + s.xp + " XP virtuales, nivel " +
+                    s.level + " y rango " + s.rank + ". " +
+                    insight.trend + " (" + insight.comparableSamples +
+                    " sesiones evaluables). " + insight.recommendation
+            }
+
+            ShadowIntent.MISSIONS ->
+                "Esta semana llevas " + s.weeklySessions +
+                    " sesiones registradas. Las misiones Monarca ofrecen recompensas " +
+                    "virtuales; no aplican incrementos físicos por fallar."
+
+            ShadowIntent.RESTRICTIONS ->
+                "Las restricciones y exclusiones se configuran en Ajustes. " +
+                    "No modifico ese perfil automáticamente desde el chat. " +
+                    "Los ejercicios excluidos nunca se incluyen en propuestas."
+
+            ShadowIntent.EQUIPMENT ->
+                "Selecciona Casa, Mancuernas o Gimnasio al crear una rutina. " +
+                    "Puedes cambiar el tiempo y el nivel declarado desde Ajustes. " +
+                    "La solicitud no cambia tus preferencias sin confirmación."
+
+            ShadowIntent.GREETING -> ShadowCoreAI.limitationMessage()
+            ShadowIntent.UNKNOWN -> ShadowCoreAI.limitationMessage() +
+                " Puedes escribir, por ejemplo: «Rutina de espalda en casa de 30 minutos»."
+        }
     }
 
-    suspend fun askGenerativeOrFallback(question: String): String {
-        val local = askAssistant(question)
-        val response = nanoAssistant.answer(question)
-        return if (response.available) response.text else local + "\n\n" + response.text
-    }
+    suspend fun askGenerativeOrFallback(question: String): String = askAssistant(question)
 }
