@@ -39,7 +39,7 @@ data class DashboardState(
 
 class TrainingViewModel(application: Application) : AndroidViewModel(application) {
     private val prefs = application.getSharedPreferences("hunter_preferences", 0)
-    private val repository = TrainingRepository(TrainingDatabase.get(application).trainingDao())
+    private val repository = TrainingRepository(TrainingDatabase.get(application).trainingDao(), application.applicationContext)
     private val selectedCompanion = MutableStateFlow(prefs.getString("companion", "Beru") ?: "Beru")
     private val latestDecision = MutableStateFlow<PlanningDecision?>(null)
 
