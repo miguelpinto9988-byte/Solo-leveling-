@@ -57,6 +57,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
     private val selectedCompanion = MutableStateFlow(prefs.getString("companion", "Beru") ?: "Beru")
     private val latestDecision = MutableStateFlow<PlanningDecision?>(null)
     private var lastAuditPreferences: TrainingPreferences? = null
+    private var lastAuditDecision: PlanningDecision? = null
     private var lastInterpretation: ShadowInterpretation? = null
 
     private val localCatalog = combine(repository.exercises, repository.variants) {
@@ -128,7 +129,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
             variants = s.variants,
             preferences = lastAuditPreferences ?: fallback,
             observations = observationsFrom(s.sessions),
-            decision = latestDecision.value
+            decision = latestDecision.value ?: lastAuditDecision
         )
     }
 
@@ -144,12 +145,13 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
             (r.parameters.minutes?.toString() ?: "No indicado") + " min." +
             "\nCategorías detectadas: " +
             r.parameters.focusCategories.ifEmpty { setOf("Ninguna") }.joinToString(", ") +
-            "\nRevisión pendiente: " + if (r.needsHumanReview) "Sí" else "No"
+            "\nRevisión pendiente: " + (if (r.needsHumanReview) "Sí" else "No")
     }
 
     fun clearCurrentProposal() {
         latestDecision.value = null
         lastAuditPreferences = null
+        lastAuditDecision = null
         lastInterpretation = null
     }
 
@@ -177,9 +179,11 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
             excludedIds, p.requiresReview, preferredDifficulty = p.preferredDifficulty
         )
         lastAuditPreferences = preferences
-        latestDecision.value = OfflineTrainingIntelligence.propose(
+        val decision = OfflineTrainingIntelligence.propose(
             s.exercises, preferences, observations, variants = s.variants
         )
+        latestDecision.value = decision
+        lastAuditDecision = decision
     }
 
     fun saveSession(effort: Int, confirmedExerciseIds: Set<Int>, discomfort: Boolean = false) {
@@ -220,6 +224,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                 requiresReview = requiresReview ?: original.requiresReview
             ))
             latestDecision.value = null
+            lastAuditDecision = null
+            lastAuditPreferences = null
         }
     }
 
@@ -290,6 +296,7 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                         variants = s.variants
                     )
                     latestDecision.value = decision
+                    lastAuditDecision = decision
                     when (decision) {
                         is PlanningDecision.Candidate ->
                             "He preparado una propuesta offline con " +
