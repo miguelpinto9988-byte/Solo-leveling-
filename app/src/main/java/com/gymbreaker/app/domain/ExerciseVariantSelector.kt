@@ -42,11 +42,19 @@ object ExerciseVariantSelector {
         variants: List<ExerciseVariantEntity>,
         place: TrainingPlace,
         experience: Experience,
+        preferredDifficulty: String = "inicio",
         recentSelections: Map<String, Int> = emptyMap()
     ): SelectedExerciseVariant? {
         if (!family.isDemoEligible) return null
         val equipment = allowedEquipment(place)
-        val maximum = maxAutoLevel(experience)
+        val requestedCap = when (preferredDifficulty) {
+            "inicio" -> 1
+            "intermedio", "avanzado" -> 2
+            else -> 1
+        }
+        // Nunca sobrepasar la experiencia ni la dificultad seleccionadas.
+        // Avanzado sigue siendo solo consulta hasta revisión especializada.
+        val maximum = minOf(maxAutoLevel(experience), requestedCap)
 
         val choices = mutableListOf<SelectedExerciseVariant>()
         if (family.equipment in equipment && levelOrder(family.level) <= maximum) {
