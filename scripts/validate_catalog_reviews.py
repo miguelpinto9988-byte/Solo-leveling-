@@ -166,6 +166,10 @@ def validated_export(payload: dict, index: dict) -> dict:
             "level": family["level"],
             "reviewStatus": family["reviewStatus"],
             "planningEligibility": family["planningEligibility"],
+            "reviewedBy": family["reviewedBy"],
+            "reviewDate": family["reviewDate"],
+            "identityRationale": family["identityRationale"],
+            "riskScreeningNotes": family["riskScreeningNotes"],
             "restrictionTags": family["restrictionTags"],
             "sources": sources,
             "variants": variants
