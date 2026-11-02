@@ -12,7 +12,8 @@ import java.util.Locale
  * Las acciones se someten al planificador de restricciones antes de ejecutarse.
  */
 enum class ShadowIntent {
-    ROUTINE, PROGRESS, MISSIONS, RESTRICTIONS, RECOVERY, EQUIPMENT, GREETING, UNKNOWN
+    ROUTINE, PROGRESS, MISSIONS, RESTRICTIONS, RECOVERY, EQUIPMENT,
+    CATALOG, EXPLANATION, SYSTEM, GREETING, UNKNOWN
 }
 
 data class ParsedTrainingRequest(
@@ -69,6 +70,30 @@ object ShadowCoreAI {
         ShadowIntent.EQUIPMENT to listOf(
             "como cambio mi equipamiento", "tengo mancuernas",
             "prefiero entrenar en el gimnasio", "como ajusto mi tiempo disponible"
+        ),
+        ShadowIntent.CATALOG to listOf(
+            "muestrame las familias de ejercicios",
+            "quiero buscar variantes por dificultad",
+            "cuantos grupos de ejercicios tienes",
+            "ver el catalogo de movimientos y sus variantes",
+            "que ejercicios vienen de cada fuente",
+            "quiero explorar el catalogo"
+        ),
+        ShadowIntent.EXPLANATION to listOf(
+            "explica por que elegiste esta variante",
+            "quiero conocer el proceso de decision",
+            "muestra los filtros de la ultima rutina",
+            "que reglas usaste para seleccionar ejercicios",
+            "por que descartaste este movimiento",
+            "como decidiste mi rutina"
+        ),
+        ShadowIntent.SYSTEM to listOf(
+            "cuanta memoria usa la inteligencia artificial",
+            "cual es el presupuesto de 90 megas",
+            "como codificas y decodificas datos",
+            "que datos conserva el sistema offline",
+            "como exportar el informe json",
+            "que informacion procesa la ia"
         ),
         ShadowIntent.GREETING to listOf(
             "hola", "buenos dias", "buenas tardes", "quien eres", "ayuda"
@@ -188,7 +213,10 @@ object ShadowCoreAI {
         val isQuestionAboutSettings = listOf("cambiar", "configurar", "ajustar")
             .any { containsToken(text, it) } && !asksTraining
         val selected = when {
-            asksTraining && intent !in setOf(ShadowIntent.RESTRICTIONS, ShadowIntent.PROGRESS) ->
+            asksTraining && intent !in setOf(
+                ShadowIntent.RESTRICTIONS, ShadowIntent.PROGRESS,
+                ShadowIntent.CATALOG, ShadowIntent.EXPLANATION, ShadowIntent.SYSTEM
+            ) ->
                 ShadowIntent.ROUTINE
             isQuestionAboutSettings -> ShadowIntent.EQUIPMENT
             intent == ShadowIntent.UNKNOWN && (categories.isNotEmpty() || minutes != null) ->
@@ -203,6 +231,6 @@ object ShadowCoreAI {
 
     fun limitationMessage(): String =
         "Soy Shadow Core AI, un motor especializado que funciona sin Internet. " +
-        "Entiendo solicitudes de rutinas, progreso, misiones y preferencias; " +
+        "Entiendo rutinas, progreso, misiones, familias, variantes, reglas y recursos; " +
         "no soy un modelo de conversación general ni sustituyo una valoración profesional."
 }
