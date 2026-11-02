@@ -52,8 +52,8 @@ def audit() -> int:
     assert nominal_names == manifest["nominalNamesByCategory"] == 1823
     assert proposed_groups == manifest["proposedGroups"] == 1089
     assert len(approved["canonicalExercises"]) == (
-        manifest["biomechanicallyApprovedGroups"] == 0
-    )
+        manifest["biomechanicallyApprovedGroups"]
+    ) == 0
     assert manifest["sourceDatasets"] == 4
     assert len(manifest["categoryBreakdown"]) == 5
 
