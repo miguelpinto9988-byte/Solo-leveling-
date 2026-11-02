@@ -72,8 +72,8 @@ object ApprovedCatalogLoader {
         }
     }
 
-    fun loadApprovedExercises(context: Context): List<ExerciseEntity> =
-        loadFamilies(context).map { family ->
+    fun toExerciseEntities(families: List<ReviewedExerciseFamily>): List<ExerciseEntity> =
+        ApprovedCatalogGate.accept(families).map { family ->
             ExerciseEntity(
                 id = family.localId,
                 name = family.name,
@@ -82,5 +82,18 @@ object ApprovedCatalogLoader {
                 level = family.level,
                 isDemoEligible = ApprovedCatalogGate.eligibleForPlanning(family)
             )
+        }
+
+    fun toVariantEntities(families: List<ReviewedExerciseFamily>): List<ExerciseVariantEntity> =
+        ApprovedCatalogGate.accept(families).flatMap { family ->
+            family.variants.map { variant ->
+                ExerciseVariantEntity(
+                    exerciseId = family.localId,
+                    variantId = variant.id,
+                    name = variant.name,
+                    equipment = variant.equipment,
+                    sourceRefsCsv = variant.sourceReferences.joinToString(";")
+                )
+            }
         }
 }
