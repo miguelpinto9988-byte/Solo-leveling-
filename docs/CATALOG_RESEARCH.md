@@ -190,3 +190,25 @@ python3 scripts/audit_catalog.py
 
 **La cifra de 2.000/400 por categoría sigue como objetivo pendiente**.
 El catálogo activo no se ha inflado con variantes ni registros sin revisar.
+
+
+## Extensión 0.5.0: variantes dentro de la app y selección por dificultad
+
+- Los cinco archivos `app/src/main/assets/research_*.json` contienen los
+  2.186 registros de investigación agrupados por **nombre normalizado
+  dentro de cada categoría**. Por eso hay 1.823 grupos nominales, **no**
+  1.823 familias biomecánicas certificadas.
+- La interfaz de Android permite buscar, filtrar por nivel declarado y consultar
+  nombres relacionados como **posibles variantes aún no verificadas**.
+- Los metadatos de cada fuente conservan su dificultad textual original;
+  cuando no hay nivel explícito, se muestra `sin_determinar`.
+- La selección del jugador (inicial, intermedio, avanzado) se almacena separada
+  de su experiencia y está limitada por controles de elegibilidad.
+- El planificador usa únicamente familias aprobadas y variantes con dificultad
+  revisada. Las variantes no aumentan el contador principal.
+- Se almacena la variante efectivamente elegida en cada sesión, para alternar
+  entre realizaciones **del mismo nivel** cuando hay historial suficiente.
+- Las variantes avanzadas y las no revisadas quedan fuera de planificación.
+- Documentación: [VARIANTES_Y_DIFICULTAD.md](VARIANTES_Y_DIFICULTAD.md).
+
+**No se han aprobado nuevas familias mediante inferencia o agrupación automática.**
