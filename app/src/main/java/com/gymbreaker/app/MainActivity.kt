@@ -176,7 +176,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderTrain(state: DashboardState) {
         val routine = state.routine
-        val body = routine?.exercises?.joinToString(separator = "\n") { "• " + it.name }
+        val body = if (routine != null) {
+            routine.exercises.joinToString(separator = "\n") { "• " + it.name } +
+                "\n\n" + (state.planningMessage ?: "") +
+                (state.effortEstimate?.let {
+                    "\nEstimación local con " + it.sampleSize + " sesiones: esfuerzo declarado medio " +
+                        String.format("%.1f", it.averagePerceivedEffort) + "/10."
+                } ?: "\nSin suficientes sesiones comparables para una estimación.")
+        } else state.planningMessage
             ?: "No hay una rutina activa. Elige Casa, Mancuernas o Gimnasio para crearla."
         show(
             "ENTRENAR",
@@ -184,7 +191,7 @@ class MainActivity : AppCompatActivity() {
             routine?.title ?: "TU PRÓXIMA RUTINA",
             body,
             if (routine == null) "GENERAR RUTINA" else "REGISTRAR SESIÓN",
-            if (routine == null) ({ showPlaceDialog() }) else ({ showEffortDialog() }),
+            if (routine == null) ({ showPlaceDialog() }) else ({ showCompletedExerciseDialog() }),
             "CATÁLOGO DE EJERCICIOS",
             state.exercises.size.toString() +
                 " fichas de demostración. Objetivo: 2.000 registros revisados. " +
@@ -216,9 +223,9 @@ class MainActivity : AppCompatActivity() {
                 "No soy todavía una IA generativa ni un sistema médico.",
             "PREGUNTAR", { askAssistant() },
             "ESTADO DE LA INTELIGENCIA",
-            "Reglas offline: operativas. " +
-                "Aprendizaje estadístico: pendiente de suficientes sesiones comparables. " +
-                "Modelo generativo offline: pendiente de compatibilidad y pruebas reales.",
+            "Reglas y restricciones: integradas. " +
+                "Estimador de esfuerzo: disponible desde cinco sesiones comparables. " +
+                "Gemini Nano: se consulta solo en dispositivos compatibles, sin descarga automática.",
             "GENERAR RUTINA", { showPlaceDialog() }
         )
     }
@@ -234,7 +241,11 @@ class MainActivity : AppCompatActivity() {
             "CAMBIAR TEMA", { showThemeDialog() },
             "ACENTO Y ALARMAS",
             "Acento: " + (preferences.getString("accent_name", "Violeta")) +
-                ".\n" + TrainingAlarms.label(this) +
+                ".\nPerfil: " + state.profile.experience +
+                " · " + state.profile.availableMinutes + " min.\nExclusiones: " +
+                state.profile.excludedCategoriesCsv.ifEmpty { "ninguna" } +
+                (if (state.profile.requiresReview) "\nRestricción pendiente: no generar rutinas automáticamente." else "") +
+                "\n" + TrainingAlarms.label(this) +
                 ".\nLas alarmas no son exactas; Android puede retrasarlas.",
             "CONFIGURAR", { showSettingsDialog() }
         )
@@ -252,33 +263,68 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun showEffortDialog() {
+    private fun showCompletedExerciseDialog() {
+        val routine = model.state.value.routine ?: return
+        val names = routine.exercises.map { it.name }.toTypedArray()
+        val checked = BooleanArray(names.size)
+        AlertDialog.Builder(this)
+            .setTitle("Confirma solo los ejercicios realizados")
+            .setMultiChoiceItems(names, checked) { _, index, value -> checked[index] = value }
+            .setPositiveButton("Continuar") { _, _ ->
+                val ids = routine.exercises.filterIndexed { index, _ -> checked[index] }
+                    .map { it.id }.toSet()
+                if (ids.isEmpty()) {
+                    Toast.makeText(this, "No se registraron ejercicios sin confirmar", Toast.LENGTH_LONG).show()
+                } else showEffortDialog(ids)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun showEffortDialog(completed: Set<Int>) {
         var selected = 3
         val items = Array(10) { index -> (index + 1).toString() }
         AlertDialog.Builder(this)
-            .setTitle("¿Cómo percibiste el esfuerzo?")
+            .setTitle("Esfuerzo percibido (1-10)")
             .setSingleChoiceItems(items, selected) { _, index -> selected = index }
-            .setPositiveButton("Guardar sesión") { _, _ ->
-                model.saveSession(selected + 1)
-                Toast.makeText(this, "Sesión enviada al historial local", Toast.LENGTH_SHORT).show()
-                navigate(Screen.SYSTEM)
+            .setPositiveButton("Continuar") { _, _ ->
+                AlertDialog.Builder(this)
+                    .setTitle("Comprobación final")
+                    .setMessage("¿Tuviste molestias o dolor durante la sesión?")
+                    .setPositiveButton("Sí") { _, _ ->
+                        model.saveSession(selected + 1, completed, discomfort = true)
+                        Toast.makeText(this, "Sesión registrada; planificación automática en revisión", Toast.LENGTH_LONG).show()
+                        navigate(Screen.SYSTEM)
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        model.saveSession(selected + 1, completed)
+                        navigate(Screen.SYSTEM)
+                    }
+                    .setNeutralButton("Cancelar", null)
+                    .show()
             }
             .setNegativeButton("Cancelar", null)
             .show()
     }
 
     private fun askAssistant() {
-        val input = EditText(this)
-        input.hint = "Ej.: ¿Cómo va mi progreso?"
+        val input = EditText(this).apply { hint = "Consulta sobre entrenamiento o progreso" }
         AlertDialog.Builder(this)
-            .setTitle("Consultar al asistente local")
+            .setTitle("Consultar a la sombra local")
             .setView(input)
             .setPositiveButton("Consultar") { _, _ ->
-                AlertDialog.Builder(this)
-                    .setTitle("Respuesta de tu sombra")
-                    .setMessage(model.askAssistant(input.text.toString().take(300)))
-                    .setPositiveButton("Entendido", null)
-                    .show()
+                val question = input.text.toString().trim().take(400)
+                if (question.isBlank()) return@setPositiveButton
+                lifecycleScope.launch {
+                    val response = model.askGenerativeOrFallback(question)
+                    if (!isFinishing && !isDestroyed) {
+                        AlertDialog.Builder(this@MainActivity)
+                            .setTitle("Respuesta del asistente offline")
+                            .setMessage(response)
+                            .setPositiveButton("Entendido", null)
+                            .show()
+                    }
+                }
             }
             .setNegativeButton("Cancelar", null)
             .show()
@@ -305,17 +351,55 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSettingsDialog() {
-        AlertDialog.Builder(this).setTitle("Personalización")
-            .setItems(arrayOf("Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma")) { _, index ->
+        AlertDialog.Builder(this).setTitle("Personalización y restricciones")
+            .setItems(arrayOf(
+                "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
+                "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
+                "Marcar molestia o restricción pendiente"
+            )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
                     1 -> showTimePicker()
-                    else -> {
-                        TrainingAlarms.disable(this)
-                        render(model.state.value)
-                    }
+                    2 -> { TrainingAlarms.disable(this); render(model.state.value) }
+                    3 -> showExperienceDialog()
+                    4 -> showMinutesDialog()
+                    5 -> showCategoriesDialog()
+                    6 -> model.savePreferences(requiresReview = true)
                 }
             }.show()
+    }
+
+    private fun showExperienceDialog() {
+        val options = arrayOf("Inicial", "Intermedio", "Con experiencia")
+        AlertDialog.Builder(this).setTitle("Experiencia declarada")
+            .setItems(options) { _, i ->
+                model.savePreferences(experience = com.gymbreaker.app.domain.Experience.entries[i])
+            }.show()
+    }
+
+    private fun showMinutesDialog() {
+        val minutes = arrayOf(15, 20, 25, 30, 40, 50, 60)
+        AlertDialog.Builder(this).setTitle("Tiempo disponible (minutos)")
+            .setItems(minutes.map { it.toString() }.toTypedArray()) { _, i ->
+                model.savePreferences(availableMinutes = minutes[i])
+            }.show()
+    }
+
+    private fun showCategoriesDialog() {
+        val options = arrayOf("Cardio", "Movilidad", "Estabilidad", "Piernas", "Espalda", "Brazos", "Hombros")
+        val current = model.state.value.profile.excludedCategoriesCsv
+            .split(',').filter { it.isNotBlank() }.toSet()
+        val excluded = current.toMutableSet()
+        val checked = BooleanArray(options.size) { options[it] in current }
+        AlertDialog.Builder(this).setTitle("Categorías excluidas de las rutinas")
+            .setMultiChoiceItems(options, checked) { _, index, excludedNow ->
+                if (excludedNow) excluded.add(options[index]) else excluded.remove(options[index])
+            }
+            .setPositiveButton("Guardar exclusiones") { _, _ ->
+                model.savePreferences(excludedCategories = excluded)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun showAccentDialog() {
