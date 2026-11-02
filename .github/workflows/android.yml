@@ -23,6 +23,8 @@ jobs:
         run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
       - name: Audit research catalog (no unapproved exercise)
         run: python3 scripts/audit_catalog.py
+      - name: Audit review queues and category conflicts
+        run: python3 scripts/audit_review_queues.py
       - name: Validate canonical catalog export
         run: python3 scripts/validate_catalog_reviews.py
       - name: Catalog validation unit tests
