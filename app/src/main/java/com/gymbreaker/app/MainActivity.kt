@@ -26,7 +26,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.gymbreaker.app.alarms.TrainingAlarms
 import com.gymbreaker.app.databinding.ActivityMainBinding
 import com.gymbreaker.app.domain.TrainingPlace
-import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -244,7 +243,6 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("¿Cómo percibiste el esfuerzo?")
             .setSingleChoiceItems(items, selected) { _, index -> selected = index }
-            .setMessage("Confirma únicamente los ejercicios que realmente completaste.")
             .setPositiveButton("Guardar sesión") { _, _ ->
                 model.saveSession(selected + 1)
                 Toast.makeText(this, "Sesión enviada al historial local", Toast.LENGTH_SHORT).show()
