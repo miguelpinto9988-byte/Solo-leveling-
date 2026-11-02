@@ -102,7 +102,9 @@ object OfflineTrainingIntelligence {
             "No se omitirán restricciones declaradas."
         )
         val categories = listOf(
-            "Movilidad", "Cardio", "Estabilidad", "Piernas", "Espalda", "Brazos", "Hombros"
+            "Movilidad", "Cardio", "Estabilidad", "Zona central", "Abdominales",
+            "Piernas", "Glúteos", "Pantorrillas", "Espalda", "Pecho",
+            "Brazos", "Hombros", "Antebrazos"
         )
         val requested = categories.filter { cat ->
             p.requestedCategories.any { it.equals(cat, ignoreCase = true) }
@@ -115,7 +117,7 @@ object OfflineTrainingIntelligence {
         )
         // El foco solicitado tiene prioridad, pero no anula exclusiones ni experiencia.
         // La movilidad complementaria solo se incluye si está permitida.
-        val orderedCategories = (requested + categories).distinct()
+        val orderedCategories = (requested + categories + eligible.map { it.category }).distinct()
         // Personalización local simple: da variedad a ejercicios compatibles
         // según el uso reciente; nunca cambia automáticamente cargas ni repeticiones.
         val recentUsage = observations.takeLast(10).asSequence()
