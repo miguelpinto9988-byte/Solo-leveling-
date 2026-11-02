@@ -1,6 +1,9 @@
 package com.gymbreaker.app
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.TimePickerDialog
@@ -25,9 +28,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.gymbreaker.app.alarms.TrainingAlarms
+import com.gymbreaker.app.ai.ShadowAuditCodec
+import com.gymbreaker.app.ai.ShadowResourceMetricsReader
 import com.gymbreaker.app.databinding.ActivityMainBinding
 import com.gymbreaker.app.data.ResearchCatalogLoader
 import com.gymbreaker.app.data.ResearchExerciseCandidate
+import com.gymbreaker.app.data.ResearchFamilyGroupLoader
+import com.gymbreaker.app.data.ProposedFamilyGroup
 import com.gymbreaker.app.domain.CatalogCategory
 import com.gymbreaker.app.domain.TrainingPlace
 import kotlinx.coroutines.launch
@@ -229,19 +236,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderAi(state: DashboardState) {
         show(
-            "SHADOW CORE AI · OFFLINE",
-            "Motor propio de interpretación y aprendizaje estadístico local",
-            "SALUDOS, CAZADOR",
-            "Comprendo solicitudes de rutinas en español, consulto tus sesiones " +
-                "y explico decisiones sujetas a tus restricciones. " +
-                "No dependo de conexión a Internet ni de un modelo externo.",
+            "SHADOW CORE AI · CONTROL COMPLETO",
+            "Sin Internet · reglas auditables · datos y variantes locales",
+            "PANEL DEL CAZADOR",
+            "Puedes consultar al asistente, revisar cómo se aplicaron los " +
+                "filtros de tu última rutina, inspeccionar datos disponibles, " +
+                "abrir las familias por nivel y exportar un informe JSON. " +
+                "El proceso es verificable, no una conversación generativa libre.",
             "CONSULTAR SOMBRA", { askAssistant() },
-            "NÚCLEO INTELIGENTE",
-            "Interpretación local de lenguaje y parámetros: activa. " +
-                "Planificación con filtros obligatorios: activa. " +
-                "Análisis de esfuerzo con al menos cinco registros: disponible. " +
-                "No soy un modelo de conversación libre.",
-            "IR A ENTRENAR", { navigate(Screen.TRAIN) }
+            "HERRAMIENTAS DE IA",
+            "Seis etapas explicables: entrada, lectura de datos, " +
+                "restricciones, selección de variantes, historial y decisión. " +
+                "Presupuesto máximo de recursos offline: 90 MB. " +
+                "Tu perfil y tus restricciones siguen bajo tu control.",
+            "ABRIR PANEL DE CONTROL", { showAiControlPanel() }
         )
     }
 
@@ -273,11 +281,11 @@ class MainActivity : AppCompatActivity() {
             "CATÁLOGO DE FAMILIAS",
             "Ejercicio principal · variantes · dificultad · equipamiento",
             "2.186 REGISTROS DOCUMENTALES",
-            "Investigación offline organizada en 1.823 grupos nominales de las " +
-                "cinco categorías. Las posibles variantes se muestran dentro " +
-                "de grupos relacionados, pero su identidad aún requiere revisión. " +
-                "No son 2.000 ejercicios únicos acreditados.",
-            "EXPLORAR FAMILIAS", { showResearchCategoryDialog() },
+            "2.186 registros en 1.823 nombres por categoría y 1.089 " +
+                "agrupaciones provisionales por movimiento. Cada grupo muestra " +
+                "variantes en inicial, intermedio, avanzado o sin determinar, " +
+                "con fuentes y autorización pendientes de revisión.",
+            "VER GRUPOS Y NIVELES", { showGroupCategoryDialog() },
             "FICHAS AUTORIZADAS PARA LA IA",
             approved.toString() + " familias nuevas importadas. " +
                 state.variants.size + " variantes subordinadas en la base de datos. " +
@@ -314,6 +322,94 @@ class MainActivity : AppCompatActivity() {
                         "\nNivel base: " + family.level + "\n\n" + details)
                     .setPositiveButton("Cerrar", null).show()
             }.setNegativeButton("Cerrar", null).show()
+    }
+
+    private fun showGroupCategoryDialog() {
+        val categories = CatalogCategory.entries
+        AlertDialog.Builder(this)
+            .setTitle("Familias de movimiento por categoría")
+            .setItems(categories.map { it.label }.toTypedArray()) { _, index ->
+                showGroupLevelDialog(categories[index])
+            }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showGroupLevelDialog(category: CatalogCategory) {
+        val labels = arrayOf(
+            "Todos los niveles", "Inicial", "Intermedio",
+            "Avanzado · solo consulta", "Sin determinar"
+        )
+        val levels = arrayOf(null, "inicio", "intermedio", "avanzado", "sin_determinar")
+        AlertDialog.Builder(this)
+            .setTitle("Nivel de variantes · " + category.label)
+            .setItems(labels) { _, index -> showGroupSearchDialog(category, levels[index]) }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showGroupSearchDialog(category: CatalogCategory, level: String?) {
+        val input = EditText(this).apply {
+            hint = "Buscar nombre o sinónimo (opcional)"
+            setSingleLine(true)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Buscar familias propuestas")
+            .setMessage("Se incluyen candidatos documentales, no equivalencias " +
+                "biomecánicas aprobadas. No alteran las rutinas de IA.")
+            .setView(input)
+            .setPositiveButton("Buscar") { _, _ ->
+                lifecycleScope.launch {
+                    try {
+                        val all = ResearchFamilyGroupLoader.load(
+                            this@MainActivity, category
+                        )
+                        val selected = ResearchFamilyGroupLoader.search(
+                            all, input.text.toString().take(100), level
+                        )
+                        showGroupResults(selected, level)
+                    } catch (error: Exception) {
+                        if (!isFinishing && !isDestroyed) {
+                            AlertDialog.Builder(this@MainActivity)
+                                .setTitle("Familias no disponibles")
+                                .setMessage("Los datos locales no se pudieron validar. " +
+                                    "No se habilitarán variantes sin aprobación.")
+                                .setPositiveButton("Cerrar", null).show()
+                        }
+                    }
+                }
+            }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showGroupResults(groups: List<ProposedFamilyGroup>, level: String?) {
+        if (isFinishing || isDestroyed) return
+        if (groups.isEmpty()) {
+            AlertDialog.Builder(this).setTitle("Sin coincidencias")
+                .setMessage("Prueba otra categoría, nivel o nombre.")
+                .setPositiveButton("Cerrar", null).show()
+            return
+        }
+        val shown = groups.take(40)
+        val items = shown.map { group ->
+            group.name + " · " + group.sourceCount + " registros"
+        }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Familias propuestas: " + groups.size)
+            .setMessage("Se muestran las primeras 40 coincidencias. Las " +
+                "familias sugeridas requieren revisión individual.")
+            .setItems(items) { _, index ->
+                val family = shown[index]
+                AlertDialog.Builder(this)
+                    .setTitle(family.name)
+                    .setMessage(ResearchFamilyGroupLoader.preview(family, level))
+                    .setPositiveButton("Cerrar", null)
+                    .setNeutralButton("Ver todos sus niveles") { _, _ ->
+                        AlertDialog.Builder(this)
+                            .setTitle(family.name)
+                            .setMessage(ResearchFamilyGroupLoader.preview(family, null))
+                            .setPositiveButton("Cerrar", null).show()
+                    }.show()
+            }
+            .setNegativeButton("Cerrar", null).show()
     }
 
     private fun showResearchCategoryDialog() {
@@ -479,6 +575,123 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
+    }
+
+    private fun showAiControlPanel() {
+        val actions = arrayOf(
+            "Consultar al asistente offline",
+            "Ver el proceso de la última decisión",
+            "Ver cómo interpretó mi última pregunta",
+            "Codificar y copiar un informe JSON",
+            "Decodificar un informe JSON local",
+            "Tamaño de recursos y datos de la IA",
+            "Configurar dificultad de entrenamiento",
+            "Explorar familias y variantes por nivel",
+            "Ver los registros originales",
+            "Limpiar la propuesta actual",
+            "Acerca de las capacidades y límites"
+        )
+        AlertDialog.Builder(this)
+            .setTitle("Control de Shadow Core AI")
+            .setItems(actions) { _, index ->
+                when (index) {
+                    0 -> askAssistant()
+                    1 -> showAiDecisionAudit()
+                    2 -> AlertDialog.Builder(this)
+                        .setTitle("Interpretación local de consulta")
+                        .setMessage(model.lastInterpretationDetails())
+                        .setPositiveButton("Cerrar", null).show()
+                    3 -> copyAiAuditJson()
+                    4 -> showAiDecodeDialog()
+                    5 -> showAiResourceMetrics()
+                    6 -> showRoutineDifficultyDialog()
+                    7 -> showGroupCategoryDialog()
+                    8 -> showResearchCategoryDialog()
+                    9 -> AlertDialog.Builder(this)
+                        .setTitle("Limpiar propuesta")
+                        .setMessage("¿Descartar la propuesta y la última interpretación? " +
+                            "Las sesiones y preferencias guardadas permanecerán intactas.")
+                        .setPositiveButton("Limpiar") { _, _ ->
+                            model.clearCurrentProposal()
+                        }.setNegativeButton("Cancelar", null).show()
+                    10 -> AlertDialog.Builder(this)
+                        .setTitle("Capacidades y límites")
+                        .setMessage(
+                            "Shadow Core AI funciona sin conexión. Interpreta " +
+                                "consultas habituales en español y utiliza reglas, " +
+                                "estadísticas y variantes autorizadas. El historial " +
+                                "se mantiene local. El catálogo de investigación " +
+                                "no está habilitado para planificación. 90 MB es " +
+                                "el límite de recursos, no una cantidad utilizada " +
+                                "ni memoria RAM. No es una IA generativa general."
+                        ).setPositiveButton("Cerrar", null).show()
+                }
+            }
+            .setNegativeButton("Cerrar", null).show()
+    }
+
+    private fun showAiDecisionAudit() {
+        AlertDialog.Builder(this)
+            .setTitle("Proceso de decisión · reglas verificables")
+            .setMessage(model.lastDecisionAudit().readable())
+            .setNeutralButton("Copiar JSON") { _, _ -> copyAiAuditJson() }
+            .setPositiveButton("Cerrar", null).show()
+    }
+
+    private fun copyAiAuditJson() {
+        val report = model.lastDecisionAudit()
+        val content = ShadowAuditCodec.encode(report)
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(
+            ClipData.newPlainText("Shadow Core AI · Informe local", content)
+        )
+        Toast.makeText(
+            this,
+            "Informe JSON copiado por solicitud. Podría contener ajustes locales.",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun showAiDecodeDialog() {
+        val input = EditText(this).apply {
+            hint = "Pega el JSON generado por Shadow Core AI"
+            minLines = 3
+            maxLines = 7
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Decodificar informe local")
+            .setMessage("El informe se interpreta en el dispositivo. " +
+                "No cambiará las decisiones ni los ejercicios aprobados.")
+            .setView(input)
+            .setPositiveButton("Decodificar") { _, _ ->
+                val result = try {
+                    ShadowAuditCodec.decode(input.text.toString()).readable()
+                } catch (error: Exception) {
+                    "No se reconoce el formato o el informe supera el límite."
+                }
+                AlertDialog.Builder(this)
+                    .setTitle("Informe descodificado")
+                    .setMessage(result)
+                    .setPositiveButton("Cerrar", null).show()
+            }
+            .setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun showAiResourceMetrics() {
+        lifecycleScope.launch {
+            val detail = try {
+                ShadowResourceMetricsReader.read(this@MainActivity).description()
+            } catch (error: Exception) {
+                "Los recursos offline no pudieron verificarse. " +
+                    "No se considera superada la prueba de integridad."
+            }
+            if (!isFinishing && !isDestroyed) {
+                AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Información y presupuesto de la IA")
+                    .setMessage(detail)
+                    .setPositiveButton("Cerrar", null).show()
+            }
+        }
     }
 
     private fun showCompanionDialog() {
