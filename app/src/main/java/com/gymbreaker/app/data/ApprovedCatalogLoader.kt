@@ -40,6 +40,10 @@ object ApprovedCatalogLoader {
                     level = f.getString("level"),
                     reviewStatus = f.getString("reviewStatus"),
                     planningEligibility = f.getString("planningEligibility"),
+                    reviewedBy = f.getString("reviewedBy"),
+                    reviewDate = f.getString("reviewDate"),
+                    identityRationale = f.getString("identityRationale"),
+                    riskScreeningNotes = f.getString("riskScreeningNotes"),
                     restrictionTags = f.getJSONArray("restrictionTags").strings().toSet(),
                     sourceReferences = (0 until sourceRefs.length()).map {
                         val ref = sourceRefs.getJSONObject(it)
