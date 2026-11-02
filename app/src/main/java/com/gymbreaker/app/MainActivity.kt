@@ -216,17 +216,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderAi(state: DashboardState) {
         show(
-            "ASISTENTE SOMBRA",
-            "100 % local en esta etapa · clasificación por reglas",
+            "SHADOW CORE AI · OFFLINE",
+            "Motor propio de interpretación y aprendizaje estadístico local",
             "SALUDOS, CAZADOR",
-            "Puedo consultar tus misiones, sesiones, XP y opciones de planificación. " +
-                "Gemini Nano puede responder en dispositivos compatibles; el planificador siempre aplica reglas locales y no ofrece diagnósticos.",
-            "PREGUNTAR", { askAssistant() },
-            "ESTADO DE LA INTELIGENCIA",
-            "Reglas y restricciones: integradas. " +
-                "Estimador de esfuerzo: disponible desde cinco sesiones comparables. " +
-                "Gemini Nano: se consulta solo en dispositivos compatibles, sin descarga automática.",
-            "GENERAR RUTINA", { showPlaceDialog() }
+            "Comprendo solicitudes de rutinas en español, consulto tus sesiones " +
+                "y explico decisiones sujetas a tus restricciones. " +
+                "No dependo de conexión a Internet ni de un modelo externo.",
+            "CONSULTAR SOMBRA", { askAssistant() },
+            "NÚCLEO INTELIGENTE",
+            "Interpretación local de lenguaje y parámetros: activa. " +
+                "Planificación con filtros obligatorios: activa. " +
+                "Análisis de esfuerzo con al menos cinco registros: disponible. " +
+                "No soy un modelo de conversación libre.",
+            "IR A ENTRENAR", { navigate(Screen.TRAIN) }
         )
     }
 
@@ -316,7 +318,7 @@ class MainActivity : AppCompatActivity() {
                 val question = input.text.toString().trim().take(400)
                 if (question.isBlank()) return@setPositiveButton
                 lifecycleScope.launch {
-                    val response = model.askGenerativeOrFallback(question)
+                    val response = model.askShadowCore(question)
                     if (!isFinishing && !isDestroyed) {
                         AlertDialog.Builder(this@MainActivity)
                             .setTitle("Respuesta del asistente offline")
