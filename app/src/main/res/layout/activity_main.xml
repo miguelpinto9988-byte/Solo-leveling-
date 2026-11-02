@@ -72,6 +72,7 @@
                 android:orientation="vertical"
                 android:background="@drawable/card_soft_background"
                 android:padding="20dp">
+                <ImageView android:id="@+id/shadowPortrait" android:layout_width="96dp" android:layout_height="96dp" android:layout_gravity="center_horizontal" android:layout_marginBottom="8dp" android:contentDescription="Sombra acompañante" android:scaleType="fitCenter" app:srcCompat="@drawable/shadow_beru" />
                 <TextView android:id="@+id/heroTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/textPrimary" android:textSize="22sp" android:textStyle="bold"/>
                 <TextView android:id="@+id/heroDetail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
                 <ProgressBar android:id="@+id/xpBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="15dp" android:max="100" android:progress="0" android:progressTint="@color/accent"/>
