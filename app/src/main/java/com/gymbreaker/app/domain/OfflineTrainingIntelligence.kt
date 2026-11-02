@@ -13,7 +13,8 @@ data class TrainingPreferences(
     val excludedCategories: Set<String> = emptySet(),
     val excludedExerciseIds: Set<Int> = emptySet(),
     val requiresReview: Boolean = false,
-    val requestedCategories: Set<String> = emptySet()
+    val requestedCategories: Set<String> = emptySet(),
+    val preferredDifficulty: String = "inicio"
 ) {
     fun validated(): TrainingPreferences = copy(availableMinutes = availableMinutes.coerceIn(10, 90))
 }
@@ -114,6 +115,7 @@ object OfflineTrainingIntelligence {
                 val choice = ExerciseVariantSelector.choose(
                     exercise, variantsByFamily[exercise.id].orEmpty(),
                     p.equipment, p.experience,
+                    preferredDifficulty = p.preferredDifficulty,
                     recentSelections = selectionCounts
                 )
                 if (choice == null) null else exercise.id to choice
