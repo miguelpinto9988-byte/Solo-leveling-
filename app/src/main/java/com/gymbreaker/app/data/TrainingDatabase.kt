@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
@@ -23,6 +25,29 @@ data class ExerciseEntity(
     val level: String,
     // Marca provisional del catálogo de demostración; no constituye validación clínica.
     val isDemoEligible: Boolean = true
+)
+
+/**
+ * Variante subordinada: nunca contabilizada como otro ejercicio principal.
+ * Todas las variantes apuntan al ID local del ejercicio canónico en Room.
+ */
+@Entity(
+    tableName = "exercise_variants",
+    primaryKeys = ["exerciseId", "variantId"],
+    foreignKeys = [ForeignKey(
+        entity = ExerciseEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["exerciseId"],
+        onDelete = ForeignKey.CASCADE
+    )],
+    indices = [Index(value = ["exerciseId"])]
+)
+data class ExerciseVariantEntity(
+    val exerciseId: Int,
+    val variantId: String,
+    val name: String,
+    val equipment: String,
+    val sourceRefsCsv: String
 )
 
 @Entity(tableName = "sessions")
@@ -59,6 +84,15 @@ interface TrainingDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertExercises(exercises: List<ExerciseEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertVariants(variants: List<ExerciseVariantEntity>)
+
+    @Query("SELECT * FROM exercise_variants WHERE exerciseId = :exerciseId ORDER BY name")
+    fun observeVariants(exerciseId: Int): Flow<List<ExerciseVariantEntity>>
+
+    @Query("SELECT COUNT(*) FROM exercise_variants")
+    suspend fun countVariants(): Int
+
     @Query("SELECT * FROM sessions ORDER BY occurredAtMillis DESC")
     fun observeSessions(): Flow<List<SessionEntity>>
 
@@ -76,8 +110,11 @@ interface TrainingDao {
 }
 
 @Database(
-    entities = [ExerciseEntity::class, SessionEntity::class, TrainingProfileEntity::class],
-    version = 2,
+    entities = [
+        ExerciseEntity::class, ExerciseVariantEntity::class,
+        SessionEntity::class, TrainingProfileEntity::class
+    ],
+    version = 3,
     exportSchema = false
 )
 abstract class TrainingDatabase : RoomDatabase() {
@@ -102,6 +139,26 @@ abstract class TrainingDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `exercise_variants` (" +
+                        "`exerciseId` INTEGER NOT NULL, " +
+                        "`variantId` TEXT NOT NULL, " +
+                        "`name` TEXT NOT NULL, " +
+                        "`equipment` TEXT NOT NULL, " +
+                        "`sourceRefsCsv` TEXT NOT NULL, " +
+                        "PRIMARY KEY(`exerciseId`, `variantId`), " +
+                        "FOREIGN KEY(`exerciseId`) REFERENCES `exercises`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE)"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_exercise_variants_exerciseId` " +
+                        "ON `exercise_variants` (`exerciseId`)"
+                )
+            }
+        }
+
         @Volatile private var instance: TrainingDatabase? = null
 
         fun get(context: Context): TrainingDatabase =
@@ -110,7 +167,7 @@ abstract class TrainingDatabase : RoomDatabase() {
                     context.applicationContext,
                     TrainingDatabase::class.java,
                     "gym_breaker_v1.db"
-                ).addMigrations(MIGRATION_1_2).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build().also { instance = it }
             }
     }
 }
@@ -143,7 +200,11 @@ class TrainingRepository(private val dao: TrainingDao, private val context: Cont
         }
         // Solo incorpora fichas procedentes de assets validados; jamás importa
         // JSON de investigación. Actualmente el catálogo aprobado está vacío.
-        dao.insertExercises(ApprovedCatalogLoader.loadApprovedExercises(context))
+        val approvedFamilies = ApprovedCatalogLoader.loadFamilies(context)
+        dao.insertExercises(ApprovedCatalogLoader.toExerciseEntities(approvedFamilies))
+        // La relación familiar se mantiene también en SQLite, sin inflar
+        // el contador de ejercicios principales.
+        dao.insertVariants(ApprovedCatalogLoader.toVariantEntities(approvedFamilies))
     }
 
     suspend fun saveProfile(profile: TrainingProfileEntity) {
