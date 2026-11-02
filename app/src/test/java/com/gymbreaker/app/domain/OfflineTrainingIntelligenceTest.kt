@@ -125,7 +125,8 @@ class OfflineTrainingIntelligenceTest {
         val decision = OfflineTrainingIntelligence.propose(
             exercises = base,
             profile = TrainingPreferences(
-                TrainingPlace.HOME, experience = Experience.INTERMEDIATE
+                TrainingPlace.HOME, experience = Experience.INTERMEDIATE,
+                preferredDifficulty = "intermedio"
             ),
             variants = variants
         ) as PlanningDecision.Candidate
