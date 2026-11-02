@@ -246,5 +246,5 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    suspend fun askGenerativeOrFallback(question: String): String = askAssistant(question)
+    suspend fun askShadowCore(question: String): String = askAssistant(question)
 }
