@@ -70,7 +70,7 @@ object OfflineTrainingIntelligence {
         observations: List<TrainingObservation> = emptyList()
     ): PlanningDecision {
         val p = profile.validated()
-        if (p.requiresReview || observations.any { it.reportedDiscomfort }) {
+        if (p.requiresReview) {
             return PlanningDecision.ReviewRequired(
                 "Hay una restricción o molestia pendiente de revisión. " +
                 "No se genera una rutina automáticamente hasta confirmar ejercicios compatibles."
