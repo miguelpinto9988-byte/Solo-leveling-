@@ -116,8 +116,16 @@ object OfflineTrainingIntelligence {
         // El foco solicitado tiene prioridad, pero no anula exclusiones ni experiencia.
         // La movilidad complementaria solo se incluye si está permitida.
         val orderedCategories = (requested + categories).distinct()
+        // Personalización local simple: da variedad a ejercicios compatibles
+        // según el uso reciente; nunca cambia automáticamente cargas ni repeticiones.
+        val recentUsage = observations.takeLast(10).asSequence()
+            .filter { it.confirmedComplete && !it.reportedDiscomfort }
+            .flatMap { it.exerciseIds.asSequence() }
+            .groupingBy { it }.eachCount()
         val chosen = orderedCategories.mapNotNull { cat ->
-            eligible.firstOrNull { it.category.equals(cat, ignoreCase = true) }
+            eligible.filter { it.category.equals(cat, ignoreCase = true) }
+                .minWithOrNull(compareBy<ExerciseEntity> { recentUsage[it.id] ?: 0 }
+                    .thenBy { it.id })
         }.distinctBy { it.id }.take(if (p.availableMinutes <= 20) 2 else 4)
         if (chosen.size < 2) return PlanningDecision.ReviewRequired(
             "Hay pocas categorías compatibles; se necesita una revisión manual."
