@@ -1,6 +1,7 @@
 package com.gymbreaker.app.domain
 
 import com.gymbreaker.app.data.ExerciseEntity
+import com.gymbreaker.app.data.ExerciseVariantEntity
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -106,4 +107,52 @@ class OfflineTrainingIntelligenceTest {
         assertTrue(result.routine.exercises.any { it.id == 2 })
         assertFalse(result.routine.exercises.any { it.id == 1 })
     }
+    @Test fun plannerUsesExactlyOneReviewedVariantPerCanonicalFamily() {
+        val base = listOf(
+            ExerciseEntity(10001, "Familia A", "Piernas", "none", "inicio"),
+            ExerciseEntity(10002, "Familia B", "Movilidad", "none", "inicio")
+        )
+        val variants = listOf(
+            ExerciseVariantEntity(
+                10001, "variant-a-intermediate", "Realización intermedia A",
+                "none", "test-source:1", "intermedio", "approved", ""
+            ),
+            ExerciseVariantEntity(
+                10001, "variant-a-pending", "Realización sin validar",
+                "none", "test-source:2", "intermedio", "catalog_only", ""
+            )
+        )
+        val decision = OfflineTrainingIntelligence.propose(
+            exercises = base,
+            profile = TrainingPreferences(
+                TrainingPlace.HOME, experience = Experience.INTERMEDIATE
+            ),
+            variants = variants
+        ) as PlanningDecision.Candidate
+        assertEquals(2, decision.routine.exercises.size)
+        assertEquals("variant-a-intermediate",
+            decision.routine.selectedVariants[10001]?.variantId)
+        assertEquals(null, decision.routine.selectedVariants[10002]?.variantId)
+    }
+
+    @Test fun beginnerCannotBeEscalatedByHigherVariant() {
+        val base = listOf(
+            ExerciseEntity(10001, "Familia A", "Piernas", "none", "inicio"),
+            ExerciseEntity(10002, "Familia B", "Movilidad", "none", "inicio")
+        )
+        val variants = listOf(
+            ExerciseVariantEntity(
+                10001, "variant-higher", "Realización intermedia A",
+                "none", "test-source:1", "intermedio", "approved", ""
+            )
+        )
+        val result = OfflineTrainingIntelligence.propose(
+            exercises = base,
+            profile = TrainingPreferences(TrainingPlace.HOME, Experience.BEGINNER),
+            variants = variants
+        ) as PlanningDecision.Candidate
+        assertEquals("inicio", result.routine.selectedVariants[10001]?.level)
+        assertEquals(null, result.routine.selectedVariants[10001]?.variantId)
+    }
+
 }
