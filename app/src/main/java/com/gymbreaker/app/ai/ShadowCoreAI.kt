@@ -3,7 +3,6 @@ package com.gymbreaker.app.ai
 import com.gymbreaker.app.domain.TrainingPlace
 import java.text.Normalizer
 import java.util.Locale
-import kotlin.math.exp
 
 /**
  * Shadow Core AI: NLU local e interpretable, sin Internet ni modelos remotos.
