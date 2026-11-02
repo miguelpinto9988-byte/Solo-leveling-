@@ -11,7 +11,8 @@ data class TrainingPreferences(
     val availableMinutes: Int = 25,
     val excludedCategories: Set<String> = emptySet(),
     val excludedExerciseIds: Set<Int> = emptySet(),
-    val requiresReview: Boolean = false
+    val requiresReview: Boolean = false,
+    val requestedCategories: Set<String> = emptySet()
 ) {
     fun validated(): TrainingPreferences = copy(availableMinutes = availableMinutes.coerceIn(10, 90))
 }
@@ -103,8 +104,20 @@ object OfflineTrainingIntelligence {
         val categories = listOf(
             "Movilidad", "Cardio", "Estabilidad", "Piernas", "Espalda", "Brazos", "Hombros"
         )
-        val chosen = categories.mapNotNull { cat ->
-            eligible.firstOrNull { it.category == cat }
+        val requested = categories.filter { cat ->
+            p.requestedCategories.any { it.equals(cat, ignoreCase = true) }
+        }
+        if (p.requestedCategories.isNotEmpty() &&
+            requested.none { cat -> eligible.any { it.category.equals(cat, ignoreCase = true) } }
+        ) return PlanningDecision.ReviewRequired(
+            "El catálogo disponible no contiene ejercicios compatibles para ese objetivo. " +
+                "Revisa el equipo, las restricciones y la selección solicitada."
+        )
+        // El foco solicitado tiene prioridad, pero no anula exclusiones ni experiencia.
+        // La movilidad complementaria solo se incluye si está permitida.
+        val orderedCategories = (requested + categories).distinct()
+        val chosen = orderedCategories.mapNotNull { cat ->
+            eligible.firstOrNull { it.category.equals(cat, ignoreCase = true) }
         }.distinctBy { it.id }.take(if (p.availableMinutes <= 20) 2 else 4)
         if (chosen.size < 2) return PlanningDecision.ReviewRequired(
             "Hay pocas categorías compatibles; se necesita una revisión manual."
