@@ -25,6 +25,10 @@ data class ReviewedExerciseFamily(
     val level: String,
     val reviewStatus: String,
     val planningEligibility: String,
+    val reviewedBy: String,
+    val reviewDate: String,
+    val identityRationale: String,
+    val riskScreeningNotes: String,
     val restrictionTags: Set<String>,
     val sourceReferences: List<String>,
     val variants: List<ReviewedExerciseVariant>
@@ -54,6 +58,10 @@ object ApprovedCatalogGate {
                 "No se autoriza una ficha de investigación para la APK"
             }
             require(f.planningEligibility in setOf("approved", "catalog_only"))
+            require(f.reviewedBy.isNotBlank() && f.reviewedBy.lowercase() !in
+                setOf("ai", "chatgpt", "automatico", "automated"))
+            require(Regex("\\d{4}-\\d{2}-\\d{2}").matches(f.reviewDate))
+            require(f.identityRationale.length >= 40 && f.riskScreeningNotes.length >= 30)
             require(f.sourceReferences.isNotEmpty())
             require(f.variants.map { it.id }.distinct().size == f.variants.size)
             for (v in f.variants) {
