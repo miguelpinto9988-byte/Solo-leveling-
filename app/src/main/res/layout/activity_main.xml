@@ -70,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/card_soft_background"
                 android:padding="20dp">
                 <TextView android:id="@+id/heroTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/textPrimary" android:textSize="22sp" android:textStyle="bold"/>
                 <TextView android:id="@+id/heroDetail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
@@ -86,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/card_soft_background"
                 android:padding="20dp">
                 <TextView android:id="@+id/sectionTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/textPrimary" android:textSize="19sp" android:textStyle="bold"/>
                 <TextView android:id="@+id/sectionBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
