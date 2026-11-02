@@ -57,9 +57,22 @@ def audit() -> int:
     ensure(all(group["reviewStatus"] == "suggestion_only_not_approved"
                for group in suggestions["groups"]),
            "Grupos de variantes marcados como aprobados sin revisión")
+    screening = json.loads((REVIEW / "manual_screening_examples.json").read_text(encoding="utf-8"))
+    ensure(screening["status"] == "editorial_pre_screening_not_clinical_review",
+           "Cribado editorial presentado como revisión clínica")
+    for case in screening["cases"]:
+        ensure(case["eligibleForPlanning"] is False and
+               case["countsAsVerifiedCanonical"] is False,
+               "Cribado habilitado sin aprobación")
+        ensure(bool(case["references"]) and len(case["observations"]) >= 30,
+               "Cribado sin fuente o justificación")
+        for ref in case["references"]:
+            source_key = (ref["source"], str(ref["sourceId"]))
+            ensure(source_key in index, f"Cribado con referencia perdida: {source_key}")
     print(f"Colas revisadas: {len(actual_conflicts)} conflictos entre categorías, "
           f"{len(actual_priority)} nombres de cardio/movilidad, "
-          f"{len(suggestions['groups'])} familias léxicas sugeridas")
+          f"{len(suggestions['groups'])} familias léxicas sugeridas, "
+          f"{len(screening['cases'])} casos editoriales sin aprobación")
     return 0
 
 if __name__ == "__main__":
