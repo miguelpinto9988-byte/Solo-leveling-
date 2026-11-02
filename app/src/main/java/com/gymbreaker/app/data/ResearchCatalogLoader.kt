@@ -71,7 +71,8 @@ object ResearchCatalogLoader {
                 ResearchExerciseCandidate(
                     name = family.getString("name"),
                     category = category.label,
-                    relatedFamilyHint = family.optString("relatedFamilyHint").ifBlank { null },
+                    relatedFamilyHint = if (family.isNull("relatedFamilyHint")) null
+                        else family.getString("relatedFamilyHint").ifBlank { null },
                     records = candidates
                 )
             }
