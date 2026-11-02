@@ -64,7 +64,9 @@ data class SessionEntity(
     val exerciseIdsCsv: String = "",
     val equipment: String = "HOME",
     val confirmedComplete: Boolean = true,
-    val reportedDiscomfort: Boolean = false
+    val reportedDiscomfort: Boolean = false,
+    // ID familiar => realización elegida; no se cuenta como nuevo ejercicio.
+    val variantSelectionsCsv: String = ""
 )
 
 @Entity(tableName = "training_profile")
@@ -121,7 +123,7 @@ interface TrainingDao {
         ExerciseEntity::class, ExerciseVariantEntity::class,
         SessionEntity::class, TrainingProfileEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class TrainingDatabase : RoomDatabase() {
@@ -183,6 +185,15 @@ abstract class TrainingDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE sessions ADD COLUMN variantSelectionsCsv " +
+                        "TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
+
         @Volatile private var instance: TrainingDatabase? = null
 
         fun get(context: Context): TrainingDatabase =
@@ -191,7 +202,7 @@ abstract class TrainingDatabase : RoomDatabase() {
                     context.applicationContext,
                     TrainingDatabase::class.java,
                     "gym_breaker_v1.db"
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build().also { instance = it }
             }
     }
 }
@@ -242,12 +253,17 @@ class TrainingRepository(private val dao: TrainingDao, private val context: Cont
         effort: Int,
         equipment: String = "HOME",
         exerciseIds: List<Int> = emptyList(),
+        selectedVariantIds: Map<Int, String> = emptyMap(),
         confirmed: Boolean = true,
         discomfort: Boolean = false
     ) {
         require(summary.isNotBlank())
         require(effort in 1..10)
         require(equipment in setOf("HOME", "DUMBBELLS", "GYM"))
+        require(selectedVariantIds.keys.all { it in exerciseIds })
+        require(selectedVariantIds.values.all {
+            it == "__base__" || Regex("[a-z0-9][a-z0-9_-]{2,80}").matches(it)
+        })
         dao.insertSession(
             SessionEntity(
                 occurredAtMillis = System.currentTimeMillis(),
@@ -257,6 +273,9 @@ class TrainingRepository(private val dao: TrainingDao, private val context: Cont
                 exerciseIdsCsv = exerciseIds.distinct().joinToString(","),
                 confirmedComplete = confirmed,
                 reportedDiscomfort = discomfort,
+                variantSelectionsCsv = selectedVariantIds.toSortedMap().entries.joinToString(";") {
+                    it.key.toString() + "=" + it.value
+                },
                 xpEarned = if (confirmed) 50 else 0
             )
         )
