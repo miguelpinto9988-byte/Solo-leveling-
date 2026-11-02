@@ -1,4 +1,4 @@
-# Familias, variantes y dificultad de Shadow Core AI — v0.5.0
+# Familias, variantes y dificultad de Shadow Core AI — v0.6.0
 
 ## Requisito de diseño
 
@@ -102,3 +102,26 @@ de las migraciones sobre dispositivos físicos, sin pruebas exitosas.
 
 No se debe interpretar la lista de registros de fuente como un catálogo
 profesional autorizado para entrenar.
+
+
+## Actualización 0.6: agrupación provisional y acceso a la IA
+
+Los registros de investigación anteriores se han organizado también por
+**posibles grupos de movimiento**, con cuatro cubetas de dificultad
+(inicial, intermedio, avanzado, sin determinar). Los cinco índices
+`family_groups_*.json` contienen **1.089 agrupaciones documentales
+propuestas**, que reúnen las 1.823 denominaciones de categoría y conservan
+los 2.186 registros originales. De los grupos, 28 relacionan varios nombres
+bajo una pista léxica. Ninguna fusión acredita identidad biomecánica ni
+autoriza rutinas.
+
+Shadow Core AI permite inspeccionar desde la APK el proceso que aplica
+reglas y filtros, codificar y decodificar un informe JSON de la última
+decisión, consultar un manifiesto local de recursos y medir el uso de
+assets frente al nuevo límite de 90 MB. La interpretación lingüística
+reconoce solicitudes sobre variantes, explicación de decisiones y
+recursos offline.
+
+Consulta [SHADOW_CORE_90MB_FAMILIAS.md](SHADOW_CORE_90MB_FAMILIAS.md)
+para la auditoría y las limitaciones. No se ha integrado un modelo
+generativo genérico ni se ha habilitado contenido sin revisión técnica.
