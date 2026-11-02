@@ -24,6 +24,15 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+private fun decodeVariantSelections(csv: String): Map<Int, String> =
+    csv.split(';').mapNotNull { item ->
+        val parts = item.split('=', limit = 2)
+        if (parts.size != 2) return@mapNotNull null
+        val id = parts[0].toIntOrNull() ?: return@mapNotNull null
+        val variantId = parts[1]
+        if (variantId.isBlank()) null else id to variantId
+    }.toMap()
+
 data class DashboardState(
     val exercises: List<ExerciseEntity> = emptyList(),
     val variants: List<ExerciseVariantEntity> = emptyList(),
@@ -94,7 +103,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                 exerciseIds = session.exerciseIdsCsv.split(',').mapNotNull { it.toIntOrNull() }.toSet(),
                 perceivedEffort = session.perceivedEffort,
                 confirmedComplete = session.confirmedComplete,
-                reportedDiscomfort = session.reportedDiscomfort
+                reportedDiscomfort = session.reportedDiscomfort,
+                selectedVariants = decodeVariantSelections(session.variantSelectionsCsv)
             )
         }
         latestDecision.value = OfflineTrainingIntelligence.propose(
@@ -116,6 +126,9 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                     routine.selectedVariants[it.id]?.displayName ?: it.name
                 }, effort = effort,
                 equipment = routine.place.name, exerciseIds = selected.map { it.id },
+                selectedVariantIds = selected.associate { exercise ->
+                    exercise.id to (routine.selectedVariants[exercise.id]?.variantId ?: "__base__")
+                },
                 confirmed = true, discomfort = discomfort
             )
             if (discomfort) repository.saveProfile(state.value.profile.copy(requiresReview = true))
@@ -185,7 +198,8 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                                 .mapNotNull { it.toIntOrNull() }.toSet(),
                             perceivedEffort = session.perceivedEffort,
                             confirmedComplete = session.confirmedComplete,
-                            reportedDiscomfort = session.reportedDiscomfort
+                            reportedDiscomfort = session.reportedDiscomfort,
+                            selectedVariants = decodeVariantSelections(session.variantSelectionsCsv)
                         )
                     }
                     val choice = requested.preferredPlace ?: TrainingPlace.HOME
