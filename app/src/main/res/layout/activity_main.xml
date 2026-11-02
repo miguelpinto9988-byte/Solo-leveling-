@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/canvas"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+        <TextView
+            android:id="@+id/appHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SOLO LEVELING"
+            android:textColor="@color/textPrimary"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GYM BREAKER · SISTEMA DEL CAZADOR"
+            android:textColor="@color/textSecondary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/navSystem" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sistema"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navMissions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Misiones"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navTrain" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Entrenar"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navShadows" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sombras"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navAi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IA"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/navSettings" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ajustes"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+        <TextView
+            android:id="@+id/pageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="SISTEMA DEL CAZADOR"
+            android:textColor="@color/textPrimary"
+            android:textSize="23sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/pageSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heroCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView android:id="@+id/heroTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/textPrimary" android:textSize="22sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/heroDetail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
+                <ProgressBar android:id="@+id/xpBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="15dp" android:max="100" android:progress="0" android:progressTint="@color/accent"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/primaryAction" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Acción principal"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/secondaryCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView android:id="@+id/sectionTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@color/textPrimary" android:textSize="19sp" android:textStyle="bold"/>
+                <TextView android:id="@+id/sectionBody" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/secondaryAction" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="Acción secundaria"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:text="VERSIÓN 0.1 · FUNCIONES EN DESARROLLO"
+            android:textColor="@color/textSecondary"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+</ScrollView>
