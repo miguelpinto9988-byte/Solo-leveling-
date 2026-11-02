@@ -28,3 +28,27 @@ Cuando hay duda sobre si dos movimientos son biomecánicamente equivalentes, la 
 `id`, `localId`, `name`, `category`, `subcategory`, `patternKey`, `equipment`, `level`, `reviewStatus="approved"`, `planningEligibility="approved"`, `reviewedBy`, `reviewerRole="qualified_exercise_reviewer"`, `reviewDate`, `identityRationale`, `riskScreeningNotes`, `restrictionTags`, `sources` y `variants`.
 
 Cada referencia en `sources` y en las variantes debe existir en `catalog/staging`. No se permite asignar una misma referencia a dos familias ni crear dos familias con el mismo `patternKey`. Los registros aprobados se exportan solo tras pasar validación.
+
+
+## Metadatos obligatorios de cada variante — v0.5.0
+
+Además de `id`, `name`, `equipment` y `sources`, cada variante debe declarar
+cuatro atributos independientes:
+
+- `difficulty`: `inicio`, `intermedio`, `avanzado` o `sin_determinar`;
+- `difficultyEvidence`: justificación verificable de la clasificación de dificultad;
+- `planningEligibility`: `catalog_only` o `approved`;
+- `restrictionTags`: lista de restricciones pendientes o revisadas.
+
+La dificultad declarada por un dataset **no es, por sí sola, revisión técnica**.
+Para ser `approved`, la realización debe contar con una familia principal
+aprobada, evidencia suficiente, ninguna restricción pendiente y dificultad
+inicial/intermedia compatible. Una variante avanzada o de nivel desconocido
+permanece `catalog_only`.
+
+La interfaz permite elegir la **dificultad deseada** de forma independiente
+de la experiencia; Shadow Core AI respeta ambos límites. Una elección mayor
+nunca habilita automáticamente contenidos no revisados.
+
+Las fichas públicas de `app/src/main/assets/research_*.json` son solo consulta;
+ningún registro de investigación puede emplearse para fabricar aprobaciones.
