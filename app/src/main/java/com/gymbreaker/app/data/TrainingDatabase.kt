@@ -115,14 +115,14 @@ abstract class TrainingDatabase : RoomDatabase() {
     }
 }
 
-class TrainingRepository(private val dao: TrainingDao) {
+class TrainingRepository(private val dao: TrainingDao, private val context: Context) {
     val exercises = dao.observeExercises()
     val sessions = dao.observeSessions()
     val profile = dao.observeProfile()
 
     suspend fun initializeSampleData() {
         if (dao.getProfile() == null) dao.upsertProfile(TrainingProfileEntity())
-        if (dao.countExercises() > 0) return
+        if (dao.countExercises() == 0) {
         // 12 ejemplos iniciales: NO representan el catálogo final de 2000 fichas verificadas.
         dao.insertExercises(
             listOf(
@@ -140,6 +140,10 @@ class TrainingRepository(private val dao: TrainingDao) {
                 ExerciseEntity(12, "Bicicleta estática", "Cardio", "gym", "inicio")
             )
         )
+        }
+        // Solo incorpora fichas procedentes de assets validados; jamás importa
+        // JSON de investigación. Actualmente el catálogo aprobado está vacío.
+        dao.insertExercises(ApprovedCatalogLoader.loadApprovedExercises(context))
     }
 
     suspend fun saveProfile(profile: TrainingProfileEntity) {
