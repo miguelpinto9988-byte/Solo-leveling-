@@ -125,3 +125,68 @@ Auditoría:
 ```bash
 python3 scripts/audit_catalog.py
 ```
+
+
+## Implementación de las tres recomendaciones — versión 0.4.0
+
+### 1. Revisión de identidad y variantes (implementada como proceso controlado)
+
+- Se recopilaron **44 grupos léxicos provisionales** para revisión y **29 conflictos
+  de categoría** documentados en `catalog/review/category_conflicts.json`.
+- Se registraron **10 casos editoriales concretos** en
+  `catalog/review/manual_screening_examples.json`, con referencia al ID
+  original y advertencias de falsos positivos o diferencias funcionales.
+- Ningún grupo provisional está homologado como familia biomecánica definitiva.
+  La firma de un profesional cualificado sigue siendo necesaria.
+- `CatalogReviewGate` exige identificadores únicos, patrón canónico único
+  entre las cinco categorías y variantes subordinadas.
+- `exercise_variants` es una tabla Room vinculada por clave foránea
+  `exerciseId` al ejercicio principal. La migración 2→3 conserva la
+  estructura de las bases existentes. Las variantes nunca se cuentan como
+  ejercicios adicionales.
+
+### 2. Investigación focalizada en cardio y movilidad (realizada)
+
+- `catalog/review/cardio_mobility_priority.json`: cola de **273 nombres
+  documentales** entre cardio (128) y movilidad (145), con procedencia y
+  posibles coincidencias entre fuentes.
+- `catalog/research/CARDIO_MOVILIDAD.md`: fuentes adicionales, diferencias
+  entre actividades y ejercicios, restricciones de licencias y estrategia
+  para no inventar entradas.
+- Se mantuvo el número real de registros investigados: **2.186**.
+  Las referencias nuevas no se añadieron como registros cuando sus licencias
+  o identidades no estaban listas para importación.
+
+### 3. Validación obligatoria antes de la IA (implementada)
+
+- `catalog/review/approved_exercises.json` es la lista editorial autorizada,
+  actualmente **vacía (0 familias con aprobación documentada)**.
+- `scripts/validate_catalog_reviews.py` comprueba procedencia, revisor,
+  razones de identidad, clasificaciones, atributos, patrones repetidos,
+  incompatibilidades y variantes; `--write` genera el asset sólo si pasa.
+- `app/src/main/assets/catalog_approved.json` es el único origen de
+  nuevas familias de la app. No contiene registros pendientes.
+- `ApprovedCatalogLoader.kt` valida el asset durante la carga y descarta
+  completamente cualquier lote inválido; nunca lee `catalog/staging`.
+- `Shadow Core AI` continúa usando sólo las fichas previamente disponibles
+  y, en futuras versiones, fichas firmadas que sean explícitamente elegibles.
+  Las fichas técnicas avanzadas o con etiquetas de precaución quedan
+  consultables, no seleccionables automáticamente.
+- `scripts/audit_review_queues.py` y las pruebas del gate se incorporaron a
+  GitHub Actions. La compilación Android no está certificada hasta comprobar
+  que el flujo se ha ejecutado con éxito.
+
+### Cómo añadir una ficha en el futuro
+
+1. Resolver su identidad con las variantes y la categoría principal.
+2. Registrar la revisión técnica y la trazabilidad en
+   `catalog/review/approved_exercises.json`.
+3. Ejecutar `python3 scripts/validate_catalog_reviews.py --write`.
+4. Ejecutar `python3 scripts/audit_catalog.py`,
+   `python3 scripts/audit_review_queues.py`,
+   `python3 -m unittest discover -s scripts/tests -v` y la
+   compilación/test de Android antes de distribuir.
+5. Registrar cuál fue la revisión y verificar funcionamiento en un móvil real.
+
+**La cifra de 2.000/400 por categoría sigue como objetivo pendiente**.
+El catálogo activo no se ha inflado con variantes ni registros sin revisar.
