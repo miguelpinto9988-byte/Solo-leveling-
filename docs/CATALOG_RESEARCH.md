@@ -41,7 +41,7 @@ diferentes. Ningún material multimedia de estas fuentes ha sido incorporado.
 | Zona central | 146 | 400 | 254 |
 | Cardio | 26 | 400 | 374 |
 | Movilidad | 127 | 400 | 273 |
-| **TOTAL** | **996** | **2.000** | **al menos 1.004 globales** |
+| **TOTAL** | **996** | **2.000** | **al menos 1.125 por categoría** |
 
 De las 996 entradas se detectaron **10 nombres duplicados tras normalizar
 mayúsculas, acentos y caracteres**, por lo que existen **986 denominaciones
@@ -50,7 +50,9 @@ sinónimos, variantes y movimientos duplicados.
 
 **Ejercicios principales distintos y revisados de las fuentes: aún no
 determinados.** No se asigna un número definitivo hasta revisión técnica.
-El déficit real por categoría será mayor o igual al calculado antes de
+La diferencia global bruta es de 1.004 entradas, pero la distribución
+igualitaria exige al menos 1.125 entradas adicionales en categorías deficitarias,
+aun antes de agrupar variantes. El déficit real por categoría será mayor o igual al calculado antes de
 deduplicar y puede ser considerablemente mayor.
 
 ## Definición operacional del ejercicio y las variantes
