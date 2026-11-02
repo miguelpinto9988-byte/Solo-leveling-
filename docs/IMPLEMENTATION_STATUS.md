@@ -1,4 +1,4 @@
-# Registro de implementación · 0.3.0
+# Registro de implementación · 0.4.0
 
 ## Integrado al código fuente (sin certificación de ejecución)
 - Proyecto Kotlin + interfaces XML, Gradle Kotlin DSL, Android SDK.
@@ -23,7 +23,15 @@
   zona central, cardio y movilidad.
 - 2.186 registros de metadatos de cuatro fuentes abiertas conservados en staging.
 - 1.823 pares categoría/nombre distintos, 1.794 nombres distintos globales.
-- 44 grupos léxicos de posibles variantes en cola de revisión manual.
+- 44 grupos léxicos de posibles variantes en cola de revisión manual;
+  29 conflictos entre categorías y diez casos documentados de cribado editorial.
+- 273 denominaciones de cardio/movilidad priorizadas para revisión
+  (128 y 145, respectivamente).
+- Nuevo archivo de familias aprobado **vacío**, más validador de fuentes,
+  revisión humana y nivel de autorización.
+- `ApprovedCatalogLoader` importa desde assets únicamente familias aprobadas;
+  variantes subordinadas en Room con migración 2→3.
+- Auditorías y pruebas del catálogo incorporadas al flujo CI.
 - **No son 2.000 ejercicios principales comprobados**: el solapamiento semántico
   y la existencia de muchas variantes impiden certificar la cifra.
 - Cardio y movilidad concentran los mayores déficits de nombres (272 y 255
@@ -41,7 +49,7 @@
 - Comprobación con datos reales de las estimaciones estadísticas, la detección de intenciones y su calidad.
 - Misiones Monarca y recompensas complejas.
 - Alarmas por días, sonidos personalizados y ajustes de precisión según permisos.
-- Exportación/restauración segura, migraciones de base de datos y pruebas instrumentadas.
+- Exportación/restauración segura, pruebas instrumentadas y revisión de migraciones en dispositivos reales.
 - Validación de rendimiento, accesibilidad y compatibilidad física.
 - APK firmada para distribución: la app-debug.apk de CI es solo una compilación de desarrollo.
 
