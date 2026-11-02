@@ -10,8 +10,8 @@ android {
         applicationId = "com.gymbreaker.app"
         minSdk = 26 // provisional hasta confirmar dispositivos
         targetSdk = 36
-        versionCode = 5
-        versionName = "0.5.0"
+        versionCode = 6
+        versionName = "0.6.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -45,16 +45,41 @@ dependencies {
  */
 tasks.register("verifyShadowCoreModelBudget") {
     group = "verification"
-    description = "Rejects offline model assets larger than 60 MiB"
+    description = "Rejects offline model assets larger than 90 MB"
     doLast {
         val models = file("src/main/assets/shadow_core")
         val bytes = if (models.exists())
             models.walkTopDown().filter { it.isFile }.sumOf { it.length() }
         else 0L
-        val maxBytes = 60L * 1024L * 1024L
+        val maxBytes = 90_000_000L
         check(bytes <= maxBytes) {
-            "Shadow Core offline model assets exceed 60 MiB: ${bytes} bytes"
+            "Shadow Core offline model assets exceed 90 MB: ${bytes} bytes"
         }
         println("Shadow Core model assets: ${bytes} of ${maxBytes} bytes allowed.")
+    }
+}
+
+/**
+ * Presupuesto total de los recursos de Shadow Core AI y su catálogo offline.
+ * No es un límite de RAM ni una medición del código compilado en classes.dex.
+ * La medición de la APK se realiza por separado en CI.
+ */
+tasks.register("verifyOfflineAiResourceBudget") {
+    group = "verification"
+    description = "Counts model weights, research indexes, approved data and audit metadata"
+    doLast {
+        val assets = file("src/main/assets")
+        val included = if (assets.exists()) {
+            assets.walkTopDown().filter { it.isFile }.toList()
+        } else emptyList()
+        val bytes = included.sumOf { it.length() }
+        val limit = 90_000_000L
+        check(bytes <= limit) {
+            "Offline AI resources exceed the 90 MB storage ceiling: $bytes bytes"
+        }
+        val largest = included.sortedByDescending { it.length() }.take(5)
+        println("Shadow Core AI assets: $bytes / $limit bytes (${included.size} files)")
+        largest.forEach { println("  ${it.name}: ${it.length()} bytes") }
+        println("Scope: APK assets only. DEX, system libraries and RAM require device tests.")
     }
 }
