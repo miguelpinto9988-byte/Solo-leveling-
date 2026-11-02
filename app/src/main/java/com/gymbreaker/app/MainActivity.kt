@@ -581,7 +581,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCategoriesDialog() {
-        val options = arrayOf("Cardio", "Movilidad", "Estabilidad", "Piernas", "Espalda", "Brazos", "Hombros")
+        val options = arrayOf(
+            "Tren superior", "Tren inferior", "Zona central", "Cardio", "Movilidad",
+            "Estabilidad", "Piernas", "Espalda", "Pecho", "Brazos", "Hombros", "Abdominales"
+        )
         val current = model.state.value.profile.excludedCategoriesCsv
             .split(',').filter { it.isNotBlank() }.toSet()
         val excluded = current.toMutableSet()
