@@ -47,7 +47,11 @@ data class ExerciseVariantEntity(
     val variantId: String,
     val name: String,
     val equipment: String,
-    val sourceRefsCsv: String
+    val sourceRefsCsv: String,
+    // Unknown difficulties are excluded from automated planning.
+    val difficulty: String = "sin_determinar",
+    val planningEligibility: String = "catalog_only",
+    val restrictionTagsCsv: String = ""
 )
 
 @Entity(tableName = "sessions")
@@ -87,6 +91,9 @@ interface TrainingDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertVariants(variants: List<ExerciseVariantEntity>)
 
+    @Query("SELECT * FROM exercise_variants ORDER BY exerciseId, name")
+    fun observeAllVariants(): Flow<List<ExerciseVariantEntity>>
+
     @Query("SELECT * FROM exercise_variants WHERE exerciseId = :exerciseId ORDER BY name")
     fun observeVariants(exerciseId: Int): Flow<List<ExerciseVariantEntity>>
 
@@ -114,7 +121,7 @@ interface TrainingDao {
         ExerciseEntity::class, ExerciseVariantEntity::class,
         SessionEntity::class, TrainingProfileEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class TrainingDatabase : RoomDatabase() {
@@ -159,6 +166,23 @@ abstract class TrainingDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE exercise_variants ADD COLUMN difficulty " +
+                        "TEXT NOT NULL DEFAULT 'sin_determinar'"
+                )
+                db.execSQL(
+                    "ALTER TABLE exercise_variants ADD COLUMN planningEligibility " +
+                        "TEXT NOT NULL DEFAULT 'catalog_only'"
+                )
+                db.execSQL(
+                    "ALTER TABLE exercise_variants ADD COLUMN restrictionTagsCsv " +
+                        "TEXT NOT NULL DEFAULT ''"
+                )
+            }
+        }
+
         @Volatile private var instance: TrainingDatabase? = null
 
         fun get(context: Context): TrainingDatabase =
@@ -167,13 +191,14 @@ abstract class TrainingDatabase : RoomDatabase() {
                     context.applicationContext,
                     TrainingDatabase::class.java,
                     "gym_breaker_v1.db"
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build().also { instance = it }
             }
     }
 }
 
 class TrainingRepository(private val dao: TrainingDao, private val context: Context) {
     val exercises = dao.observeExercises()
+    val variants = dao.observeAllVariants()
     val sessions = dao.observeSessions()
     val profile = dao.observeProfile()
 
