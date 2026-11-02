@@ -10,8 +10,8 @@ android {
         applicationId = "com.gymbreaker.app"
         minSdk = 26 // provisional hasta confirmar dispositivos
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,6 +36,25 @@ dependencies {
     implementation("androidx.room:room-ktx:2.8.5")
     ksp("androidx.room:room-compiler:2.8.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
-    implementation("com.google.mlkit:genai-prompt:1.0.0-beta4")
     testImplementation("junit:junit:4.13.2")
+}
+
+/**
+ * Comprueba los modelos empaquetados en assets/shadow_core contra el límite.
+ * Este límite se refiere a archivos de modelo; no equivale a RAM o APK total.
+ */
+tasks.register("verifyShadowCoreModelBudget") {
+    group = "verification"
+    description = "Rejects offline model assets larger than 60 MiB"
+    doLast {
+        val models = file("src/main/assets/shadow_core")
+        val bytes = if (models.exists())
+            models.walkTopDown().filter { it.isFile }.sumOf { it.length() }
+        else 0L
+        val maxBytes = 60L * 1024L * 1024L
+        check(bytes <= maxBytes) {
+            "Shadow Core offline model assets exceed 60 MiB: ${bytes} bytes"
+        }
+        println("Shadow Core model assets: ${bytes} of ${maxBytes} bytes allowed.")
+    }
 }
