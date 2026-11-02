@@ -11,7 +11,11 @@ data class ReviewedExerciseVariant(
     val id: String,
     val name: String,
     val equipment: String,
-    val sourceReferences: List<String>
+    val sourceReferences: List<String>,
+    val difficulty: String = "sin_determinar",
+    val planningEligibility: String = "catalog_only",
+    val restrictionTags: Set<String> = emptySet(),
+    val difficultyEvidence: String = ""
 )
 
 data class ReviewedExerciseFamily(
@@ -67,6 +71,14 @@ object ApprovedCatalogGate {
             for (v in f.variants) {
                 require(v.id.isNotBlank() && v.name.isNotBlank() && v.sourceReferences.isNotEmpty())
                 require(v.equipment in equipment)
+                require(v.difficulty in setOf("inicio", "intermedio", "avanzado", "sin_determinar"))
+                require(v.planningEligibility in setOf("approved", "catalog_only"))
+                if (v.planningEligibility == "approved") {
+                    require(f.planningEligibility == "approved")
+                    require(v.difficulty in setOf("inicio", "intermedio"))
+                    require(v.restrictionTags.isEmpty())
+                    require(v.difficultyEvidence.length >= 30)
+                }
             }
             // Los casos técnicos avanzados o con etiquetas preventivas
             // siguen siendo consultables: no pasan al generador automático.
