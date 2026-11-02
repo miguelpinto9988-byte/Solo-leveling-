@@ -1,0 +1,4859 @@
+{
+  "schemaVersion": 1,
+  "description": "Cola focalizada de cardio y movilidad, solo identidad documental. Mismo nombre entre fuentes se lista una vez; las variantes semánticas quedan por revisar.",
+  "count": 273,
+  "byCategory": {
+    "Cardio": 128,
+    "Movilidad": 145
+  },
+  "records": [
+    {
+      "category": "Cardio",
+      "normalizedName": "elliptical trainer",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Elliptical_Trainer",
+          "originalName": "Elliptical Trainer",
+          "equipment": "machine",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_elliptical_trainer",
+          "originalName": "Elliptical Trainer",
+          "equipment": "cardio_equipment",
+          "level": "beginner"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "2141",
+          "originalName": "Elliptical Trainer",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 3,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bear hug carry",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "deadball_dead_ball_bear_hug_carry",
+          "originalName": "Bear Hug Carry",
+          "equipment": "deadball",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sandbag_bear_hug_carry",
+          "originalName": "Bear Hug Carry",
+          "equipment": "sandbag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "decline mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "plyo_box_decline_mountain_climbers",
+          "originalName": "Decline Mountain Climbers",
+          "equipment": "plyo_box",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "tractor_tire_decline_mountain_climbers",
+          "originalName": "Decline Mountain Climbers",
+          "equipment": "tractor_tire",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "high knees",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_high_knees",
+          "originalName": "High Knees",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_high_knees_run",
+          "originalName": "High Knees",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "lateral shuffle",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_lateral_shuffle",
+          "originalName": "Lateral Shuffle",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_lateral_shuffle",
+          "originalName": "Lateral Shuffle",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "mountain_climbers",
+          "originalName": "mountain climbers",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_mountain_climbers",
+          "originalName": "Mountain Climbers",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "running",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "running",
+          "originalName": "running",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-running",
+          "originalName": "Running",
+          "equipment": "body weight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "stairmaster",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Stairmaster",
+          "originalName": "Stairmaster",
+          "equipment": "machine",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_stairmaster",
+          "originalName": "Stairmaster",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "step mill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Step_Mill",
+          "originalName": "Step Mill",
+          "equipment": "machine",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_step_mill",
+          "originalName": "Step Mill",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "walking treadmill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Walking_Treadmill",
+          "originalName": "Walking, Treadmill",
+          "equipment": "machine",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_walking_treadmill",
+          "originalName": "Walking, Treadmill",
+          "equipment": "cardio_equipment",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "90 90 hamstring",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "90_90_Hamstring",
+          "originalName": "90/90 Hamstring",
+          "equipment": "body only",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_90_90_hamstring",
+          "originalName": "90/90 Hamstring",
+          "equipment": "bodyweight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "all fours quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "All_Fours_Quad_Stretch",
+          "originalName": "All Fours Quad Stretch",
+          "equipment": "body only",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_all_fours_quad_stretch",
+          "originalName": "All Fours Quad Stretch",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chest stretch on stability ball",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chest_Stretch_on_Stability_Ball",
+          "originalName": "Chest Stretch on Stability Ball",
+          "equipment": "exercise ball",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "stability_ball_chest_stretch_ball",
+          "originalName": "Chest Stretch on Stability Ball",
+          "equipment": "exercise_ball",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "groiners",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Groiners",
+          "originalName": "Groiners",
+          "equipment": "body only",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_groiners",
+          "originalName": "Groiners",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hug a ball",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hug_A_Ball",
+          "originalName": "Hug A Ball",
+          "equipment": "exercise ball",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "stability_ball_hug_a_ball",
+          "originalName": "Hug A Ball",
+          "equipment": "exercise_ball",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "inchworm",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Inchworm",
+          "originalName": "Inchworm",
+          "equipment": "body only",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_inchworm",
+          "originalName": "Inchworm",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "it band and glute stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "IT_Band_and_Glute_Stretch",
+          "originalName": "IT Band and Glute Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_it_band_glute_stretch",
+          "originalName": "IT Band and Glute Stretch",
+          "equipment": "resistance_band",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "latissimus dorsi smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Latissimus_Dorsi-SMR",
+          "originalName": "Latissimus Dorsi-SMR",
+          "equipment": "foam roll",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_latissimus_dorsi_smr",
+          "originalName": "Latissimus Dorsi-SMR",
+          "equipment": "foam_roller",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lower back smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lower_Back-SMR",
+          "originalName": "Lower Back-SMR",
+          "equipment": "foam roll",
+          "level": "beginner"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_lower_back_smr",
+          "originalName": "Lower Back-SMR",
+          "equipment": "foam_roller",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "peroneals smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Peroneals-SMR",
+          "originalName": "Peroneals-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_peroneals_smr",
+          "originalName": "Peroneals-SMR",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "piriformis smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Piriformis-SMR",
+          "originalName": "Piriformis-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_piriformis_smr",
+          "originalName": "Piriformis-SMR",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "quadriceps smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Quadriceps-SMR",
+          "originalName": "Quadriceps-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_quadriceps_smr",
+          "originalName": "Quadriceps-SMR",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "rhomboids smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Rhomboids-SMR",
+          "originalName": "Rhomboids-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_rhomboids_smr",
+          "originalName": "Rhomboids-SMR",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "upper back stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Upper_Back_Stretch",
+          "originalName": "Upper Back Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        },
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "upper_back_stretch",
+          "originalName": "upper back stretch",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 2,
+      "priorityHint": "cross_source_confirmation_needed"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "4 corner drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_four_corner_drill",
+          "originalName": "4 Corner Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "ab wheel mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "ab_wheel_mountain_climbers",
+          "originalName": "Ab Wheel Mountain Climbers",
+          "equipment": "ab_wheel",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "agility ladder icky shuffle",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_ick_shuffle",
+          "originalName": "Agility Ladder Icky Shuffle",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "airbike legs only",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_airbike_legs_only",
+          "originalName": "Airbike Legs Only",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "airbike upper body only",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_airbike_arms_only",
+          "originalName": "Airbike Upper Body Only",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "ali shuffle",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_ali_shuffle",
+          "originalName": "Ali Shuffle",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "alternating waves squat",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_squat_waves",
+          "originalName": "Alternating Waves + Squat",
+          "equipment": "battle_rope",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "arrow drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_arrow_drill",
+          "originalName": "Arrow Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "backpedal achteruit rennen",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_backpedal",
+          "originalName": "Backpedal (Achteruit Rennen)",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "backward run 2 ins",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_backward_run",
+          "originalName": "Backward Run (2-ins)",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "backward walk achteruit lopen",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skillmill_backward_walk",
+          "originalName": "Backward Walk (Achteruit Lopen)",
+          "equipment": "cardio_equipment",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "battling ropes",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_waves",
+          "originalName": "Battling Ropes",
+          "equipment": "battle_rope",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bicycling",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Bicycling",
+          "originalName": "Bicycling",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bicycling stationary",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Bicycling_Stationary",
+          "originalName": "Bicycling, Stationary",
+          "equipment": "machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bosu burpee press",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bosu_ball_bosu_burpee_press",
+          "originalName": "Bosu Burpee & Press",
+          "equipment": "bosu_ball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bosu mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bosu_ball_bosu_mountain_climbers",
+          "originalName": "Bosu Mountain Climbers",
+          "equipment": "bosu_ball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bosu toe taps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bosu_ball_bosu_toe_taps",
+          "originalName": "Bosu Toe Taps",
+          "equipment": "bosu_ball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "box drill square",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_box_drill",
+          "originalName": "Box Drill (Square)",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "bridge mountain climber cross body",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "bridge___mountain_climber_cross_body",
+          "originalName": "bridge - mountain climber (cross body)",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "burpee",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "1160",
+          "originalName": "Burpee",
+          "equipment": "body weight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "burpee over parallette",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "parallettes_burpee_over_parallette",
+          "originalName": "Burpee Over Parallette",
+          "equipment": "parallettes",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "butt kicks",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_butt_kicks",
+          "originalName": "Butt Kicks",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "cardio exercise",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-cardio-exercises",
+          "originalName": "Cardio Exercise",
+          "equipment": "body weight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "cardio machine exercise",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-cardio-exercises-machine",
+          "originalName": "Cardio Machine Exercise",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "cardio machine workouts",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-cardio-exercises-machines",
+          "originalName": "Cardio Machine Workouts",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "carioca kruispas",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_carioca_drill",
+          "originalName": "Carioca (Kruispas)",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "carioca quick step",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_carioca_quick_step",
+          "originalName": "Carioca Quick Step",
+          "equipment": "bodyweight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "centipede",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_centipede",
+          "originalName": "Centipede",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "circle drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_circle_drill",
+          "originalName": "Circle Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "climb hand switch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_climb_hand_switch",
+          "originalName": "Climb Hand Switch",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "dead ball thruster",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "deadball_dead_ball_thruster",
+          "originalName": "Dead Ball Thruster",
+          "equipment": "deadball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "endurance steady state",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_endurance_steady_state",
+          "originalName": "Endurance Steady State",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "figure 8",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_figure_8",
+          "originalName": "Figure 8",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "freestyle blitz all out",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "standing_punching_bag_freestyle_blitz",
+          "originalName": "Freestyle Blitz (All-Out)",
+          "equipment": "standing_punching_bag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "hand to hand swing",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_h2h_swing",
+          "originalName": "Hand-to-Hand Swing",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "high cadence spin 100 110 rpm",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_high_cadence_spin",
+          "originalName": "High Cadence Spin (100-110 RPM)",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "high knees 1 in",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_high_knees",
+          "originalName": "High Knees (1-in)",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "hourglass drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_hourglass_drill",
+          "originalName": "Hourglass Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "icky shuffle backward",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_icky_backward",
+          "originalName": "Icky Shuffle Backward",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "incline mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "tractor_tire_incline_mountain_climbers",
+          "originalName": "Incline Mountain Climbers",
+          "equipment": "tractor_tire",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "jogging treadmill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Jogging_Treadmill",
+          "originalName": "Jogging, Treadmill",
+          "equipment": "machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "jump rope basic jump",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "jump_rope_basic_jump",
+          "originalName": "jump rope basic jump",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "jumping jack",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "jumping_jack",
+          "originalName": "jumping jack",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "l drill 3 cone drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_l_drill",
+          "originalName": "L-Drill (3 Cone Drill)",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "landmine thruster",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "barbell_landmine_thruster",
+          "originalName": "Landmine Thruster",
+          "equipment": "barbell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "lateral bounds",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_lateral_bounds",
+          "originalName": "Lateral Bounds",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "lateral high knees",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_lateral_high_knees",
+          "originalName": "Lateral High Knees",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "lateral in in out out",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_lateral_in_out",
+          "originalName": "Lateral In-In-Out-Out",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "lateral shuffle zijwaarts",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skillmill_lateral_shuffle",
+          "originalName": "Lateral Shuffle (Zijwaarts)",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "m drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_m_drill",
+          "originalName": "M-Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "medicine ball mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "medicine_ball_mountain_climbers",
+          "originalName": "Medicine Ball Mountain Climbers",
+          "equipment": "medicine_ball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "medicine ball toe taps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "medicine_ball_toe_taps",
+          "originalName": "Medicine Ball Toe Taps",
+          "equipment": "medicine_ball",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "mirror drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "partner_mirror_drill",
+          "originalName": "Mirror Drill",
+          "equipment": "partner",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "mountain climber twist",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_mountain_climber_twist",
+          "originalName": "Mountain Climber Twist",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "parachute run",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skillmill_parachute_run",
+          "originalName": "Parachute Run",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "parallette mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "parallettes_parallette_mountain_climbers",
+          "originalName": "Parallette Mountain Climbers",
+          "equipment": "parallettes",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "piggyback run",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "partner_piggyback_run",
+          "originalName": "Piggyback Run",
+          "equipment": "partner",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "plank jack",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "plank_jack",
+          "originalName": "plank jack",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "plank jacks",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_plank_jacks",
+          "originalName": "Plank Jacks",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "plate push",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_plate_push",
+          "originalName": "Plate Push",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "plyometric side lunge stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-stretching-plyo-side-lunge-stretch",
+          "originalName": "Plyometric Side Lunge Stretch",
+          "equipment": "body weight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "power skip",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_power_skip",
+          "originalName": "Power Skip",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "prowler sprint",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Prowler_Sprint",
+          "originalName": "Prowler Sprint",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "reactive 4 cone drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_reactive_box",
+          "originalName": "Reactive 4 Cone Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "recumbent bike",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Recumbent_Bike",
+          "originalName": "Recumbent Bike",
+          "equipment": "machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "reverse lunge with waves",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_reverse_lunge_waves",
+          "originalName": "Reverse Lunge with Waves",
+          "equipment": "battle_rope",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "reverse pedal achteruit",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_reverse_pedal",
+          "originalName": "Reverse Pedal (Achteruit)",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "river dance",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_river_dance",
+          "originalName": "River Dance",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "rolling hills",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_rolling_hills",
+          "originalName": "Rolling Hills",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "rope jumping",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Rope_Jumping",
+          "originalName": "Rope Jumping",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "rowing basis techniek",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_rower_basic_stroke",
+          "originalName": "Rowing (Basis Techniek)",
+          "equipment": "cardio_equipment",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "rowing stationary",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Rowing_Stationary",
+          "originalName": "Rowing, Stationary",
+          "equipment": "machine",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "running treadmill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Running_Treadmill",
+          "originalName": "Running, Treadmill",
+          "equipment": "machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sandbag burpee",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sandbag_burpee",
+          "originalName": "Sandbag Burpee",
+          "equipment": "sandbag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sandbag run",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sandbag_run",
+          "originalName": "Sandbag Run",
+          "equipment": "sandbag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "scissors",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_scissors",
+          "originalName": "Scissors",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "shadow boxing",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "shadow_boxing",
+          "originalName": "shadow boxing",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "shuttle runs",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_shuttle_runs",
+          "originalName": "Shuttle Runs",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "side to side",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_side_to_side",
+          "originalName": "Side to Side",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "side to side punch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "side_to_side_punch",
+          "originalName": "side to side punch",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "single leg stretch bent knee",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-stretching-single-leg-stretch-bent-knee",
+          "originalName": "Single Leg Stretch (Bent Knee)",
+          "equipment": "body weight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "single straight leg stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-stretching-single-straight-leg-stretch",
+          "originalName": "Single Straight Leg Stretch",
+          "equipment": "body weight",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "single unders",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "jump_rope_single_unders",
+          "originalName": "Single Unders",
+          "equipment": "jump_rope",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sit up punches",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "standing_punching_bag_situp_punches",
+          "originalName": "Sit-up Punches",
+          "equipment": "standing_punching_bag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "skaters",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_skaters",
+          "originalName": "Skaters",
+          "equipment": "bodyweight",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "skating",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Skating",
+          "originalName": "Skating",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "skierg alternating arms",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skierg_alternating",
+          "originalName": "SkiErg Alternating Arms",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "skierg double pole",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skierg_double_pole",
+          "originalName": "SkiErg Double Pole",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "skipping",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "skipping",
+          "originalName": "skipping",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "slalom run",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_slalom_run",
+          "originalName": "Slalom Run",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sled push prowler push",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_sled_push",
+          "originalName": "Sled Push (Prowler Push)",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sled push slee duwen",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_skillmill_sled_push",
+          "originalName": "Sled Push (Slee Duwen)",
+          "equipment": "cardio_equipment",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "slider mountain climbers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "core_sliders_slider_mountain_climbers",
+          "originalName": "Slider Mountain Climbers",
+          "equipment": "core_sliders",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "slider plank jacks",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "core_sliders_slider_plank_jacks",
+          "originalName": "Slider Plank Jacks",
+          "equipment": "core_sliders",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "snake drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_snake",
+          "originalName": "Snake Drill",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "snake move",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_snake_move",
+          "originalName": "Snake Move",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "spiral whips",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "battle_rope_spiral_whips",
+          "originalName": "Spiral Whips",
+          "equipment": "battle_rope",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sprawl brawl",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "standing_punching_bag_sprawl_and_brawl",
+          "originalName": "Sprawl & Brawl",
+          "equipment": "standing_punching_bag",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "star jump",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "star_jump",
+          "originalName": "star jump",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "stationary bicycling",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_stationary_bicycling",
+          "originalName": "Stationary Bicycling",
+          "equipment": "spinning_bike",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "stationary bike",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "2138",
+          "originalName": "Stationary Bike",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "suicide runs",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_suicide_runs",
+          "originalName": "Suicide Runs",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "sumo deadlift high pull",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_sumo_deadlift_high_pull",
+          "originalName": "Sumo Deadlift High Pull",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "t drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_t_drill",
+          "originalName": "T-Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "tactical lunge",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_tactical_lunge",
+          "originalName": "Tactical Lunge",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "tap backs",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "spinning_bike_tap_backs",
+          "originalName": "Tap Backs",
+          "equipment": "spinning_bike",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "trail running walking",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Trail_Running_Walking",
+          "originalName": "Trail Running/Walking",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "treadmill running",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-treadmill-running",
+          "originalName": "Treadmill Running",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "trx mountain climber",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "trx_suspension_mountain_climber",
+          "originalName": "TRX Mountain Climber",
+          "equipment": "trx_suspension",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "tyre lateral shuffle",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "tractor_tire_lateral_shuffle",
+          "originalName": "Tyre Lateral Shuffle",
+          "equipment": "tractor_tire",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "tyre pop squats",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "tractor_tire_pop_squats",
+          "originalName": "Tyre Pop Squats",
+          "equipment": "tractor_tire",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "tyre toe taps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "tractor_tire_toe_taps",
+          "originalName": "Tyre Toe Taps",
+          "equipment": "tractor_tire",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "w drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_w_drill",
+          "originalName": "W-Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "walk wave machine",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "drv-walk-wave-machine",
+          "originalName": "Walk Wave Machine",
+          "equipment": "leverage machine",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "walking",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "walking",
+          "originalName": "walking",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "walking fast",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "walking_fast",
+          "originalName": "walking fast",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "wall ball relay",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "partner_wall_ball_relay",
+          "originalName": "Wall Ball Relay",
+          "equipment": "partner",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Cardio",
+      "normalizedName": "x drill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cones_x_drill",
+          "originalName": "X-Drill",
+          "equipment": "cones",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "adductor",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Adductor",
+          "originalName": "Adductor",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "adductor foam roll",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_adductor_stretch",
+          "originalName": "Adductor Foam Roll",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "adductor groin",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Adductor_Groin",
+          "originalName": "Adductor/Groin",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "ankle circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Ankle_Circles",
+          "originalName": "Ankle Circles",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "ankle on the knee",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Ankle_On_The_Knee",
+          "originalName": "Ankle On The Knee",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "anterior tibialis smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Anterior_Tibialis-SMR",
+          "originalName": "Anterior Tibialis-SMR",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "arm circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Arm_Circles",
+          "originalName": "Arm Circles",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "behind head chest stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Behind_Head_Chest_Stretch",
+          "originalName": "Behind Head Chest Stretch",
+          "equipment": "other",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "brachialis foam roll",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_brachialis_smr",
+          "originalName": "Brachialis Foam Roll",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "brachialis smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Brachialis-SMR",
+          "originalName": "Brachialis-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "calf stretch elbows against wall",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Calf_Stretch_Elbows_Against_Wall",
+          "originalName": "Calf Stretch Elbows Against Wall",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "calf stretch hands against wall",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Calf_Stretch_Hands_Against_Wall",
+          "originalName": "Calf Stretch Hands Against Wall",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "calves foam roll",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_calves_smr",
+          "originalName": "Calves Foam Roll",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "calves smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Calves-SMR",
+          "originalName": "Calves-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "carioca crossover",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "agility_ladder_carioca",
+          "originalName": "Carioca / Crossover",
+          "equipment": "agility_ladder",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "cat stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Cat_Stretch",
+          "originalName": "Cat Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chair leg extended stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chair_Leg_Extended_Stretch",
+          "originalName": "Chair Leg Extended Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chair lower back stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chair_Lower_Back_Stretch",
+          "originalName": "Chair Lower Back Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chair upper body stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chair_Upper_Body_Stretch",
+          "originalName": "Chair Upper Body Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chest and front of shoulder stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chest_And_Front_Of_Shoulder_Stretch",
+          "originalName": "Chest And Front Of Shoulder Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chest and front of shoulder stretch stick dislocate",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodybar_chest_front_shoulder_stretch",
+          "originalName": "Chest And Front Of Shoulder Stretch (Stick Dislocate)",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "child s pose",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Childs_Pose",
+          "originalName": "Child's Pose",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "chin to chest stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Chin_To_Chest_Stretch",
+          "originalName": "Chin To Chest Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "crab walk",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_crab_walk",
+          "originalName": "Crab Walk",
+          "equipment": "sprint_track",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "crossover reverse lunge",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Crossover_Reverse_Lunge",
+          "originalName": "Crossover Reverse Lunge",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "dancer s stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Dancers_Stretch",
+          "originalName": "Dancer's Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "deck squat",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_deck_squat",
+          "originalName": "Deck Squat",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "duck walk",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "sprint_track_duck_walk",
+          "originalName": "Duck Walk",
+          "equipment": "sprint_track",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "dumbbell swing",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "dumbbell_swing",
+          "originalName": "dumbbell swing",
+          "equipment": [
+            "weights"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "dynamic back stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Dynamic_Back_Stretch",
+          "originalName": "Dynamic Back Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "dynamic chest stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Dynamic_Chest_Stretch",
+          "originalName": "Dynamic Chest Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "elbow circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Elbow_Circles",
+          "originalName": "Elbow Circles",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "elbows back",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Elbows_Back",
+          "originalName": "Elbows Back",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "foot foam roll smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_foot_smr",
+          "originalName": "Foot Foam Roll / SMR",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "foot smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Foot-SMR",
+          "originalName": "Foot-SMR",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "frog hops",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Frog_Hops",
+          "originalName": "Frog Hops",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "front leg raises",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Front_Leg_Raises",
+          "originalName": "Front Leg Raises",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "groin and back stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Groin_and_Back_Stretch",
+          "originalName": "Groin and Back Stretch",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hamstring foam roll",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_hamstring_smr",
+          "originalName": "Hamstring Foam Roll",
+          "equipment": "foam_roller",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hamstring smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hamstring-SMR",
+          "originalName": "Hamstring-SMR",
+          "equipment": "foam roll",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hamstring stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hamstring_Stretch",
+          "originalName": "Hamstring Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hamstring stretch with band",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "bodyweight_hamstring_stretch_band",
+          "originalName": "Hamstring Stretch with Band",
+          "equipment": "resistance_band",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hip circles prone",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hip_Circles_prone",
+          "originalName": "Hip Circles (prone)",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "hug knees to chest",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Hug_Knees_To_Chest",
+          "originalName": "Hug Knees To Chest",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "iliotibial tract smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Iliotibial_Tract-SMR",
+          "originalName": "Iliotibial Tract-SMR",
+          "equipment": "foam roll",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "intermediate groin stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Intermediate_Groin_Stretch",
+          "originalName": "Intermediate Groin Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "intermediate hip flexor and quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Intermediate_Hip_Flexor_and_Quad_Stretch",
+          "originalName": "Intermediate Hip Flexor and Quad Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "iron crosses stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Iron_Crosses_stretch",
+          "originalName": "Iron Crosses (stretch)",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "it band foam roll",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "foam_roller_iliotibial_tract_smr",
+          "originalName": "IT Band Foam Roll",
+          "equipment": "foam_roller",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kettlebell bent press",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_bent_press",
+          "originalName": "Kettlebell Bent Press",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kettlebell cossack squat",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_cossack_squat",
+          "originalName": "Kettlebell Cossack Squat",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kettlebell halo",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_halo",
+          "originalName": "Kettlebell Halo",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kettlebell swing",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "kettlebell_swing",
+          "originalName": "kettlebell swing",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kettlebell windmill",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "kettlebell_windmill",
+          "originalName": "Kettlebell Windmill",
+          "equipment": "kettlebell",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "knee across the body",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Knee_Across_The_Body",
+          "originalName": "Knee Across The Body",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "knee circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Knee_Circles",
+          "originalName": "Knee Circles",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kneeling forearm stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kneeling_Forearm_Stretch",
+          "originalName": "Kneeling Forearm Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "kneeling hip flexor",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Kneeling_Hip_Flexor",
+          "originalName": "Kneeling Hip Flexor",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "leg up hamstring stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Leg-Up_Hamstring_Stretch",
+          "originalName": "Leg-Up Hamstring Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "looking at ceiling",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Looking_At_Ceiling",
+          "originalName": "Looking At Ceiling",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lower back curl",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lower_Back_Curl",
+          "originalName": "Lower Back Curl",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lying bent leg groin",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lying_Bent_Leg_Groin",
+          "originalName": "Lying Bent Leg Groin",
+          "equipment": "other",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lying crossover",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lying_Crossover",
+          "originalName": "Lying Crossover",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lying glute",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lying_Glute",
+          "originalName": "Lying Glute",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lying hamstring",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lying_Hamstring",
+          "originalName": "Lying Hamstring",
+          "equipment": "other",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "lying prone quadriceps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Lying_Prone_Quadriceps",
+          "originalName": "Lying Prone Quadriceps",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "middle back stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Middle_Back_Stretch",
+          "originalName": "Middle Back Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "neck smr",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Neck-SMR",
+          "originalName": "Neck-SMR",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "on your back quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "On-Your-Back_Quad_Stretch",
+          "originalName": "On-Your-Back Quad Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "on your side quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "On_Your_Side_Quad_Stretch",
+          "originalName": "On Your Side Quad Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "one arm against wall",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "One_Arm_Against_Wall",
+          "originalName": "One Arm Against Wall",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "one half locust",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "One_Half_Locust",
+          "originalName": "One Half Locust",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "one handed hang",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "One_Handed_Hang",
+          "originalName": "One Handed Hang",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "one knee to chest",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "One_Knee_To_Chest",
+          "originalName": "One Knee To Chest",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "overhead lat",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Overhead_Lat",
+          "originalName": "Overhead Lat",
+          "equipment": "other",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "overhead stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Overhead_Stretch",
+          "originalName": "Overhead Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "overhead triceps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Overhead_Triceps",
+          "originalName": "Overhead Triceps",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "partner adductor groin stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "partner_adductor_groin_stretch",
+          "originalName": "Partner Adductor/Groin Stretch",
+          "equipment": "partner",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "pass through shoot through",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "parallettes_parallette_pass_through",
+          "originalName": "Pass Through / Shoot Through",
+          "equipment": "parallettes",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "pelvic tilt into bridge",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Pelvic_Tilt_Into_Bridge",
+          "originalName": "Pelvic Tilt Into Bridge",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "peroneals stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Peroneals_Stretch",
+          "originalName": "Peroneals Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "posterior tibialis stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Posterior_Tibialis_Stretch",
+          "originalName": "Posterior Tibialis Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "pyramid",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Pyramid",
+          "originalName": "Pyramid",
+          "equipment": "exercise ball",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Quad_Stretch",
+          "originalName": "Quad Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "rear leg raises",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Rear_Leg_Raises",
+          "originalName": "Rear Leg Raises",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "round the world shoulder stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Round_The_World_Shoulder_Stretch",
+          "originalName": "Round The World Shoulder Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "runner s stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Runners_Stretch",
+          "originalName": "Runner's Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "scissor kick",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Scissor_Kick",
+          "originalName": "Scissor Kick",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated biceps",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Biceps",
+          "originalName": "Seated Biceps",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated calf stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Calf_Stretch",
+          "originalName": "Seated Calf Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated floor hamstring stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Floor_Hamstring_Stretch",
+          "originalName": "Seated Floor Hamstring Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated front deltoid",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Front_Deltoid",
+          "originalName": "Seated Front Deltoid",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated glute",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Glute",
+          "originalName": "Seated Glute",
+          "equipment": "body only",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated hamstring",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Hamstring",
+          "originalName": "Seated Hamstring",
+          "equipment": "unspecified",
+          "level": "expert"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated hamstring and calf stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Hamstring_and_Calf_Stretch",
+          "originalName": "Seated Hamstring and Calf Stretch",
+          "equipment": "other",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "seated overhead stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Overhead_Stretch",
+          "originalName": "Seated Overhead Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "shoulder circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Shoulder_Circles",
+          "originalName": "Shoulder Circles",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "shoulder raise",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Shoulder_Raise",
+          "originalName": "Shoulder Raise",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "shoulder stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Shoulder_Stretch",
+          "originalName": "Shoulder Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "side leg raises",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Side_Leg_Raises",
+          "originalName": "Side Leg Raises",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "side lying floor stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Side-Lying_Floor_Stretch",
+          "originalName": "Side-Lying Floor Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "side lying groin stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Side_Lying_Groin_Stretch",
+          "originalName": "Side Lying Groin Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "side neck stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Side_Neck_Stretch",
+          "originalName": "Side Neck Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "side wrist pull",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Side_Wrist_Pull",
+          "originalName": "Side Wrist Pull",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "sit squats",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Sit_Squats",
+          "originalName": "Sit Squats",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "spinal stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Spinal_Stretch",
+          "originalName": "Spinal Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "split squats",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Split_Squats",
+          "originalName": "Split Squats",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing biceps stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Biceps_Stretch",
+          "originalName": "Standing Biceps Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing elevated quad stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Elevated_Quad_Stretch",
+          "originalName": "Standing Elevated Quad Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing gastrocnemius calf stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Gastrocnemius_Calf_Stretch",
+          "originalName": "Standing Gastrocnemius Calf Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing hamstring and calf stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Hamstring_and_Calf_Stretch",
+          "originalName": "Standing Hamstring and Calf Stretch",
+          "equipment": "other",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing hip circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Hip_Circles",
+          "originalName": "Standing Hip Circles",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing hip flexors",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Hip_Flexors",
+          "originalName": "Standing Hip Flexors",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing lateral stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Lateral_Stretch",
+          "originalName": "Standing Lateral Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing pelvic tilt",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Pelvic_Tilt",
+          "originalName": "Standing Pelvic Tilt",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing soleus and achilles stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Soleus_And_Achilles_Stretch",
+          "originalName": "Standing Soleus And Achilles Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "standing toe touches",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Standing_Toe_Touches",
+          "originalName": "Standing Toe Touches",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "stomach vacuum",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Stomach_Vacuum",
+          "originalName": "Stomach Vacuum",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "straddle l sit",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "parallettes_straddle_l_sit",
+          "originalName": "Straddle L-Sit",
+          "equipment": "parallettes",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "superman",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Superman",
+          "originalName": "Superman",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "the straddle",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "The_Straddle",
+          "originalName": "The Straddle",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "toe touchers",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Toe_Touchers",
+          "originalName": "Toe Touchers",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "torso rotation",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Torso_Rotation",
+          "originalName": "Torso Rotation",
+          "equipment": "exercise ball",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "tricep side stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Tricep_Side_Stretch",
+          "originalName": "Tricep Side Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "triceps light stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "triceps_light_stretch",
+          "originalName": "triceps light stretch",
+          "equipment": [
+            "bodyweight"
+          ],
+          "level": null
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "triceps stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Triceps_Stretch",
+          "originalName": "Triceps Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "upper back leg grab",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Upper_Back-Leg_Grab",
+          "originalName": "Upper Back-Leg Grab",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "upward stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Upward_Stretch",
+          "originalName": "Upward Stretch",
+          "equipment": "unspecified",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "windmills",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Windmills",
+          "originalName": "Windmills",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "world s greatest stretch",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Worlds_Greatest_Stretch",
+          "originalName": "World's Greatest Stretch",
+          "equipment": "unspecified",
+          "level": "intermediate"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    },
+    {
+      "category": "Movilidad",
+      "normalizedName": "wrist circles",
+      "reviewStatus": "priority_review_pending",
+      "autoPlanningEligible": false,
+      "sources": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Wrist_Circles",
+          "originalName": "Wrist Circles",
+          "equipment": "body only",
+          "level": "beginner"
+        }
+      ],
+      "sourceCount": 1,
+      "priorityHint": "single_source_identity_review"
+    }
+  ]
+}
