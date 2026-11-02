@@ -41,7 +41,8 @@ object ExerciseVariantSelector {
         family: ExerciseEntity,
         variants: List<ExerciseVariantEntity>,
         place: TrainingPlace,
-        experience: Experience
+        experience: Experience,
+        recentSelections: Map<String, Int> = emptyMap()
     ): SelectedExerciseVariant? {
         if (!family.isDemoEligible) return null
         val equipment = allowedEquipment(place)
@@ -73,6 +74,10 @@ object ExerciseVariantSelector {
         // El desempate es estable, no dependiente de la nube.
         return choices.sortedWith(
             compareByDescending<SelectedExerciseVariant> { levelOrder(it.level) }
+                .thenBy {
+                    val key = it.familyId.toString() + ":" + (it.variantId ?: "__base__")
+                    recentSelections[key] ?: 0
+                }
                 .thenBy { it.variantId ?: "" }
         ).firstOrNull()
     }
