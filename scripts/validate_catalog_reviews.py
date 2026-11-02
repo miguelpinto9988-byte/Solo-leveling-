@@ -123,10 +123,11 @@ def validated_export(payload: dict, index: dict) -> dict:
         ensure(isinstance(family["restrictionTags"], list) and
                all(isinstance(tag, str) and tag.strip() for tag in family["restrictionTags"]),
                "Etiquetas de restricciones inválidas")
-        # Por defecto los ejercicios avanzados son consultables, no elegibles para planes IA.
-        if family["level"] == "avanzado":
+        # Preventivas sin implementación de filtrado detallado no pasan a IA.
+        # Los ejercicios avanzados permanecen solo para consulta.
+        if family["level"] == "avanzado" or family["restrictionTags"]:
             ensure(family["planningEligibility"] == "catalog_only",
-                   "Un ejercicio avanzado no puede habilitarse sin un protocolo adicional")
+                   "Ejercicio avanzado o con restricciones: solo catálogo hasta revisión")
 
         sources = family["sources"]
         ensure(isinstance(sources, list) and sources, "Familia sin fuente")
