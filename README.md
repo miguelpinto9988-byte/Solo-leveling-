@@ -3,7 +3,7 @@
 Aplicación Android nativa desarrollada con **Kotlin + XML**, Room, Coroutines
 y arquitectura orientada a estado con ViewModel/StateFlow.
 
-## Estado: prototipo 0.3.0
+## Estado: prototipo 0.4.0
 
 **Shadow Core AI (offline)** está integrado en el código fuente:
 
@@ -22,10 +22,29 @@ archivos de modelos empaquetados; no se debe interpretar como tamaño medido de 
 APK, memoria RAM o base de datos. Los componentes actuales son compactos y
 no se rellenarán artificialmente hasta 60 MB.
 
+## Catálogo: familias y variantes
+
+El proyecto conserva cinco categorías principales y un objetivo pendiente de
+2.000 ejercicios biomecánicamente diferentes (400 por categoría).
+
+- 2.186 registros de investigación procedentes de cuatro fuentes abiertas,
+  todavía sin certificación como 2.000 ejercicios independientes.
+- 44 grupos léxicos para revisión de variantes; 29 conflictos de categoría;
+  cola especializada de 273 nombres de cardio y movilidad.
+- Diez casos documentados de cribado editorial preliminar.
+- Variantes almacenadas en Room bajo su ejercicio principal (migración 2→3).
+- La importación de fichas nuevas requiere procedencia, verificación técnica
+  documentada y una aprobación expresa. **Hay 0 familias nuevas aprobadas**,
+  por lo que la app conserva sus 12 ejercicios de demostración.
+
+Consulta [investigación y controles](docs/CATALOG_RESEARCH.md) y
+[fuentes de cardio y movilidad](catalog/research/CARDIO_MOVILIDAD.md).
+
 ## Compilación
 
 El flujo [Android Debug CI](.github/workflows/android.yml) ejecuta las pruebas
-unitarias, la comprobación del presupuesto y `assembleDebug`. Consultar el
+unitarias, la auditoría de ejercicios y variantes, el bloqueo de fichas no aprobadas,
+la comprobación del presupuesto de modelos y `assembleDebug`. Consultar el
 resultado real de GitHub Actions antes de afirmar que existe una APK funcional.
 
 ## Documentación
