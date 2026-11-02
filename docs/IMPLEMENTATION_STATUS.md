@@ -1,4 +1,4 @@
-# Registro de implementación · 0.4.0
+# Registro de implementación · 0.5.0
 
 ## Integrado al código fuente (sin certificación de ejecución)
 - Proyecto Kotlin + interfaces XML, Gradle Kotlin DSL, Android SDK.
@@ -30,7 +30,15 @@
 - Nuevo archivo de familias aprobado **vacío**, más validador de fuentes,
   revisión humana y nivel de autorización.
 - `ApprovedCatalogLoader` importa desde assets únicamente familias aprobadas;
-  variantes subordinadas en Room con migración 2→3.
+  variantes subordinadas en Room y migraciones adicionales 3→4, 4→5 y 5→6.
+- Cinco archivos de investigación de solo consulta incluidos en la APK, con
+  2.186 entradas y 1.823 nombres nominales por categoría.
+- Dificultades de origen normalizadas únicamente si la fuente usa niveles
+  explícitos, y no certificadas como dificultades biomecánicas.
+- Jugador elige dificultad y experiencia de forma independiente. Selector offline
+  prioriza variantes revisadas compatibles y alterna entre opciones del mismo
+  nivel según historial confirmado; no fuerza progresión.
+- Registro de variante elegida en historial local de sesiones.
 - Auditorías y pruebas del catálogo incorporadas al flujo CI.
 - **No son 2.000 ejercicios principales comprobados**: el solapamiento semántico
   y la existencia de muchas variantes impiden certificar la cifra.
