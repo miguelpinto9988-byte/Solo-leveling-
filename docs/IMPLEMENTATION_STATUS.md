@@ -18,6 +18,17 @@
 - Presupuesto automatizado de modelos offline de hasta 60 MiB; no implica tamaño final de APK ni RAM.
 - Pruebas unitarias nuevas para la comprensión local y el aprendizaje descriptivo.
 
+## Investigación del catálogo (no integrada en la app)
+- Cinco categorías primarias definidas en `CatalogTaxonomy.kt`.
+- 996 registros de investigación procedentes de dos fuentes abiertas:
+  721 de Free Exercise DB y 275 de Glowupp.
+- 986 nombres normalizados diferentes tras eliminar 10 coincidencias exactas.
+- Sin revisión semántica definitiva de variantes ni verificación individual de
+  los 2.000 ejercicios principales; ninguno de los registros de investigación
+  está habilitado en Shadow Core AI.
+- Auditoría reproducible: `python3 scripts/audit_catalog.py`.
+- Detalle: [CATALOG_RESEARCH.md](CATALOG_RESEARCH.md).
+
 ## Pendiente para el producto objetivo
 - Los **2000 ejercicios revisados**: por ahora hay 12 ejemplos, sin validación biomecánica.
 - Editor completo de rutinas, sesión guiada por series/descansos y estadísticas avanzadas.
