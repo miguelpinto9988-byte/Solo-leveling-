@@ -139,8 +139,11 @@ def validated_export(payload: dict, index: dict) -> dict:
         variant_ids: set[str] = set()
         for variant in variants:
             ensure(isinstance(variant, dict), "Variante mal formada")
-            ensure(set(("id", "name", "equipment", "sources")) <= set(variant),
-                   "Variante sin atributos esenciales")
+            ensure(set((
+                "id", "name", "equipment", "sources",
+                "difficulty", "planningEligibility", "restrictionTags",
+                "difficultyEvidence"
+            )) <= set(variant), "Variante sin dificultad, evidencia o estado de revisión")
             ensure(isinstance(variant["id"], str) and
                    re.fullmatch(r"[a-z0-9][a-z0-9_-]{2,80}", variant["id"]) is not None,
                    "ID de variante no válido")
@@ -149,6 +152,21 @@ def validated_export(payload: dict, index: dict) -> dict:
             ensure(isinstance(variant["name"], str) and variant["name"].strip(),
                    "Variante sin denominación")
             ensure(variant["equipment"] in EQUIPMENT, "Variante con equipo no normalizado")
+            ensure(variant["difficulty"] in LEVELS + ("sin_determinar",),
+                   "Nivel de variante desconocido")
+            ensure(variant["planningEligibility"] in ("approved", "catalog_only"),
+                   "Estado de variante inválido")
+            ensure(isinstance(variant["difficultyEvidence"], str),
+                   "Falta evidencia textual del nivel")
+            ensure(isinstance(variant["restrictionTags"], list) and
+                   all(isinstance(t, str) and t.strip() for t in variant["restrictionTags"]),
+                   "Restricciones de variante inválidas")
+            if variant["planningEligibility"] == "approved":
+                ensure(family["planningEligibility"] == "approved" and
+                       variant["difficulty"] in ("inicio", "intermedio") and
+                       not variant["restrictionTags"] and
+                       len(variant["difficultyEvidence"].strip()) >= 30,
+                       "Variante insegura o sin evidencia: no autorizar para IA")
             ensure(isinstance(variant["sources"], list) and variant["sources"],
                    "Variante sin procedencia")
             for ref in variant["sources"]:
