@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "status": "editorial_pre_screening_not_clinical_review",
+  "description": "Diez casos concretos analizados por identidad textual y funcional a nivel preliminar; no habilitan ejercicio alguno ni certifican equivalencia biomecánica. Requieren revisión especializada.",
+  "cases": [
+    {
+      "candidateFamily": "flexion-codo",
+      "reviewType": "likely_equipment_variations",
+      "observations": "Barra y mancuernas son candidatos a una misma familia de flexión de codo, pero agarres y posturas deben verificarse para no fusionar patrones diferentes.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Barbell_Curl",
+          "sourceName": "Barbell Curl",
+          "observedCategory": "Tren superior"
+        },
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Alternate_Incline_Dumbbell_Curl",
+          "sourceName": "Alternate Incline Dumbbell Curl",
+          "observedCategory": "Tren superior"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "sentadilla",
+      "reviewType": "likely_load_variations",
+      "observations": "La sentadilla con peso corporal y con barra comparten una base de patrón funcional, pero diferencias de postura y técnica impiden declarar identidad canónica sin revisión.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Barbell_Full_Squat",
+          "sourceName": "Barbell Full Squat",
+          "observedCategory": "Tren inferior"
+        },
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Bodyweight_Squat",
+          "sourceName": "Bodyweight Squat",
+          "observedCategory": "Tren inferior"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "pedaleo",
+      "reviewType": "likely_environment_variations",
+      "observations": "La bicicleta al aire libre y la estacionaria comparten pedaleo; no deben representar dos ejercicios principales automáticamente solo por cambiar el equipo.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Bicycling",
+          "sourceName": "Bicycling",
+          "observedCategory": "Cardio"
+        },
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Bicycling_Stationary",
+          "sourceName": "Bicycling, Stationary",
+          "observedCategory": "Cardio"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "marcha",
+      "reviewType": "exact_name_cross_source",
+      "observations": "Coincidencia exacta de Walking, Treadmill entre fuentes; revisar si corresponde a una única variante de caminata antes de contar.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Walking_Treadmill",
+          "sourceName": "Walking, Treadmill",
+          "observedCategory": "Cardio"
+        },
+        {
+          "source": "rthepen/workout-database",
+          "sourceId": "cardio_equipment_walking_treadmill",
+          "sourceName": "Walking, Treadmill",
+          "observedCategory": "Cardio"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "movilidad-espalda",
+      "reviewType": "exact_name_cross_source",
+      "observations": "Upper Back Stretch figura en dos fuentes; verificar instrucciones y articulación antes de concluir equivalencia funcional.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Upper_Back_Stretch",
+          "sourceName": "Upper Back Stretch",
+          "observedCategory": "Movilidad"
+        },
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "upper_back_stretch",
+          "sourceName": "upper back stretch",
+          "observedCategory": "Movilidad"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "planchas",
+      "reviewType": "do_not_auto_merge_static_dynamic",
+      "observations": "Plancha estática y plancha con movimientos alternados pueden diferir en control motor y estabilidad; no fusionar por compartir el término plank.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Plank",
+          "sourceName": "Plank",
+          "observedCategory": "Zona central"
+        },
+        {
+          "source": "Glowupp-app/open-exercisedb",
+          "sourceId": "alternate_arm_leg_plank",
+          "sourceName": "alternate arm leg plank",
+          "observedCategory": "Zona central"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "curl-isquiotibiales",
+      "reviewType": "reject_keyword_family_false_positive",
+      "observations": "La heurística antigua 'biceps-curl' también agrupaba leg curls por la palabra curl; son grupos anatómicos y patrones distintos. Debe separarse.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Seated_Leg_Curl",
+          "sourceName": "Seated Leg Curl",
+          "observedCategory": "Tren inferior"
+        },
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Barbell_Curl",
+          "sourceName": "Barbell Curl",
+          "observedCategory": "Tren superior"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "curl-piernas-conflicto",
+      "reviewType": "category_conflict_requires_review",
+      "observations": "La misma denominación Ball Leg Curl aparece como tren inferior y tren superior según la fuente. El conflicto debe resolverse antes de catalogar.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Ball_Leg_Curl",
+          "sourceName": "Ball Leg Curl",
+          "observedCategory": "Tren inferior"
+        },
+        {
+          "source": "buzops9/exercisedb",
+          "sourceId": "0353",
+          "sourceName": "Stability Ball Leg Curl",
+          "observedCategory": "Tren superior"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "movilidad-vs-fuerza",
+      "reviewType": "category_conflict_requires_review",
+      "observations": "Crossover Reverse Lunge aparece clasificado en Movilidad por una fuente; verificar su finalidad principal frente a otros patrones de tren inferior.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Crossover_Reverse_Lunge",
+          "sourceName": "Crossover Reverse Lunge",
+          "observedCategory": "Movilidad"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    },
+    {
+      "candidateFamily": "elevacion-talones",
+      "reviewType": "similar_name_distinct_loading",
+      "observations": "Seated calf raise y otras elevaciones de talones no deben fusionarse sin revisar articulaciones, posición y objetivo; no constituyen ejercicios verificados aquí.",
+      "references": [
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Barbell_Seated_Calf_Raise",
+          "sourceName": "Barbell Seated Calf Raise",
+          "observedCategory": "Tren inferior"
+        },
+        {
+          "source": "yuhonas/free-exercise-db",
+          "sourceId": "Calf_Raise_On_A_Dumbbell",
+          "sourceName": "Calf Raise On A Dumbbell",
+          "observedCategory": "Tren inferior"
+        }
+      ],
+      "eligibleForPlanning": false,
+      "countsAsVerifiedCanonical": false
+    }
+  ]
+}
