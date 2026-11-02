@@ -355,7 +355,7 @@ class MainActivity : AppCompatActivity() {
             .setItems(arrayOf(
                 "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
                 "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
-                "Marcar molestia o restricción pendiente"
+                "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
@@ -365,6 +365,7 @@ class MainActivity : AppCompatActivity() {
                     4 -> showMinutesDialog()
                     5 -> showCategoriesDialog()
                     6 -> model.savePreferences(requiresReview = true)
+                    7 -> showReviewDialog()
                 }
             }.show()
     }
@@ -399,6 +400,21 @@ class MainActivity : AppCompatActivity() {
                 model.savePreferences(excludedCategories = excluded)
             }
             .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun showReviewDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Revisión de restricciones")
+            .setMessage(
+                "La planificación se bloquea ante molestias declaradas. " +
+                "Solo confirma la revisión si tus condiciones actuales lo permiten. " +
+                "La app no puede comprobar la recuperación ni reemplaza una evaluación profesional."
+            )
+            .setPositiveButton("Confirmar revisión") { _, _ ->
+                model.savePreferences(requiresReview = false)
+            }
+            .setNegativeButton("Mantener bloqueo", null)
             .show()
     }
 
