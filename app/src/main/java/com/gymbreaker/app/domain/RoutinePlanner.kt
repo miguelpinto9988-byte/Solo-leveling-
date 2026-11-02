@@ -7,7 +7,10 @@ enum class TrainingPlace { HOME, DUMBBELLS, GYM }
 data class PlannedRoutine(
     val title: String,
     val place: TrainingPlace,
-    val exercises: List<ExerciseEntity>
+    val exercises: List<ExerciseEntity>,
+    // ID principal -> variante concreta elegida (o ejercicio base).
+    // El conteo de ejercicios se hace con exercises, nunca con selectedVariants.
+    val selectedVariants: Map<Int, SelectedExerciseVariant> = emptyMap()
 )
 
 object RoutinePlanner {
