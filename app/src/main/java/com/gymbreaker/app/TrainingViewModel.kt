@@ -345,6 +345,23 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                     "Puedes cambiar el tiempo y el nivel declarado desde Ajustes. " +
                     "La solicitud no cambia tus preferencias sin confirmación."
 
+            ShadowIntent.CATALOG ->
+                "El catálogo offline de investigación reúne 2.186 registros " +
+                    "en 1.823 nombres por categoría y 1.089 agrupaciones propuestas. " +
+                    "Las variantes se presentan por dificultad y procedencia. " +
+                    "Entra en Catálogo para buscar y revisar. Ninguna de esas " +
+                    "agrupaciones es automáticamente un ejercicio aprobado."
+
+            ShadowIntent.EXPLANATION -> lastDecisionAudit().readable()
+
+            ShadowIntent.SYSTEM ->
+                "Shadow Core AI opera localmente con reglas, historial y " +
+                    "decodificación JSON. El límite de recursos de la IA es " +
+                    "90 MB de almacenamiento (no RAM). En el Panel de Control " +
+                    "puedes medir los archivos incluidos, inspeccionar la " +
+                    "última decisión y copiar o decodificar su informe. " +
+                    "No se ha instalado un modelo generativo general."
+
             ShadowIntent.GREETING -> ShadowCoreAI.limitationMessage()
             ShadowIntent.UNKNOWN -> ShadowCoreAI.limitationMessage() +
                 " Puedes escribir, por ejemplo: «Rutina de espalda en casa de 30 minutos»."
