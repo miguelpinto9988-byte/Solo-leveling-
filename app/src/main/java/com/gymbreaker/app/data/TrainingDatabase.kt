@@ -73,6 +73,8 @@ data class SessionEntity(
 data class TrainingProfileEntity(
     @PrimaryKey val id: Int = 1,
     val experience: String = "BEGINNER",
+    // Preferencia del jugador independiente de su experiencia declarada.
+    val preferredDifficulty: String = "inicio",
     val availableMinutes: Int = 25,
     val excludedCategoriesCsv: String = "",
     val excludedExerciseIdsCsv: String = "",
@@ -123,7 +125,7 @@ interface TrainingDao {
         ExerciseEntity::class, ExerciseVariantEntity::class,
         SessionEntity::class, TrainingProfileEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class TrainingDatabase : RoomDatabase() {
@@ -194,6 +196,15 @@ abstract class TrainingDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE training_profile ADD COLUMN preferredDifficulty " +
+                        "TEXT NOT NULL DEFAULT 'inicio'"
+                )
+            }
+        }
+
         @Volatile private var instance: TrainingDatabase? = null
 
         fun get(context: Context): TrainingDatabase =
@@ -202,7 +213,7 @@ abstract class TrainingDatabase : RoomDatabase() {
                     context.applicationContext,
                     TrainingDatabase::class.java,
                     "gym_breaker_v1.db"
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6).build().also { instance = it }
             }
     }
 }
@@ -245,6 +256,7 @@ class TrainingRepository(private val dao: TrainingDao, private val context: Cont
 
     suspend fun saveProfile(profile: TrainingProfileEntity) {
         require(profile.id == 1 && profile.availableMinutes in 10..90)
+        require(profile.preferredDifficulty in setOf("inicio", "intermedio", "avanzado"))
         dao.upsertProfile(profile)
     }
 
