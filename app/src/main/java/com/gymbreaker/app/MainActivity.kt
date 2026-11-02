@@ -196,7 +196,8 @@ class MainActivity : AppCompatActivity() {
             ?: "No hay una rutina activa. Elige Casa, Mancuernas o Gimnasio para crearla."
         show(
             "ENTRENAR",
-            "Dificultad seleccionada: " + state.profile.experience +
+            "Dificultad deseada: " + state.profile.preferredDifficulty +
+                " · Experiencia: " + state.profile.experience +
                 " · solo variantes compatibles y autorizadas",
             routine?.title ?: "TU PRÓXIMA RUTINA",
             body,
@@ -254,6 +255,7 @@ class MainActivity : AppCompatActivity() {
             "ACENTO Y ALARMAS",
             "Acento: " + (preferences.getString("accent_name", "Violeta")) +
                 ".\nPerfil: " + state.profile.experience +
+                " · Dificultad: " + state.profile.preferredDifficulty +
                 " · " + state.profile.availableMinutes + " min.\nExclusiones: " +
                 state.profile.excludedCategoriesCsv.ifEmpty { "ninguna" } +
                 (if (state.profile.requiresReview) "\nRestricción pendiente: no generar rutinas automáticamente." else "") +
@@ -502,7 +504,8 @@ class MainActivity : AppCompatActivity() {
             .setItems(arrayOf(
                 "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
                 "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
-                "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación"
+                "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación",
+                "Dificultad deseada de las rutinas"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
@@ -513,6 +516,7 @@ class MainActivity : AppCompatActivity() {
                     5 -> showCategoriesDialog()
                     6 -> model.savePreferences(requiresReview = true)
                     7 -> showReviewDialog()
+                    8 -> showRoutineDifficultyDialog()
                 }
             }.show()
     }
@@ -523,6 +527,26 @@ class MainActivity : AppCompatActivity() {
             .setItems(options) { _, i ->
                 model.savePreferences(experience = com.gymbreaker.app.domain.Experience.entries[i])
             }.show()
+    }
+
+    private fun showRoutineDifficultyDialog() {
+        val options = arrayOf(
+            "Inicial", "Intermedio",
+            "Avanzado (no habilitado para selección automática)"
+        )
+        val levels = arrayOf("inicio", "intermedio", "avanzado")
+        AlertDialog.Builder(this)
+            .setTitle("Dificultad deseada de tus rutinas")
+            .setMessage(
+                "La dificultad seleccionada es un máximo, no una progresión forzada. " +
+                "La IA también respetará tu experiencia, equipo y restricciones. " +
+                "Las variantes avanzadas estarán solo para consulta hasta revisión."
+            )
+            .setItems(options) { _, index ->
+                model.savePreferences(preferredDifficulty = levels[index])
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun showMinutesDialog() {
