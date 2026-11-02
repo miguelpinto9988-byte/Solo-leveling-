@@ -25,6 +25,10 @@ class ApprovedCatalogGateTest {
         level = "inicio",
         reviewStatus = status,
         planningEligibility = eligibility,
+        reviewedBy = "Manual test fixture",
+        reviewDate = "2026-01-01",
+        identityRationale = "Razonamiento sintético de pruebas para una familia ficticia.",
+        riskScreeningNotes = "Prueba sin validez técnica ni clínica.",
         restrictionTags = tags,
         sourceReferences = listOf("test-source:1"),
         variants = variants
