@@ -47,7 +47,8 @@ class ExerciseVariantSelectorTest {
             exercise,
             listOf(variant("variant-intermediate", "intermedio")),
             TrainingPlace.HOME,
-            Experience.INTERMEDIATE
+            Experience.INTERMEDIATE,
+            preferredDifficulty = "intermedio"
         )
         assertEquals("variant-intermediate", selection?.variantId)
         assertEquals("intermedio", selection?.level)
@@ -114,4 +115,15 @@ class ExerciseVariantSelectorTest {
             family, emptyList(), TrainingPlace.HOME, Experience.BEGINNER
         ))
     }
+    @Test fun requestedInitialDifficultyOverridesIntermediateExperience() {
+        val selected = ExerciseVariantSelector.choose(
+            exercise,
+            listOf(variant("variant-intermediate", "intermedio")),
+            TrainingPlace.HOME, Experience.INTERMEDIATE,
+            preferredDifficulty = "inicio"
+        )
+        assertEquals("inicio", selected?.level)
+        assertNull(selected?.variantId)
+    }
+
 }
