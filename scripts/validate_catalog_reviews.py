@@ -98,7 +98,7 @@ def validated_export(payload: dict, index: dict) -> dict:
         ensure(all(isinstance(family[k], str) and family[k].strip()
                    for k in ("name", "subcategory", "patternKey")), "Texto obligatorio vacío")
 
-        pattern = (family["category"], family["patternKey"].strip().lower())
+        pattern = family["patternKey"].strip().lower()
         ensure(pattern not in used_pattern_keys, "Patrón repetido: posible familia duplicada")
         used_pattern_keys.add(pattern)
 
