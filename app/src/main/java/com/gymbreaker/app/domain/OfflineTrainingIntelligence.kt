@@ -1,6 +1,7 @@
 package com.gymbreaker.app.domain
 
 import com.gymbreaker.app.data.ExerciseEntity
+import com.gymbreaker.app.data.ExerciseVariantEntity
 
 /** Motor offline de decisiones revisables. No diagnostica ni reemplaza a un profesional. */
 enum class Experience { BEGINNER, INTERMEDIATE, EXPERIENCED }
@@ -68,7 +69,8 @@ object OfflineTrainingIntelligence {
     fun propose(
         exercises: List<ExerciseEntity>,
         profile: TrainingPreferences,
-        observations: List<TrainingObservation> = emptyList()
+        observations: List<TrainingObservation> = emptyList(),
+        variants: List<ExerciseVariantEntity> = emptyList()
     ): PlanningDecision {
         val p = profile.validated()
         if (p.requiresReview) {
@@ -83,20 +85,30 @@ object OfflineTrainingIntelligence {
                 "Descansa o revisa una propuesta más ligera antes de continuar."
             )
         }
-        val allowed = when (p.equipment) {
-            TrainingPlace.HOME -> setOf("none")
-            TrainingPlace.DUMBBELLS -> setOf("none", "dumbbell")
-            TrainingPlace.GYM -> setOf("none", "dumbbell", "gym")
-        }
-        val eligible = exercises.asSequence()
-            .filter { it.isDemoEligible }
-            .filter { it.equipment in allowed }
+        // Seleccionar previamente una realización compatible para cada familia.
+        // Una variante sólo entra aquí si tiene nivel y autorización explícitos.
+        val variantsByFamily = variants.groupBy { it.exerciseId }
+        val availableChoices = exercises.asSequence()
             .filter { it.id !in p.excludedExerciseIds }
             .filter { candidate ->
-                p.excludedCategories.none { it.equals(candidate.category, ignoreCase = true) }
+                val mainCategory = CatalogTaxonomy
+                    .forCurrentSubcategory(candidate.category)?.label
+                p.excludedCategories.none { excluded ->
+                    excluded.equals(candidate.category, ignoreCase = true) ||
+                        (mainCategory != null &&
+                            excluded.equals(mainCategory, ignoreCase = true))
+                }
             }
-            .filter { p.experience != Experience.BEGINNER || it.level == "inicio" }
-            .distinctBy { it.id }.toList()
+            .mapNotNull { exercise ->
+                val choice = ExerciseVariantSelector.choose(
+                    exercise, variantsByFamily[exercise.id].orEmpty(),
+                    p.equipment, p.experience
+                )
+                if (choice == null) null else exercise.id to choice
+            }
+            .toMap()
+        val eligible = exercises.filter { it.id in availableChoices }
+
         if (eligible.size < 2) return PlanningDecision.ReviewRequired(
             "No hay suficientes ejercicios compatibles y revisados. " +
             "No se omitirán restricciones declaradas."
@@ -132,7 +144,10 @@ object OfflineTrainingIntelligence {
         if (chosen.size < 2) return PlanningDecision.ReviewRequired(
             "Hay pocas categorías compatibles; se necesita una revisión manual."
         )
-        val plan = PlannedRoutine("Misión personalizada (borrador)", p.equipment, chosen)
+        val plan = PlannedRoutine(
+            "Misión personalizada (borrador)", p.equipment, chosen,
+            selectedVariants = chosen.associate { it.id to availableChoices.getValue(it.id) }
+        )
         return PlanningDecision.Candidate(
             routine = plan,
             warnings = listOf(
