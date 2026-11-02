@@ -27,6 +27,8 @@ jobs:
         run: python3 scripts/audit_review_queues.py
       - name: Validate offline research browsing assets and difficulty labels
         run: python3 scripts/validate_research_assets.py
+      - name: Validate proposed family groups and per-level variants
+        run: python3 scripts/validate_family_groups.py
       - name: Validate canonical catalog export
         run: python3 scripts/validate_catalog_reviews.py
       - name: Catalog validation unit tests
@@ -36,7 +38,19 @@ jobs:
         with:
           gradle-version: '8.13'
       - name: Tests and debug APK
-        run: gradle --no-daemon :app:verifyShadowCoreModelBudget :app:testDebugUnitTest :app:assembleDebug
+        run: gradle --no-daemon :app:verifyShadowCoreModelBudget :app:verifyOfflineAiResourceBudget :app:testDebugUnitTest :app:assembleDebug
+      - name: Report APK size (informational)
+        if: success()
+        run: |
+          python3 - <<'PY'
+          import os
+          path = "app/build/outputs/apk/debug/app-debug.apk"
+          if os.path.isfile(path):
+              print(f"Debug APK: {os.path.getsize(path):,} bytes")
+              print("APK size is not identical to the 90MB offline AI resource budget.")
+          else:
+              raise SystemExit("APK output missing")
+          PY
       - name: Publish debug APK
         uses: actions/upload-artifact@v4
         with:
