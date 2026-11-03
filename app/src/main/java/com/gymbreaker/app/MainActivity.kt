@@ -10,6 +10,10 @@ import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.view.Gravity
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -38,6 +42,11 @@ import com.gymbreaker.app.data.ResearchFamilyGroupLoader
 import com.gymbreaker.app.data.ProposedFamilyGroup
 import com.gymbreaker.app.domain.CatalogCategory
 import com.gymbreaker.app.domain.TrainingPlace
+import com.gymbreaker.app.ui.MissionBackgroundCatalog
+import com.google.android.material.card.MaterialCardView
+import androidx.annotation.DrawableRes
+import java.time.LocalDate
+import java.time.temporal.IsoFields
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -118,6 +127,7 @@ class MainActivity : AppCompatActivity() {
         binding.xpBar.progressTintList = ColorStateList.valueOf(accent)
         binding.primaryAction.backgroundTintList = ColorStateList.valueOf(accent)
         binding.secondaryAction.backgroundTintList = ColorStateList.valueOf(accent)
+        binding.monarchThemeAction.strokeColor = ColorStateList.valueOf(accent)
         val tabs = arrayOf(
             binding.navSystem, binding.navMissions, binding.navTrain,
             binding.navShadows, binding.navAi, binding.navSettings, binding.navCatalog
@@ -136,6 +146,69 @@ class MainActivity : AppCompatActivity() {
             Screen.SETTINGS -> renderSettings(state)
             Screen.CATALOG -> renderCatalog(state)
         }
+        applyMissionBackdrops(state)
+    }
+
+    private fun selectedMonarch(): MissionBackgroundCatalog.MonarchTheme {
+        val week = LocalDate.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+        return MissionBackgroundCatalog.selectedMonarch(
+            preferences.getString("monarch_visual_theme", null), week
+        )
+    }
+
+    private fun applyMissionBackdrops(state: DashboardState) {
+        val hero = if (currentScreen == Screen.MISSIONS)
+            MissionBackgroundCatalog.monarchBackground(selectedMonarch())
+        else MissionBackgroundCatalog.normalBackground(currentScreen.name, state.companion)
+        // La segunda tarjeta de Misiones es siempre normal.
+        val normal = if (currentScreen == Screen.MISSIONS)
+            MissionBackgroundCatalog.companionBackground(state.companion)
+        else MissionBackgroundCatalog.normalBackground("CATALOG", state.companion)
+        paintCardBackdrop(binding.heroCard, hero)
+        paintCardBackdrop(binding.secondaryCard, normal)
+        binding.monarchThemeAction.visibility =
+            if (currentScreen == Screen.MISSIONS) View.VISIBLE else View.GONE
+        binding.monarchThemeAction.setOnClickListener { showMonarchThemeDialog() }
+
+        // Contraste constante en modo claro y oscuro.
+        binding.heroTitle.setTextColor(Color.WHITE)
+        binding.sectionTitle.setTextColor(Color.WHITE)
+        binding.heroDetail.setTextColor(Color.rgb(232, 230, 246))
+        binding.sectionBody.setTextColor(Color.rgb(232, 230, 246))
+    }
+
+    private fun paintCardBackdrop(card: MaterialCardView, @DrawableRes resource: Int) {
+        val content = card.getChildAt(0) ?: return
+        val artwork = ContextCompat.getDrawable(this, resource)?.mutate() ?: return
+        if (artwork is BitmapDrawable) artwork.gravity = Gravity.FILL
+        val darkOverlay = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(
+                Color.argb(155, 7, 8, 24),
+                Color.argb(224, 7, 8, 24),
+                Color.argb(242, 7, 8, 24)
+            )
+        )
+        content.background = LayerDrawable(arrayOf(artwork, darkOverlay))
+        card.clipToOutline = true
+    }
+
+    private fun showMonarchThemeDialog() {
+        val themes = MissionBackgroundCatalog.monarchs
+        val currentIndex = themes.indexOf(selectedMonarch())
+        AlertDialog.Builder(this)
+            .setTitle("Escenario de la misión Monarca")
+            .setMessage("La selección solo modifica el fondo narrativo. " +
+                "No aumenta la dificultad ni altera el entrenamiento.")
+            .setSingleChoiceItems(
+                themes.map { it.label }.toTypedArray(), currentIndex
+            ) { dialog, index ->
+                preferences.edit().putString("monarch_visual_theme", themes[index].name).apply()
+                render(model.state.value)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cerrar", null)
+            .show()
     }
 
     private fun show(
@@ -174,16 +247,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderMissions(state: DashboardState) {
         val done = state.weeklySessions
+        val monarch = selectedMonarch()
         show(
             "MISIONES DEL CAZADOR",
-            "Templo · Mazmorra · Portal · Consecuencias narrativas",
-            "MISIÓN MONARCA · SEMANAL",
-            "Esta semana: " + done + " sesiones registradas. " +
+            "Templo · Mazmorra · Portal · desafíos narrativos opcionales",
+            "MONARCA SEMANAL · " + monarch.label.uppercase(),
+            "Escenario: " + monarch.narrative + ". " +
+                "Esta semana: " + done + " sesiones registradas. " +
                 "Desafío narrativo opcional: " + (if (done >= 3) "insignia disponible." else "progreso " + done.coerceAtMost(3) + "/3.") +
                 " No hay castigos físicos por descanso o incumplimiento.",
             "GENERAR UNA SESIÓN", { showPlaceDialog() },
-            "MISIONES DIARIAS",
-            "Misiones adaptables, XP simbólico y recompensas virtuales. " +
+            "MISIONES DIARIAS · SOMBRA " + state.companion.uppercase(),
+            "Escenario no Monarca con tu acompañante " + state.companion + ". " +
+                "Misiones adaptables, XP simbólico y recompensas virtuales. " +
                 "La dificultad física no aumenta automáticamente como penalización.",
             "VER ENTRENAMIENTOS", { navigate(Screen.TRAIN) }
         )
