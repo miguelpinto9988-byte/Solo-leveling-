@@ -1,127 +1,79 @@
-# Familias, variantes y dificultad de Shadow Core AI — v0.6.0
+# Familias, variantes y dificultad · Shadow Core AI 0.6.1
 
-## Requisito de diseño
+## Definición
 
-- Un **ejercicio principal** es una familia canónica de movimiento.
-- Las **variantes** son hijas de esa familia y no incrementan los contadores de
-  ejercicios principales ni las cuotas de 400 por categoría.
-- Cada realización debe conservar: denominación, equipamiento, dificultad y
-  estado de revisión; los registros públicos conservan su fuente.
-- La IA no puede proponer una variante de una familia no aprobada ni una
-  variante cuyos metadatos de dificultad no hayan sido validados.
-- Los cambios de nivel no se hacen por castigo o por acumulación de XP.
+Un **ejercicio principal** corresponde a una familia canónica de movimiento.
+Una **variante** es una forma de ejecutar ese movimiento con un equipamiento,
+posición o técnica que requiere documentación específica. Las variantes
+**nunca incrementan el total de ejercicios principales**.
 
-## Lo que contiene la APK en la versión 0.5
+## Catálogo vigente en la APK
 
-**Catálogo documental offline:** 2.186 registros originales, agrupados
-provisionalmente en 1.823 nombres normalizados por categoría (1.794 nombres
-distintos globales). Se distribuyen en cinco assets de consulta:
-`research_upper.json`, `research_lower.json`, `research_core.json`,
-`research_cardio.json` y `research_mobility.json`.
+Se estudiaron 2.186 registros originales, organizados en 1.823 nombres.
+Tras aplicar controles de fuente, dificultad y clasificación, solo
+permanecen **198 denominaciones con documentación concordante**, respaldadas
+por **402 registros originales** y agrupadas en **119 familias propuestas**.
 
-Cada registro documental incluye fuente, ID, equipamiento aproximado y
-dificultad tal como la declara su origen cuando coincide inequívocamente con
-`beginner/intermediate/advanced`. Si la fuente usa otra escala (p. ej. 1-10)
-o no hay dato, la app muestra **Sin determinar** en lugar de asignar un
-nivel arbitrario.
+- Tren superior: 125 nombres en 67 familias propuestas.
+- Tren inferior: 35 nombres en 23 familias propuestas.
+- Zona central: 24 nombres en 16 familias propuestas.
+- Cardio: 3 nombres en 2 familias propuestas.
+- Movilidad: 11 nombres en 11 familias propuestas.
 
-La vista del catálogo ofrece búsqueda, selección de las cinco categorías,
-filtro de dificultad y **posibles variantes relacionadas** por semejanza
-léxica. **Este agrupamiento no demuestra equivalencia biomecánica.**
-Cuando hay variantes con distinto nombre, se muestran como sugerencias
-pendientes; aún no están fusionadas como familias definitivas.
+**20 agrupaciones reúnen varias denominaciones** bajo un patrón probable.
+Se requiere una revisión técnica antes de declarar que pertenecen
+biomecánicamente a la misma familia.
 
-**Catálogo validado:** permanece **vacío** (0 fichas nuevas aprobadas) porque
-todavía no existe una revisión especializada documentada de las 2.186 entradas.
-Los doce ejercicios de demostración anteriores siguen disponibles como
-prototipo, no como catálogo biomecánicamente validado.
+Las otras **1.625 denominaciones** están retiradas de los recursos de la
+aplicación. Se conserva su auditoría en
+`catalog/review/verification_registry.json` y los registros originales
+en `catalog/staging`, fuera de la APK.
 
-## Modelos y filtros del motor offline
+## Niveles
 
-`ApprovedCatalogGate.kt` representa una familia y sus variantes, y exige
-nivel, procedencia y justificación para cualquier variante elegible.
-`ApprovedCatalogLoader.kt` lee solo `catalog_approved.json`.
-`ResearchCatalogLoader.kt` lee solo los cinco archivos de investigación,
-con acceso de **solo consulta**.
+Los niveles conservados son:
+- **Inicial:** 145 denominaciones.
+- **Intermedio:** 53 denominaciones.
+- **Avanzado:** ninguna con documentación suficiente según estos criterios.
+- **Sin determinar:** ninguna mostrada; las entradas inconclusas se retiraron.
 
-Room almacena por separado:
-- `exercises`: una fila por familia principal;
-- `exercise_variants`: filas hijas con dificultad y autorización;
-- `sessions.variantSelectionsCsv`: variante elegida durante una sesión;
-- `training_profile.preferredDifficulty`: nivel solicitado por el jugador.
+Una variante se cuenta una sola vez incluso si varias fuentes la
+describen. La vista muestra su nombre y las referencias que respaldan
+el nivel; no presenta cada cita como un ejercicio independiente.
 
-Se han añadido migraciones sucesivas de Room 3→4 (metadatos de variantes),
-4→5 (historial de variantes) y 5→6 (dificultad elegida).
-Las migraciones anteriores 1→2 y 2→3 se conservan.
+## Estados separados
 
-`ExerciseVariantSelector.kt` filtra cada realización por equipo,
-restricciones, nivel autorizado y dificultad. Nunca elige variantes no
-aprobadas o de nivel desconocido. El motor respeta tanto el **nivel solicitado**
-como la **experiencia declarada**; ninguno de los dos límites se sobrepasa.
+`source_corrob_catalog_only` indica corroboración de metadatos entre
+catálogos, **no aprobación de seguridad ni de ejecución**.
+`approved` requeriría documentación de revisión técnica independiente,
+atribución y compatibilidad con las restricciones.
 
-- Jugador inicial → solo dificultad inicial.
-- Jugador con experiencia intermedia, dificultad intermedia seleccionada
-  → puede recibir inicial o intermedia, dando prioridad a la intermedia
-  si existe una alternativa apropiada.
-- Dificultad avanzada → variantes avanzadas solo de consulta, no propuesta
-  automática en este prototipo. Las reglas de seguridad pueden reducir la
-  propuesta o exigir revisión.
-- Dentro del mismo nivel, la IA puede rotar variantes verificadas menos
-  utilizadas según sesiones locales **confirmadas**. No añade volumen,
-  repeticiones o cargas automáticamente.
+En la versión actual el archivo `catalog_approved.json` contiene cero
+nuevas familias aprobadas. Las 12 fichas de demostración permanecen
+separadas de la investigación y no se han presentado como validadas.
 
-Los ejercicios excluidos, el equipo no disponible, las restricciones
-pendientes y el historial de molestias siguen bloqueando o limitando el
-planificador. El progreso RPG no obliga a elevar la dificultad física.
+## Selección por Shadow Core AI
 
-## Automatización y pruebas
+`ExerciseVariantSelector.kt` considera nivel escogido, experiencia,
+equipamiento, exclusiones y restricciones. Solo utiliza variantes
+revisadas y autorizadas. El usuario puede consultar las 198
+denominaciones depuradas, pero **el motor no puede convertirlas
+automáticamente en propuestas de rutina**.
 
-- `scripts/validate_research_assets.py` comprueba que los 2.186 registros
-  y 1.823 grupos nominales estén representados offline, que las dificultades
-  no se inventen y que todo quede deshabilitado para planificación.
-- `scripts/validate_catalog_reviews.py` exige revisión y evidencia de
-  dificultad por variante antes de publicar assets autorizados.
-- `ExerciseVariantSelectorTest` y `OfflineTrainingIntelligenceTest`
-  cubren límite inicial, intermedio, exclusiones, nivel desconocido,
-  equipamiento y alternancia de variantes.
-- GitHub Actions ejecuta auditorías, validadores, pruebas y compilación
-  cuando la infraestructura esté disponible.
+La personalización no impone subidas de dificultad por puntos, rachas
+o misiones RPG. Los registros de historial de variantes y sus
+migraciones Room permanecen disponibles.
 
-No se puede declarar una APK compilada, ni certificar la correcta ejecución
-de las migraciones sobre dispositivos físicos, sin pruebas exitosas.
+## Herramientas de auditoría
 
-## Trabajo pendiente para alcanzar el resultado definitivo
+`scripts/verify_catalog_evidence.py` controla el origen de las entradas.
+`scripts/validate_research_assets.py` impide que entren variantes
+retiradas en los recursos Android. `scripts/validate_family_groups.py`
+verifica la relación familia-variante. `scripts/validate_ai_manifest.py`
+comprueba el presupuesto global de 90 MB.
 
-1. Revisión técnica de familias y variantes a partir de las fuentes.
-2. Confirmación de la dificultad y restricciones de cada realización.
-3. Aprobación y carga de familias verificadas en `approved_exercises.json`.
-4. Resolución de los 29 conflictos de categoría y variantes con sinónimos.
-5. Verificación instrumental de Room y del selector en Android.
-6. Cumplimiento, si resulta viable sin inventar patrones, del objetivo de
-   400 familias independientes en cada una de las cinco categorías.
+En [DEPURACION_VARIANTES_2026.md](DEPURACION_VARIANTES_2026.md) constan
+los motivos de descarte y las referencias a fichas ACE consultadas.
 
-No se debe interpretar la lista de registros de fuente como un catálogo
-profesional autorizado para entrenar.
-
-
-## Actualización 0.6: agrupación provisional y acceso a la IA
-
-Los registros de investigación anteriores se han organizado también por
-**posibles grupos de movimiento**, con cuatro cubetas de dificultad
-(inicial, intermedio, avanzado, sin determinar). Los cinco índices
-`family_groups_*.json` contienen **1.089 agrupaciones documentales
-propuestas**, que reúnen las 1.823 denominaciones de categoría y conservan
-los 2.186 registros originales. De los grupos, 28 relacionan varios nombres
-bajo una pista léxica. Ninguna fusión acredita identidad biomecánica ni
-autoriza rutinas.
-
-Shadow Core AI permite inspeccionar desde la APK el proceso que aplica
-reglas y filtros, codificar y decodificar un informe JSON de la última
-decisión, consultar un manifiesto local de recursos y medir el uso de
-assets frente al nuevo límite de 90 MB. La interpretación lingüística
-reconoce solicitudes sobre variantes, explicación de decisiones y
-recursos offline.
-
-Consulta [SHADOW_CORE_90MB_FAMILIAS.md](SHADOW_CORE_90MB_FAMILIAS.md)
-para la auditoría y las limitaciones. No se ha integrado un modelo
-generativo genérico ni se ha habilitado contenido sin revisión técnica.
+**La versión compilada y los consumos reales de RAM y almacenamiento
+siguen pendientes de verificar en Android.**
