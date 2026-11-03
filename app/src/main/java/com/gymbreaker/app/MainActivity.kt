@@ -1,6 +1,8 @@
 package com.gymbreaker.app
 
 import android.Manifest
+import android.content.Intent
+import com.gymbreaker.app.onboarding.HunterSetupStore
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -160,7 +162,8 @@ class MainActivity : AppCompatActivity() {
     private fun renderSystem(state: DashboardState) {
         show(
             "SISTEMA DEL CAZADOR",
-            "Progreso simbólico del juego, no una evaluación de salud",
+            "Perfil: " + HunterSetupStore.load(this).hunterName.ifBlank { "Cazador" } +
+                " · XP virtual, no evaluación de salud",
             "NIVEL " + state.level + " · RANGO " + state.rank,
             state.xp.toString() + " XP · " + state.sessions.size + " sesiones registradas",
             "CREAR RUTINA", { showPlaceDialog() },
@@ -174,16 +177,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderMissions(state: DashboardState) {
         val done = state.weeklySessions
+        val setup = HunterSetupStore.load(this)
+        val target = setup.weeklyMissions.coerceIn(1, 7)
         show(
             "MISIONES DEL CAZADOR",
             "Templo · Mazmorra · Portal · Consecuencias narrativas",
             "MISIÓN MONARCA · SEMANAL",
-            "Esta semana: " + done + " sesiones registradas. " +
+            "Meta de misiones elegida: " + target +
+                " de 7. Sesiones registradas esta semana: " + done + ". " +
                 "Desafío narrativo opcional: " + (if (done >= 3) "insignia disponible." else "progreso " + done.coerceAtMost(3) + "/3.") +
                 " No hay castigos físicos por descanso o incumplimiento.",
             "GENERAR UNA SESIÓN", { showPlaceDialog() },
-            "MISIONES DIARIAS",
-            "Misiones adaptables, XP simbólico y recompensas virtuales. " +
+            "TU SEMANA · " + setup.groups.count { it != "Descanso" } + " días de rutina",
+            "Misiones configuradas: " + target + "/7. " +
+                "Rutinas: " + setup.groups.joinToString(" · ") + ". " +
+                "Misiones adaptables, XP simbólico y recompensas virtuales. " +
                 "La dificultad física no aumenta automáticamente como penalización.",
             "VER ENTRENAMIENTOS", { navigate(Screen.TRAIN) }
         )
@@ -257,6 +265,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderSettings(state: DashboardState) {
         val dark = preferences.getBoolean("dark_theme", true)
+        val setup = HunterSetupStore.load(this)
         show(
             "TEMA Y PERSONALIZACIÓN",
             "Dos temas · un color de acento independiente",
@@ -264,8 +273,11 @@ class MainActivity : AppCompatActivity() {
             "Los colores de acento afectan bordes, marcos, botones y efectos. " +
                 "Todas las letras de las pantallas principales usan negrita.",
             "CAMBIAR TEMA", { showThemeDialog() },
-            "ACENTO Y ALARMAS",
-            "Acento: " + (preferences.getString("accent_name", "Violeta")) +
+            "MI PERFIL · " + setup.hunterName.ifBlank { "Cazador" },
+            "Objetivo: " + setup.primaryGoal + "\\nSubobjetivo: " +
+                setup.subGoal.ifBlank { "Sin definir" } +
+                "\\nMisiones semanales: " + setup.weeklyMissions + " de 7." +
+                "\\nAcento: " + (preferences.getString("accent_name", "Violeta")) +
                 ".\nPerfil: " + state.profile.experience +
                 " · Dificultad: " + state.profile.preferredDifficulty +
                 " · " + state.profile.availableMinutes + " min.\nExclusiones: " +
@@ -741,7 +753,8 @@ class MainActivity : AppCompatActivity() {
                 "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
                 "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
                 "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación",
-                "Dificultad deseada de las rutinas", "Licencias del catálogo offline"
+                "Dificultad deseada de las rutinas", "Licencias del catálogo offline",
+                "Editar perfil, foto, objetivo y semana"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
@@ -754,6 +767,8 @@ class MainActivity : AppCompatActivity() {
                     7 -> showReviewDialog()
                     8 -> showRoutineDifficultyDialog()
                     9 -> showCatalogLicenses()
+                    10 -> startActivity(Intent(this, OnboardingActivity::class.java)
+                        .putExtra("edit_profile", true))
                 }
             }.show()
     }
