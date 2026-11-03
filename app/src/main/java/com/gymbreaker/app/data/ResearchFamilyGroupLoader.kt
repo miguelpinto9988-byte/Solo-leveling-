@@ -20,13 +20,20 @@ data class ProposedVariantRecord(
     val suggestedLevel: String
 )
 
+data class FamilyExternalReference(
+    val publisher: String,
+    val url: String,
+    val level: String
+)
+
 data class ProposedFamilyGroup(
     val id: String,
     val name: String,
     val category: String,
     val aliases: List<String>,
     val patternHint: String?,
-    val variantsByLevel: Map<String, List<ProposedVariantRecord>>
+    val variantsByLevel: Map<String, List<ProposedVariantRecord>>,
+    val externalReferences: List<FamilyExternalReference> = emptyList()
 ) {
     val sourceCount: Int get() = variantsByLevel.values.sumOf { it.size }
     val documentedVariantCount: Int get() = variantsByLevel.values.sumOf { variants ->
@@ -99,7 +106,21 @@ object ResearchFamilyGroupLoader {
                     aliases = node.getJSONArray("relatedNames").strings(),
                     patternHint = if (node.isNull("patternHint")) null
                         else node.getString("patternHint"),
-                    variantsByLevel = byLevel
+                    variantsByLevel = byLevel,
+                    externalReferences = node.getJSONArray("externalReferences").let { refs ->
+                        (0 until refs.length()).map { i ->
+                            val r = refs.getJSONObject(i)
+                            val url = r.getString("url")
+                            require(url.startsWith(
+                                "https://www.acefitness.org/resources/everyone/exercise-library/"
+                            ))
+                            FamilyExternalReference(
+                                publisher = "ACE",
+                                url = url,
+                                level = r.getString("level")
+                            )
+                        }
+                    }
                 ).also { require(it.sourceCount == node.getInt("totalRecords")) }
             }
             require(decoded.size == root.getInt("proposedGroups"))
@@ -140,15 +161,21 @@ object ResearchFamilyGroupLoader {
                     (distinctVariants.size - 16) +
                     " variantes adicionales; afina la consulta." else "")
         }
+        val links = if (group.externalReferences.isEmpty()) "" else
+            "\n\nREFERENCIAS TÉCNICAS EXTERNAS:\n" +
+                group.externalReferences.joinToString("\n") { ref ->
+                    ref.publisher + " · " + ref.level + "\n" + ref.url
+                }
         return "FAMILIA PROPUESTA: " + group.name +
             "\nCATEGORÍA: " + group.category +
             "\nESTADO: SIN REVISIÓN BIOMECÁNICA" +
             "\nNombres relacionados: " + group.aliases.size +
             "\nVariantes documentadas: " + group.documentedVariantCount +
             "\nReferencias originales: " + group.sourceCount +
-            "\n\n" + detail +
-            "\n\nEstos registros se agrupan por nombre o patrón sugerido. " +
-            "No están aprobados para rutinas automáticas. Los niveles " +
-            "son etiquetas de sus fuentes, no una valoración profesional."
+            "\n\n" + detail + links +
+            "\n\nLas variantes conservadas tienen referencias concordantes; " +
+            "las relaciones entre nombres aún necesitan revisión técnica. " +
+            "No están aprobadas para rutinas automáticas. Los niveles " +
+            "proceden de fuentes, no sustituyen una evaluación profesional."
     }
 }
