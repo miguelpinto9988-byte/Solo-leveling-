@@ -66,7 +66,9 @@ class OnboardingContractTests(unittest.TestCase):
         self.assertIn("profile_created", self.store)
 
     def test_profile_editing_and_success(self):
-        self.assertIn('putExtra("edit_profile", true)', self.main)
+        profile = (SOURCE / "ProfileActivity.kt").read_text()
+        self.assertIn('putExtra("edit_profile", true)', profile)
+        self.assertIn("ProfileActivity::class.java", self.main)
         self.assertIn("6 -> success()", self.ui) if "6 -> success()" in self.ui else self.assertIn("else -> success()",self.ui)
         self.assertIn("ENTRAR A LA APLICACIÓN", self.ui)
         self.assertIn("Misiones semanales:", self.ui)
