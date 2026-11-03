@@ -21,9 +21,9 @@ data class HunterSetup(
     var weight: String = "",
     var darkTheme: Boolean = true,
     var accent: String = "#A56CFF",
-    var frame: String = "Violeta",
+    var frame: String = "Sin marco",
     var photoSelected: Boolean = false,
-    var avatarVariant: String = "Igris",
+    var avatarVariant: String = "Sung Jinwoo",
     var preferredDifficulty: String = "inicio",
     var primaryGoal: String = "Mejorar mi condición física",
     var subGoal: String = "",
@@ -83,8 +83,8 @@ object HunterSetupStore {
                 accent = obj.optString("accent", "#A56CFF")
                 frame = obj.optString("frame", "Violeta")
                 photoSelected = obj.optBoolean("photoSelected", false)
-                avatarVariant = obj.optString("avatarVariant", "Igris")
-                    .takeIf { it in listOf("Igris", "Beru", "Tank", "Iron", "Tusk", "Kaisel") } ?: "Igris"
+                avatarVariant = obj.optString("avatarVariant", "Sung Jinwoo")
+                    .takeIf { it in ProfileArtwork.avatars } ?: "Sung Jinwoo"
                 preferredDifficulty = obj.optString("difficulty", "inicio")
                     .takeIf { it in HunterSetup.difficultyLevels } ?: "inicio"
                 primaryGoal = obj.optString("goal", HunterSetup.goals[3])
