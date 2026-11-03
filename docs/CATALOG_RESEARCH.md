@@ -1,5 +1,15 @@
 # Investigación del catálogo: 2.000 ejercicios principales, sin variantes duplicadas
 
+> **Estado vigente de la APK (0.6.1):** después de analizar los 2.186
+> registros de investigación originales, se conservaron **198 denominaciones
+> documentales** (402 referencias) en **119 familias propuestas**. Las
+> otras **1.625 denominaciones** salieron de los recursos Android. Los datos
+> de las tablas históricas de este informe permanecen en `catalog/staging`
+> y **ya no representan el catálogo visible de la APK**.
+>
+> Consulta [la auditoría final y sus motivos de exclusión](DEPURACION_VARIANTES_2026.md).
+> La aprobación profesional del catálogo de entrenamiento sigue pendiente.
+
 **Resultado actual: 2.186 entradas de metadatos recopiladas; objetivo de 2.000 movimientos independientes NO demostrado.**
 
 ## Taxonomía fija del proyecto
