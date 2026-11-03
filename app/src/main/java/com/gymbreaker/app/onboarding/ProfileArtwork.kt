@@ -106,7 +106,8 @@ object ProfileArtwork {
     }
 
     /** Copia de imagen privada, sin EXIF: conserva PNG si el origen es PNG. */
-    fun importPhoto(context: Context, uri: Uri): Boolean = try {
+    fun importPhoto(context: Context, uri: Uri): Boolean {
+        return try {
         val resolver = context.contentResolver
         val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
@@ -138,7 +139,8 @@ object ProfileArtwork {
             bitmap.recycle()
             temp.delete()
         }
-    } catch (_: Exception) {
-        false
+        } catch (_: Exception) {
+            false
+        }
     }
 }
