@@ -151,7 +151,7 @@ object HunterSetupStore {
             dao.upsertProfile(
                 existing.copy(
                     experience = when (data.preferredDifficulty) {
-                        "avanzado" -> "ADVANCED"
+                        "avanzado" -> "EXPERIENCED"
                         "intermedio" -> "INTERMEDIATE"
                         else -> "BEGINNER"
                     },
