@@ -346,11 +346,13 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                     "La solicitud no cambia tus preferencias sin confirmación."
 
             ShadowIntent.CATALOG ->
-                "El catálogo offline de investigación reúne 2.186 registros " +
-                    "en 1.823 nombres por categoría y 1.089 agrupaciones propuestas. " +
-                    "Las variantes se presentan por dificultad y procedencia. " +
-                    "Entra en Catálogo para buscar y revisar. Ninguna de esas " +
-                    "agrupaciones es automáticamente un ejercicio aprobado."
+                "La depuración dejó 198 denominaciones con fuentes concordantes, " +
+                    "distribuidas en 119 familias propuestas y 402 referencias " +
+                    "originales. Las demás entradas se excluyeron de la APK por " +
+                    "falta de evidencia suficiente o contradicciones de nivel. " +
+                    "Consulta variantes por dificultad en Catálogo. Estas " +
+                    "familias todavía no tienen autorización técnica para " +
+                    "ser propuestas automáticamente."
 
             ShadowIntent.EXPLANATION -> lastDecisionAudit().readable()
 
