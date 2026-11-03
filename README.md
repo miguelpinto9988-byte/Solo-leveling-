@@ -58,3 +58,12 @@ python3 -m unittest discover -s scripts/tests -v
 ```
 
 Estas comprobaciones validan estructura y trazabilidad, **no técnica deportiva ni salud**. La compilación, migraciones Room y pruebas reales en Android se considerarán verificadas solo después de obtener resultados de CI y pruebas de dispositivo.
+
+## Splash inicial de Igris · versión 0.7.1
+
+- Al iniciar Android se abre `SplashActivity` antes de `MainActivity`.
+- `SplashArtView` muestra el diseño y redibuja el progreso real, los porcentajes y una silueta que corre con zancadas animadas. La barra ya no se queda en el 72 % del boceto.
+- El avance hasta 85 % corresponde a preparar el modelo GGUF local autenticado, y el resto a inicializar datos y abrir la app. Si el móvil no soporta inferencia local, se continúa con el motor por reglas.
+- Se respeta la desactivación de animaciones del dispositivo. No exige Internet.
+- **Pendiente antes de fusionar esta PR:** sustituir `app/src/main/res/drawable-nodpi/loading_poster.png` (miniatura transferida de 125 × 200) por el PNG aprobado original de 992 × 1585. El APK FullHD entregado en la conversación ya lleva el original y está firmado para pruebas. El repositorio no debe presentarse como FullHD hasta reemplazar ese recurso binario.
+- La firma de la APK FullHD de prueba se generó localmente y puede diferir de las firmas Debug de GitHub Actions; al instalar sobre otra versión, se debe respaldar información antes de cualquier desinstalación.
