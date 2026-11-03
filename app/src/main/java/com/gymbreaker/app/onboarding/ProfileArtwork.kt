@@ -47,14 +47,22 @@ object ProfileArtwork {
         else -> R.drawable.badge_rank_e
     }
 
+    /** Ocho retratos PNG RGBA individuales, sin anillo decorativo. */
+    val avatars = listOf(
+        "Sung Jinwoo", "Woo Jinchul", "Cazadora violeta", "Go Gunhee",
+        "Choi Jong-in", "Baek Yoonho", "Liu Zhigang", "Cha Hae-in"
+    )
+
     @DrawableRes
     fun avatar(name: String): Int = when (name) {
-        "Beru" -> R.drawable.shadow_beru
-        "Tank" -> R.drawable.shadow_tank
-        "Iron" -> R.drawable.shadow_iron
-        "Tusk" -> R.drawable.shadow_tusk
-        "Kaisel" -> R.drawable.shadow_kaisel
-        else -> R.drawable.shadow_igris
+        "Woo Jinchul" -> R.drawable.avatar_02_woo_jinchul
+        "Cazadora violeta" -> R.drawable.avatar_03_cazadora_violeta
+        "Go Gunhee" -> R.drawable.avatar_04_go_gunhee
+        "Choi Jong-in" -> R.drawable.avatar_05_choi_jongin
+        "Baek Yoonho" -> R.drawable.avatar_06_baek_yoonho
+        "Liu Zhigang" -> R.drawable.avatar_07_liu_zhigang
+        "Cha Hae-in" -> R.drawable.avatar_18_cha_haein
+        else -> R.drawable.avatar_01_sung_jinwoo
     }
 
     fun photoFile(context: Context): File? {
@@ -72,7 +80,8 @@ object ProfileArtwork {
         val bitmap = image?.let { BitmapFactory.decodeFile(it.absolutePath) }
         if (bitmap != null) imageView.setImageBitmap(bitmap)
         else imageView.setImageResource(avatar(setup.avatarVariant))
-        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        imageView.scaleType = if (bitmap != null) ImageView.ScaleType.CENTER_CROP
+        else ImageView.ScaleType.FIT_CENTER
         imageView.contentDescription = "Fotografía o avatar personal de " +
             setup.hunterName.ifBlank { "cazador" }
     }
@@ -91,9 +100,10 @@ object ProfileArtwork {
                 shape = GradientDrawable.OVAL
                 setColor(Color.rgb(19, 13, 43))
             }
-            clipToOutline = true
+            clipToOutline = setup.photoSelected
         }
         container.addView(photo, FrameLayout.LayoutParams(d(sizeDp-15), d(sizeDp-15), Gravity.CENTER))
+        if (setup.frame != "Sin marco") {
         val frameImage = ImageView(context).apply {
             setImageResource(frame(setup.frame))
             scaleType = ImageView.ScaleType.FIT_CENTER
@@ -101,6 +111,7 @@ object ProfileArtwork {
             isClickable = false
         }
         container.addView(frameImage, FrameLayout.LayoutParams(-1, -1))
+        }
         container.contentDescription = photo.contentDescription
         return container
     }
