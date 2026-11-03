@@ -1,10 +1,11 @@
+> **Actualización de Shadow Core:** se ha añadido a la rama de revisión la integración de un GGUF cuantizado real de unos 88,2 MB, mediante llama.cpp Android (ARM64). GitHub Actions descarga y comprueba el SHA-256 antes de empaquetar; se mantiene el motor de reglas para planificación, lesiones, filtros y aprobaciones. El modelo es experimental y predominantemente inglés: no sustituye una revisión técnica ni está validado aún en un teléfono físico. La documentación histórica que figura abajo describe el prototipo previo al modelo. Para el catálogo vigente corresponden 3 entradas documentadas y 3 grupos propuestos, sin nuevas aprobaciones.
+
 # Estado de implementación · Solo Leveling Gym Breaker 0.6.1
 
 > **Nota de versión:** este documento describe el cribado histórico 0.6.1 (198 denominaciones corroboradas solo entre catálogos). La [revisión estricta posterior](FILTRO_ACE_2026.md) reduce la consulta actual de la APK a **3 denominaciones con referencia ACE**, **3 familias propuestas**, **6 referencias originales** y **0 nuevas aprobaciones para rutinas**. Las otras 195 entradas del primer cribado permanecen únicamente en los registros de investigación.
 
 
-**Estado general: código fuente actualizado; compilación, CI y prueba en móvil
-pendientes de confirmación.**
+**Estado de la rama GGUF: implementación en revisión; compilar y probar en Android ARM64 antes de certificar el modelo.**
 
 ## Android y experiencia
 
