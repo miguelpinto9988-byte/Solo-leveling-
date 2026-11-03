@@ -50,7 +50,10 @@ class OnboardingContractTests(unittest.TestCase):
 
     def test_private_photo_appearance_and_theme_second(self):
         self.assertIn("ActivityResultContracts.GetContent()", self.ui)
-        self.assertIn('File(filesDir, "hunter_profile_photo.jpg")', self.ui)
+        artwork = (SOURCE / "onboarding/ProfileArtwork.kt").read_text()
+        self.assertIn("ProfileArtwork.importPhoto", self.ui)
+        self.assertIn('File(context.filesDir, "hunter_profile_photo.png")', artwork)
+        self.assertIn('File(context.filesDir, "hunter_profile_photo.jpg")', artwork)
         self.assertIn("private fun appearance()", self.ui)
         self.assertIn('"Tema y colores"', self.ui)
         self.assertIn("2 -> appearance()", self.ui)
