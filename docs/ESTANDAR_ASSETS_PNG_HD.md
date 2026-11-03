@@ -42,3 +42,9 @@ La referencia de arte queda en `scripts/generate_profile_png_assets.py`, y sus h
 - `loading_poster.png` previo **992×1585**, menor de 1080×1920; sustitución por una obra fuente realmente FullHD pendiente.
 
 No se considerará apta para una publicación final la aplicación completa hasta solucionar esas tres familias, realizar pruebas en equipos reales y documentar los derechos de redistribución del arte. El progreso de IA offline, el catálogo y las restricciones no se alteran con esta norma.
+
+## Registro de generación en GitHub (03-11-2026)
+
+Los **20 PNG originales** ya están incorporados físicamente a `app/src/main/res/drawable-nodpi/` mediante el flujo reproducible. Los cuatro fondos tienen resolución FHD vertical (1080 × 1920); los otros 16 recursos son RGBA 512 × 512. La suma de los PNG finales es inferior a 0,5 MB, gracias a las formas originales de geometría/gradientes, sin subir imágenes de baja resolución.
+
+Los resultados de `validate_profile_png_assets.py` son condición obligatoria de CI. El perfil continúa en una rama de revisión, separado de `main`.
