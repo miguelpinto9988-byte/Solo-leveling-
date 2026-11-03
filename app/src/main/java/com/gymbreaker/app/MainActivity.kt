@@ -12,6 +12,8 @@ import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.BitmapFactory
+import java.io.File
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -113,8 +115,27 @@ class MainActivity : AppCompatActivity() {
             "Kaisel" -> R.drawable.shadow_kaisel
             else -> R.drawable.shadow_beru
         }
-        binding.shadowPortrait.setImageResource(companionImage)
-        binding.shadowPortrait.contentDescription = "Sombra " + state.companion
+        if (currentScreen == Screen.SETTINGS) {
+            val setup = HunterSetupStore.load(this)
+            val image = File(filesDir, "hunter_profile_photo.jpg")
+            if (setup.photoSelected && image.isFile) {
+                binding.shadowPortrait.setImageBitmap(BitmapFactory.decodeFile(image.absolutePath))
+            } else {
+                val profileAvatar = when (setup.avatarVariant) {
+                    "Igris" -> R.drawable.shadow_igris
+                    "Iron" -> R.drawable.shadow_iron
+                    "Tank" -> R.drawable.shadow_tank
+                    "Tusk" -> R.drawable.shadow_tusk
+                    "Kaisel" -> R.drawable.shadow_kaisel
+                    else -> R.drawable.shadow_beru
+                }
+                binding.shadowPortrait.setImageResource(profileAvatar)
+            }
+            binding.shadowPortrait.contentDescription = "Foto o avatar personal"
+        } else {
+            binding.shadowPortrait.setImageResource(companionImage)
+            binding.shadowPortrait.contentDescription = "Sombra " + state.companion
+        }
         binding.heroCard.strokeColor = accent
         binding.secondaryCard.strokeColor = accent
         binding.xpBar.progressTintList = ColorStateList.valueOf(accent)
@@ -264,28 +285,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderSettings(state: DashboardState) {
-        val dark = preferences.getBoolean("dark_theme", true)
         val setup = HunterSetupStore.load(this)
+        val difficulty = when (state.profile.preferredDifficulty) {
+            "avanzado" -> "Avanzado"
+            "intermedio" -> "Intermedio"
+            else -> "Básico"
+        }
         show(
-            "TEMA Y PERSONALIZACIÓN",
-            "Dos temas · un color de acento independiente",
-            if (dark) "TEMA OSCURO" else "TEMA CLARO",
-            "Los colores de acento afectan bordes, marcos, botones y efectos. " +
-                "Todas las letras de las pantallas principales usan negrita.",
-            "CAMBIAR TEMA", { showThemeDialog() },
-            "MI PERFIL · " + setup.hunterName.ifBlank { "Cazador" },
-            "Objetivo: " + setup.primaryGoal + "\\nSubobjetivo: " +
-                setup.subGoal.ifBlank { "Sin definir" } +
-                "\\nMisiones semanales: " + setup.weeklyMissions + " de 7." +
-                "\\nAcento: " + (preferences.getString("accent_name", "Violeta")) +
-                ".\nPerfil: " + state.profile.experience +
-                " · Dificultad: " + state.profile.preferredDifficulty +
-                " · " + state.profile.availableMinutes + " min.\nExclusiones: " +
-                state.profile.excludedCategoriesCsv.ifEmpty { "ninguna" } +
-                (if (state.profile.requiresReview) "\nRestricción pendiente: no generar rutinas automáticamente." else "") +
-                "\n" + TrainingAlarms.label(this) +
-                ".\nLas alarmas no son exactas; Android puede retrasarlas.",
-            "CONFIGURAR", { showSettingsDialog() }
+            "MI PERFIL DE CAZADOR",
+            "Rango independiente de la dificultad y calculado únicamente a partir de XP",
+            setup.hunterName.ifBlank { "Cazador" } + " · RANGO " + state.rank,
+            "Nivel " + state.level + " · " + state.xp + " XP confirmados." +
+                "\\nObjetivo: " + setup.primaryGoal +
+                "\\nSubobjetivo: " + setup.subGoal.ifBlank { "Sin definir" } +
+                "\\nDificultad: " + difficulty,
+            "EDITAR MI PERFIL", {
+                startActivity(Intent(this, OnboardingActivity::class.java)
+                    .putExtra("edit_profile", true))
+            },
+            "MI SEMANA · " + setup.weeklyMissions + " MISIONES (MÁX. 7)",
+            "Rutinas previstas: " +
+                setup.groups.mapIndexed { index, group ->
+                    listOf("D", "L", "M", "X", "J", "V", "S")[index] + ": " + group
+                }.joinToString(" · ") +
+                "\\nDuración: " + setup.minutes + " min · Descanso: " +
+                setup.restSeconds + " s." +
+                "\\nRestricciones: " +
+                setup.restrictions.joinToString(", ").ifBlank { "ninguna declarada" } +
+                (if (state.profile.requiresReview)
+                    "\\nExiste una revisión de seguridad pendiente; se mantienen las restricciones."
+                else ""),
+            "AJUSTES", { showSettingsDialog() }
         )
     }
 
