@@ -545,11 +545,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showPlaceDialog() {
-        val names = arrayOf("En casa", "Con mancuernas", "En el gimnasio")
+        val setup = HunterSetupStore.load(this)
+        val limitedEquipment = "Sin equipamiento" in setup.restrictions
+        val names = if (limitedEquipment)
+            arrayOf("En casa · sin equipamiento adicional")
+        else arrayOf("En casa", "Con mancuernas", "En el gimnasio")
         AlertDialog.Builder(this)
             .setTitle("Selecciona equipamiento")
             .setItems(names) { _, which ->
-                model.generateRoutine(TrainingPlace.entries[which])
+                val place = if (limitedEquipment) TrainingPlace.HOME else TrainingPlace.entries[which]
+                model.generateRoutine(place)
                 navigate(Screen.TRAIN)
             }
             .setNegativeButton("Cancelar", null)
