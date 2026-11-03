@@ -16,7 +16,7 @@ jobs:
           persist-credentials: true
       - name: Acquire approved illustration and preserve it permanently in Git
         env:
-          IMAGE_URL: "https://media.canva.com/v2/image-resize/format:PNG/height:1585/quality:100/uri:ifs%3A%2F%2FM%2F296cd243-8090-41de-a872-2e6733296a3d/watermark:F/width:992?csig=AAAAAAAAAAAAAAAAAAAAAGsaP9V3hF-lSbsh8yjLwu44NQY8Og4LaP25U7yik_7B&exp=1793684552&osig=AAAAAAAAAAAAAAAAAAAAANZb3mWZf5H9o20joGBynyK0V9NxmKXVM7bk7VkqCwTg&signer=media-rpc&token=AAIAAU0AJDI5NmNkMjQzLTgwOTAtNDFkZS1hODcyLTJlNjczMzI5NmEzZAAAAAABoZ_uOUA8zeONTmCw6NNrz5zyPRXqQL0AjJOPeET4t6zVrRLG0w&x-canva-quality=thumbnail"
+          IMAGE_URL: "https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F296cd243-8090-41de-a872-2e6733296a3d/watermark:F/width:125?csig=AAAAAAAAAAAAAAAAAAAAAGsaP9V3hF-lSbsh8yjLwu44NQY8Og4LaP25U7yik_7B&exp=1793684552&osig=AAAAAAAAAAAAAAAAAAAAANZb3mWZf5H9o20joGBynyK0V9NxmKXVM7bk7VkqCwTg&signer=media-rpc&token=AAIAAU0AJDI5NmNkMjQzLTgwOTAtNDFkZS1hODcyLTJlNjczMzI5NmEzZAAAAAABoZ_uOUA8zeONTmCw6NNrz5zyPRXqQL0AjJOPeET4t6zVrRLG0w&x-canva-quality=thumbnail"
         run: |
           set -euo pipefail
           mkdir -p app/src/main/res/drawable-nodpi
@@ -25,9 +25,9 @@ jobs:
           import pathlib,struct
           p=pathlib.Path("app/src/main/res/drawable-nodpi/loading_poster.png")
           b=p.read_bytes()
-          print("bytes",len(b),"header",b[:8],"dimensions",struct.unpack(">II",b[16:24]) if b[:8]==b"\\x89PNG\\r\\n\\x1a\\n" else None)
-          assert b[:8]==b"\\x89PNG\\r\\n\\x1a\\n"
-          assert struct.unpack(">II",b[16:24])==(992,1585)
+          print("bytes",len(b),"header",b[:8],"dimensions",struct.unpack(">II",b[16:24]) if b[:8]==bytes.fromhex("89504e470d0a1a0a") else None)
+          assert b[:8]==bytes.fromhex("89504e470d0a1a0a")
+          assert struct.unpack(">II",b[16:24])==(125,200)
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
