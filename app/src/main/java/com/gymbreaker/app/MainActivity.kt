@@ -3,6 +3,7 @@ package com.gymbreaker.app
 import android.Manifest
 import android.content.Intent
 import com.gymbreaker.app.onboarding.HunterSetupStore
+import com.gymbreaker.app.onboarding.ProfileArtwork
 import com.gymbreaker.app.ui.HunterHomeDashboard
 import com.gymbreaker.app.ui.MissionBackgroundCatalog
 import android.content.ClipData
@@ -161,20 +162,9 @@ class MainActivity : AppCompatActivity() {
         // Fotografía personal: únicamente visible / pulsable en Inicio.
         binding.profileButton.visibility =
             if (currentScreen == Screen.SYSTEM) View.VISIBLE else View.INVISIBLE
-        val photo = File(filesDir, "hunter_profile_photo.jpg")
-        if (setup.photoSelected && photo.isFile) {
-            binding.profileButton.setImageBitmap(BitmapFactory.decodeFile(photo.absolutePath))
-        } else {
-            val avatar = when (setup.avatarVariant) {
-                "Igris" -> R.drawable.shadow_igris
-                "Iron" -> R.drawable.shadow_iron
-                "Tank" -> R.drawable.shadow_tank
-                "Tusk" -> R.drawable.shadow_tusk
-                "Kaisel" -> R.drawable.shadow_kaisel
-                else -> R.drawable.shadow_beru
-            }
-            binding.profileButton.setImageResource(avatar)
-        }
+        ProfileArtwork.showPortrait(binding.profileButton, this, setup)
+        binding.profileButton.foreground =
+            ContextCompat.getDrawable(this, ProfileArtwork.frame(setup.frame))
         binding.profileButton.contentDescription = "Abrir mi perfil, " +
             setup.hunterName.ifBlank { "cazador" }
 
