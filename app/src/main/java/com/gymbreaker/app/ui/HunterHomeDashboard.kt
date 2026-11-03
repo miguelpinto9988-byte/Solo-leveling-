@@ -5,6 +5,10 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.BitmapDrawable
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -53,8 +57,22 @@ class HunterHomeDashboard(private val context: Context) {
                 setStroke(d(1), stroke)
             }
 
+    private fun atmosphere(@DrawableRes resource: Int) =
+        LayerDrawable(arrayOf(
+            ContextCompat.getDrawable(context, resource)!!.mutate().apply {
+                if (this is BitmapDrawable) gravity = Gravity.FILL
+            },
+            GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.argb(202, 10, 10, 35),
+                    Color.argb(231, 13, 10, 33), Color.argb(247, 11, 10, 29))
+            )
+        ))
+
     private fun surface(parent: LinearLayout, accent: Int, title: String,
-                        subtitle: String? = null, content: (LinearLayout) -> Unit) {
+                        subtitle: String? = null,
+                        @DrawableRes backdrop: Int? = null,
+                        content: (LinearLayout) -> Unit) {
         val card = MaterialCardView(context).apply {
             radius = d(18).toFloat()
             strokeWidth = d(1)
@@ -65,8 +83,9 @@ class HunterHomeDashboard(private val context: Context) {
         }
         val body = column().apply {
             setPadding(d(15), d(16), d(15), d(18))
-            background = gradient(Color.rgb(32, 21, 62),
-                Color.rgb(11, 13, 33), Color.argb(150, 157, 108, 233))
+            background = backdrop?.let { atmosphere(it) } ?: gradient(
+                Color.rgb(32, 21, 62), Color.rgb(11, 13, 33),
+                Color.argb(150, 157, 108, 233))
         }
         body.addView(text(title, 19f, white, true))
         if (subtitle != null) {
@@ -126,7 +145,9 @@ class HunterHomeDashboard(private val context: Context) {
             setCardBackgroundColor(Color.rgb(15, 11, 37))
         }
         val art = FrameLayout(context).apply {
-            background = gradient(Color.rgb(39, 22, 75), Color.rgb(7, 11, 29), accent)
+            background = atmosphere(MissionBackgroundCatalog.normalBackground(
+                "SYSTEM", state.companion, LocalDate.now().dayOfYear
+            ))
             minimumHeight = d(204)
         }
         val backing = ImageView(context).apply {
@@ -166,7 +187,8 @@ class HunterHomeDashboard(private val context: Context) {
         hero.addView(art)
         host.addView(hero, LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = d(15) })
 
-        surface(host, accent, "ENTRENAMIENTO DE HOY", "$dayName · ${setup.minutes} minutos") { body ->
+        surface(host, accent, "ENTRENAMIENTO DE HOY", "$dayName · ${setup.minutes} minutos",
+            backdrop = MissionBackgroundCatalog.normalBackground("TRAIN", state.companion, LocalDate.now().dayOfYear)) { body ->
             body.addView(text(
                 if (currentGroup == "Descanso") "Descanso programado"
                 else currentGroup, 22f, white, true
@@ -185,7 +207,8 @@ class HunterHomeDashboard(private val context: Context) {
             })
         }
 
-        surface(host, accent, "TU SEMANA", "Días elegidos · la configuración se edita desde tu perfil") { body ->
+        surface(host, accent, "TU SEMANA", "Días elegidos · la configuración se edita desde tu perfil",
+            backdrop = MissionBackgroundCatalog.normalBackground("CATALOG", state.companion, LocalDate.now().dayOfYear)) { body ->
             val labels = HunterSetup.days
             val line = LinearLayout(context).apply {
                 orientation = LinearLayout.HORIZONTAL
@@ -224,7 +247,8 @@ class HunterHomeDashboard(private val context: Context) {
         }
 
         surface(host, accent, "TU PROGRESO",
-            "La experiencia es simbólica y no mide tu salud.") { body ->
+            "La experiencia es simbólica y no mide tu salud.",
+            backdrop = MissionBackgroundCatalog.normalBackground("SETTINGS", state.companion, LocalDate.now().dayOfYear)) { body ->
             body.addView(text(
                 "${state.sessions.count { it.confirmedComplete }} sesiones confirmadas · " +
                     "${state.xp} XP totales", 16f, white, true
@@ -233,7 +257,8 @@ class HunterHomeDashboard(private val context: Context) {
             body.addView(action("VER PROGRESO  ›", accent, false, actions.onProgress))
         }
 
-        surface(host, accent, "SOMBRA ACOMPAÑANTE", "Personalización narrativa") { body ->
+        surface(host, accent, "SOMBRA ACOMPAÑANTE", "Personalización narrativa",
+            backdrop = MissionBackgroundCatalog.companionBackground(state.companion)) { body ->
             val row = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL }
             row.addView(ImageView(context).apply {
                 setImageResource(portrait(state.companion))
@@ -252,7 +277,8 @@ class HunterHomeDashboard(private val context: Context) {
         }
 
         surface(host, accent, "SHADOW CORE · IA OFFLINE",
-            "Consulta el asistente. Las sugerencias se revisan antes de aplicarse.") { body ->
+            "Consulta el asistente. Las sugerencias se revisan antes de aplicarse.",
+            backdrop = MissionBackgroundCatalog.normalBackground("AI", state.companion, LocalDate.now().dayOfYear)) { body ->
             body.addView(text("El modelo local ayuda con consultas, pero el planificador conserva las restricciones y la aprobación de ejercicios.",
                 13f, light))
             spacer(body, 12)
