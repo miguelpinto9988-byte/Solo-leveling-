@@ -280,7 +280,7 @@ class MainActivity : AppCompatActivity() {
         show(
             "CATÁLOGO DE FAMILIAS",
             "Ejercicio principal · variantes · dificultad · equipamiento",
-            "198 VARIANTES DOCUMENTADAS",
+            "198 DENOMINACIONES DOCUMENTADAS",
             "El catálogo se depuró: 198 denominaciones conservadas " +
                 "y 119 familias propuestas, con 402 referencias de fuente. " +
                 "Los datos sin respaldo suficiente fueron excluidos de la APK. " +
@@ -355,8 +355,9 @@ class MainActivity : AppCompatActivity() {
         }
         AlertDialog.Builder(this)
             .setTitle("Buscar familias propuestas")
-            .setMessage("Se incluyen candidatos documentales, no equivalencias " +
-                "biomecánicas aprobadas. No alteran las rutinas de IA.")
+            .setMessage("Solo se incluyen registros con referencias concordantes " +
+                "y nivel documentado. La agrupación por familia sigue " +
+                "pendiente de revisión técnica y no cambia las rutinas de IA.")
             .setView(input)
             .setPositiveButton("Buscar") { _, _ ->
                 lifecycleScope.launch {
