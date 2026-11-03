@@ -78,6 +78,7 @@
                 <TextView android:id="@+id/heroDetail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textColor="@color/textSecondary" android:textSize="15sp" android:textStyle="bold"/>
                 <ProgressBar android:id="@+id/xpBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="15dp" android:max="100" android:progress="0" android:progressTint="@color/accent"/>
                 <com.google.android.material.button.MaterialButton android:id="@+id/primaryAction" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Acción principal"/>
+                <com.google.android.material.button.MaterialButton android:id="@+id/monarchThemeAction" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="EXPLORAR FONDOS MONARCA" android:visibility="gone"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.card.MaterialCardView
