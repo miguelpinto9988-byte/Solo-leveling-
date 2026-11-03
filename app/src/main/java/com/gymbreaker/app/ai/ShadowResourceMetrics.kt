@@ -13,7 +13,7 @@ data class ShadowResourceMetrics(
     val proposedGroups: Int,
     val approvedFamilies: Int,
     val assetCount: Int,
-    val modelBytes: Long
+    val modelBytes: Long = 0L
 ) {
     val percentUsed: Double get() =
         if (maxBytes == 0L) 0.0 else 100.0 * bytes / maxBytes
