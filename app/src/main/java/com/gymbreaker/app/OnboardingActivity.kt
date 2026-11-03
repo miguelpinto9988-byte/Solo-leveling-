@@ -30,6 +30,7 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.gymbreaker.app.onboarding.HunterSetup
 import com.gymbreaker.app.onboarding.HunterSetupStore
 import com.gymbreaker.app.onboarding.HunterOnboardingBackdrop
+import com.gymbreaker.app.onboarding.ProfileArtwork
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -122,7 +123,26 @@ class OnboardingActivity : AppCompatActivity() {
         val panel = vertical()
         panel.background = rounded(Color.argb(221, 12, 10, 33), Color.argb(220, 137, 83, 240), 18)
         panel.setPadding(dp(16), dp(16), dp(16), dp(18))
-        panel.addView(label(title, 20f, Color.WHITE, true))
+        val titleRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val symbol = when {
+            title.contains("Apariencia") -> R.drawable.icon_profile_camera
+            title.contains("semana", true) -> R.drawable.icon_profile_calendar
+            title.contains("Objetivos") -> R.drawable.icon_profile_target
+            title.contains("Restricciones") -> R.drawable.icon_profile_shield
+            title.contains("creado") -> R.drawable.badge_rank_e
+            else -> R.drawable.icon_profile_edit
+        }
+        titleRow.addView(ImageView(this).apply {
+            setImageResource(symbol)
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, LinearLayout.LayoutParams(dp(38), dp(38)).apply { marginEnd = dp(9) })
+        titleRow.addView(label(title, 19f, Color.WHITE, true),
+            LinearLayout.LayoutParams(0, -2, 1f))
+        panel.addView(titleRow)
         if (subtitle != null) {
             spacing(panel, 6)
             panel.addView(label(subtitle, 13f, muted))
@@ -257,20 +277,10 @@ class OnboardingActivity : AppCompatActivity() {
     private fun appearance(): LinearLayout {
         val panel = section("Apariencia del perfil", "Usa tu propia fotografía o un avatar de la aplicación.")
         spacing(panel, 12)
-        val portrait = ImageView(this).apply {
-            val privatePhoto = File(filesDir, "hunter_profile_photo.jpg")
-            if (setup.photoSelected && privatePhoto.isFile)
-                setImageBitmap(BitmapFactory.decodeFile(privatePhoto.absolutePath))
-            else setImageResource(avatarDrawable())
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            background = rounded(Color.rgb(18, 12, 47), accent(), 28, 2)
-            clipToOutline = true
-            contentDescription = "Imagen de perfil elegida"
-        }
-        val photoParams = LinearLayout.LayoutParams(dp(148), dp(148)).apply {
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
-        panel.addView(portrait, photoParams)
+        panel.addView(ProfileArtwork.portrait(this, setup, 158),
+            LinearLayout.LayoutParams(dp(158), dp(158)).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            })
         spacing(panel, 12)
         choiceRow(panel, listOf("Elegir foto", "Usar avatar"), if (setup.photoSelected) "Elegir foto" else "Usar avatar") {
             if (it == "Elegir foto") photoPicker.launch("image/*")
@@ -507,18 +517,10 @@ class OnboardingActivity : AppCompatActivity() {
     private fun success(): LinearLayout {
         val panel = section("¡Perfil creado!", "Tu camino como cazador ha comenzado.")
         spacing(panel, 20)
-        val img = ImageView(this).apply {
-            if (setup.photoSelected && File(filesDir, "hunter_profile_photo.jpg").isFile) {
-                setImageBitmap(BitmapFactory.decodeFile(
-                    File(filesDir, "hunter_profile_photo.jpg").absolutePath
-                ))
-            } else setImageResource(avatarDrawable())
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            contentDescription = "Retrato del perfil"
-        }
-        panel.addView(img, LinearLayout.LayoutParams(dp(120), dp(120)).apply {
-            gravity = Gravity.CENTER_HORIZONTAL
-        })
+        panel.addView(ProfileArtwork.portrait(this, setup, 132),
+            LinearLayout.LayoutParams(dp(132), dp(132)).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            })
         spacing(panel, 16)
         panel.addView(label(setup.hunterName.trim(), 23f, Color.WHITE, true))
         spacing(panel, 6)
@@ -585,16 +587,18 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun render() {
         val root = FrameLayout(this)
-        root.background = HunterOnboardingBackdrop(accent())
+        root.setBackgroundColor(Color.rgb(8, 7, 25))
         mainFrame = root
-        // Ilustración atmosférica sutil, siempre detrás de controles legibles.
+        // PNG Full HD original; CENTER_CROP mantiene proporciones en dispositivos distintos.
         val decor = ImageView(this).apply {
-            setImageResource(R.drawable.shadow_igris)
-            alpha = 0.12f
-            scaleType = ImageView.ScaleType.FIT_CENTER
+            setImageResource(
+                if (page == 6) ProfileArtwork.summaryBackground(setup.darkTheme)
+                else ProfileArtwork.setupBackground(setup.darkTheme)
+            )
+            scaleType = ImageView.ScaleType.CENTER_CROP
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
         }
-        root.addView(decor, FrameLayout.LayoutParams(dp(300), dp(480), Gravity.RIGHT or Gravity.CENTER_VERTICAL))
+        root.addView(decor, FrameLayout.LayoutParams(-1, -1))
         val scroll = ScrollView(this).apply {
             isFillViewport = true
             isVerticalScrollBarEnabled = false
@@ -639,36 +643,8 @@ class OnboardingActivity : AppCompatActivity() {
         setContentView(root)
     }
 
-    private fun installPrivatePhoto(uri: Uri): Boolean {
-        return try {
-        val resolver = contentResolver
-        val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
-        require(options.outWidth > 0 && options.outHeight > 0)
-        require(options.outWidth.toLong() * options.outHeight.toLong() < 140_000_000)
-        var sample = 1
-        while (options.outWidth / sample > 1024 || options.outHeight / sample > 1024) sample *= 2
-        val decode = BitmapFactory.Options().apply { inSampleSize = sample }
-        val bitmap = resolver.openInputStream(uri)?.use {
-            BitmapFactory.decodeStream(it, null, decode)
-        } ?: return false
-        val output = File(filesDir, "hunter_profile_photo.jpg")
-        val temporary = File(filesDir, "hunter_profile_photo.tmp")
-        try {
-            temporary.outputStream().use {
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 84, it)) return false
-            }
-            if (output.exists()) output.delete()
-            check(temporary.renameTo(output))
-            true
-        } finally {
-            bitmap.recycle()
-            temporary.delete()
-        }
-        } catch (_: Exception) {
-            false
-        }
-    }
+    private fun installPrivatePhoto(uri: Uri): Boolean =
+        ProfileArtwork.importPhoto(applicationContext, uri)
 
     private fun openApp() {
         if (editing) {
