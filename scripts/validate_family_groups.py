@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
-"""Valida agrupaciones propuestas y cubetas de dificultad sin aprobarlas.
-
-Comprueba que las fuentes se conservan sin pérdida, que los grupos se
-corresponden con las pistas nominales y que jamás pasan al planificador.
-"""
+"""Audita familias propuestas depuradas y variantes por niveles sin contar fuentes doble."""
 from __future__ import annotations
-
 import collections
 import json
 import pathlib
@@ -13,93 +8,89 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "app/src/main/assets"
+REGISTER = ROOT / "catalog/review/verification_registry.json"
 SLUGS = ("upper", "lower", "core", "cardio", "mobility")
 LEVELS = ("inicio", "intermedio", "avanzado", "sin_determinar")
 
 
 def audit() -> int:
-    group_total = 0
-    record_total = 0
-    nominal_total = 0
-    all_source_keys: set[tuple[str, str]] = set()
+    register = json.loads(REGISTER.read_text(encoding="utf-8"))
+    all_refs = set()
+    group_count = 0
+    name_count = 0
 
     for slug in SLUGS:
         source = json.loads(
             (ASSETS / f"research_{slug}.json").read_text(encoding="utf-8")
         )
-        grouped = json.loads(
+        data = json.loads(
             (ASSETS / f"family_groups_{slug}.json").read_text(encoding="utf-8")
         )
-        assert grouped["schemaVersion"] == 2
-        assert grouped["kind"] == "research_family_proposals"
-        assert grouped["verifiedFamilies"] == 0
-        assert grouped["category"] == source["category"]
+        assert data["schemaVersion"] == 2
+        assert data["kind"] == "research_family_proposals"
+        assert data["category"] == source["category"]
+        assert data["verifiedFamilies"] == 0
 
         expected = collections.Counter()
-        source_names: dict[str, set[str]] = collections.defaultdict(set)
+        related = collections.defaultdict(set)
         for nominal in source["families"]:
-            key = (
-                "suggested:" + nominal["relatedFamilyHint"]
-                if nominal.get("relatedFamilyHint")
-                else "name:" + nominal["key"].split("|", 1)[1]
-            )
-            source_names[key].add(nominal["name"])
-            for r in nominal["records"]:
-                expected[(r["source"], str(r["sourceId"]), r["suggestedDifficulty"], key)] += 1
+            key = "documented:" + nominal["relatedFamilyHint"]
+            related[key].add(nominal["name"])
+            for record in nominal["records"]:
+                expected[(
+                    key, record["source"], str(record["sourceId"]),
+                    record["suggestedDifficulty"]
+                )] += 1
 
         actual = collections.Counter()
-        seen_keys = set()
-        for group in grouped["groups"]:
+        seen_groups = set()
+        for group in data["groups"]:
             key = group["id"]
-            assert key not in seen_keys, f"Grupo duplicado: {key}"
-            seen_keys.add(key)
-            assert group["category"] == grouped["category"]
+            assert key not in seen_groups, f"Grupo duplicado: {key}"
+            seen_groups.add(key)
+            assert group["category"] == data["category"]
             assert group["reviewStatus"] == "research_only_unverified"
+            assert group["documentationStatus"] == "source_corrob_catalog_only"
             assert group["semanticMergeVerified"] is False
             assert group["autoPlanningEligible"] is False
-            assert set(group["relatedNames"]) == source_names[key]
-            records = 0
-            buckets = group["variantsByLevel"]
-            assert set(buckets) == set(LEVELS)
+            assert set(group["relatedNames"]) == related[key]
+            assert set(group["variantsByLevel"]) == set(LEVELS)
+            refs = 0
             for level in LEVELS:
-                for r in buckets[level]:
-                    assert r["autoPlanningEligible"] is False
-                    assert r["difficultyVerified"] is False
-                    source_key = (r["source"], str(r["sourceId"]))
-                    assert source_key not in all_source_keys, (
-                        "Se volvió a contar un registro de origen: " + str(source_key)
+                for entry in group["variantsByLevel"][level]:
+                    ref = (entry["source"], str(entry["sourceId"]))
+                    assert ref not in all_refs, f"Referencia duplicada: {ref}"
+                    all_refs.add(ref)
+                    assert entry["autoPlanningEligible"] is False
+                    assert entry["difficultyVerified"] is False
+                    assert entry["evidenceStatus"] == (
+                        "source_concordance_not_professional_approval"
                     )
-                    all_source_keys.add(source_key)
-                    actual[(r["source"], str(r["sourceId"]), level, key)] += 1
-                    records += 1
-            assert records == group["totalRecords"], (
-                "Conteo incorrecto en " + group["id"]
-            )
-        assert actual == expected, f"Se perdieron o alteraron variantes en {slug}"
-        assert grouped["nominalFamilies"] == len(source["families"])
-        assert grouped["proposedGroups"] == len(grouped["groups"])
-        assert grouped["sourceRecords"] == sum(expected.values())
+                    assert entry["suggestedDifficulty"] == level
+                    actual[(key, ref[0], ref[1], level)] += 1
+                    refs += 1
+            assert refs == group["totalRecords"]
+            assert len(group["relatedNames"]) == group["distinctVariantNames"]
 
-        group_total += len(grouped["groups"])
-        record_total += grouped["sourceRecords"]
-        nominal_total += grouped["nominalFamilies"]
-        print(
-            f"{grouped['category']}: {len(grouped['groups'])} grupos propuestos, "
-            f"{grouped['nominalFamilies']} nombres y "
-            f"{grouped['sourceRecords']} registros"
-        )
+        assert expected == actual, f"Variantes perdidas o adicionales: {slug}"
+        assert data["nominalFamilies"] == len(source["families"])
+        assert data["proposedGroups"] == len(data["groups"])
+        assert data["sourceRecords"] == source["sourceRecords"]
+        group_count += len(data["groups"])
+        name_count += len(source["families"])
+        print(f"{data['category']}: {len(data['groups'])} familias propuestas")
 
-    assert group_total == 1089, group_total
-    assert nominal_total == 1823, nominal_total
-    assert record_total == 2186, record_total
-    print("Integridad comprobada: 2186 registros, 1823 nombres, "
-          "1089 agrupaciones no verificadas, 0 ejercicios nuevos aprobados")
+    assert group_count == 119, group_count
+    assert name_count == register["retainedNominalNames"] == 198, name_count
+    assert len(all_refs) == register["retainedSourceEvidence"] == 402
+    print("Auditoría conforme: 198 variantes nominales, 119 familias propuestas, "
+          "402 referencias de origen, ninguna aprobada automáticamente")
     return 0
 
 
 if __name__ == "__main__":
     try:
         sys.exit(audit())
-    except (AssertionError, KeyError, ValueError) as error:
+    except (KeyError, AssertionError, ValueError, OSError) as error:
         print(f"AUDITORÍA DE FAMILIAS BLOQUEADA: {error}", file=sys.stderr)
         sys.exit(1)
