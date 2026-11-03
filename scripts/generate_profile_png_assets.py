@@ -23,7 +23,9 @@ def write(name: str, image: Image.Image, kind: str, required_size: tuple[int, in
     assert image.size == required_size, (name, image.size)
     assert image.mode == ("RGB" if kind == "background" else "RGBA")
     if kind != "background":
-        assert image.getpixel((image.width // 2, image.height // 2))[3] == 0, name
+        assert image.getpixel((0, 0))[3] == 0, name
+        if name.startswith("frame_profile_"):
+            assert image.getpixel((image.width // 2, image.height // 2))[3] == 0, name
     dest = OUTPUT / (name + ".png")
     image.save(dest, "PNG", optimize=True, compress_level=9)
     FILES.append({
