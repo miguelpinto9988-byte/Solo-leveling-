@@ -84,6 +84,15 @@ jobs:
           PY
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose \
             app/build/outputs/apk/debug/app-debug.apk
+      - name: Publish Android build tools for full-resolution image packaging QA
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk-signing-tools-qa
+          path: |
+            ${{ env.ANDROID_HOME }}/build-tools/35.0.0/lib/apksigner.jar
+            ${{ env.ANDROID_HOME }}/build-tools/35.0.0/zipalign
+          if-no-files-found: error
       - name: Publish debug APK
         uses: actions/upload-artifact@v4
         with:
