@@ -22,7 +22,7 @@ def audit() -> int:
     ledger = json.loads(REGISTER.read_text(encoding="utf-8"))
     selected = {
         (entry["category"], entry["name"].casefold()): entry
-        for entry in ledger["accepted"]
+        for entry in ledger["accepted"] if entry.get("externalEvidence")
     }
     assert len(selected) == len(ledger["accepted"])
     actual_refs: set[str] = set()
@@ -46,12 +46,14 @@ def audit() -> int:
             assert family["reviewStatus"] == "research_only"
             assert family["documentationStatus"] == "source_corrob_catalog_only"
             assert family["relatedFamilyHint"] == expected["familyKey"]
+            assert {ref["url"] for ref in family.get("externalReferences", [])} == {ref["url"] for ref in expected["externalEvidence"]}, "Referencia técnica ACE ausente"
             refs = set()
             for record in family["records"]:
                 ref = record["source"] + ":" + str(record["sourceId"])
                 assert ref not in actual_refs, f"Fuente repetida: {ref}"
                 actual_refs.add(ref)
                 refs.add(ref)
+                assert record["name"] == family["name"], "El nombre de la variante no coincide con el movimiento"
                 assert record["autoPlanningEligible"] is False
                 assert record["difficultyVerified"] is False
                 assert record["suggestedDifficulty"] == expected["level"]
@@ -70,12 +72,12 @@ def audit() -> int:
             f"{document['sourceRecords']} referencias verificadas en el ledger"
         )
 
-    assert len(actual_names) == ledger["retainedNominalNames"]
-    assert len(actual_refs) == ledger["retainedSourceEvidence"]
+    assert len(actual_names) == len(selected)
+    assert len(actual_refs) == sum(len(v["sourceReferences"]) for v in selected.values())
     assert not actual_names.intersection({
         (r["category"], r["name"].casefold()) for r in ledger["rejected"]
     })
-    print("Ninguna entrada descartada está empaquetada ni habilitada para IA.")
+    print("Ninguna entrada sin referencia ACE o descartada está empaquetada ni habilitada para IA.")
     return 0
 
 
