@@ -174,6 +174,20 @@ class OnboardingActivity : AppCompatActivity() {
         return frame
     }
 
+    private fun iconHeading(title: String, @DrawableRes icon: Int): LinearLayout {
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            addView(ImageView(this@OnboardingActivity).apply {
+                setImageResource(icon)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            }, LinearLayout.LayoutParams(dp(33), dp(33)).apply { marginEnd = dp(7) })
+            addView(label(title, 18f, Color.WHITE, true),
+                LinearLayout.LayoutParams(0, -2, 1f))
+        }
+    }
+
     private fun section(title: String, subtitle: String? = null): LinearLayout {
         val panel = vertical()
         panel.background = rounded(Color.argb(221, 12, 10, 33), Color.argb(220, 137, 83, 240), 18)
@@ -376,7 +390,7 @@ class OnboardingActivity : AppCompatActivity() {
             setup.frame = it
         }
         spacing(panel, 14)
-        panel.addView(label("Tema y colores", 20f, Color.WHITE, true))
+        panel.addView(iconHeading("Tema y colores", R.drawable.icon_profile_theme))
         panel.addView(label("El tema se configura aquí, en el paso 2. El fondo ilustrado es automático.", 12f, muted))
         spacing(panel, 8)
         choiceRow(panel, listOf("Oscuro", "Claro"), if (setup.darkTheme) "Oscuro" else "Claro") {
@@ -495,7 +509,8 @@ class OnboardingActivity : AppCompatActivity() {
                 .show()
         })
         spacing(panel, 12)
-        panel.addView(label("Nivel de dificultad · solo tres opciones", 16f, pale, true))
+        panel.addView(iconHeading("Nivel de dificultad · solo tres opciones",
+            R.drawable.icon_profile_difficulty))
         choiceRow(panel, listOf("Básico", "Intermedio", "Avanzado"),
             when (setup.preferredDifficulty) {
                 "intermedio" -> "Intermedio"
