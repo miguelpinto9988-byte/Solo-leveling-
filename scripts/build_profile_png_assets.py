@@ -211,8 +211,13 @@ def icon(name: str, kind: str) -> None:
 
 
 def main() -> None:
-    background("bg_profile_fullhd", 1941, VIOLET)
-    background("bg_onboarding_fullhd", 2759, (112,89,229))
+    # Cada uno de los cinco paneles de creación dispone de un fondo
+    # PNG Full HD independiente; introducción y éxito reutilizan el inicial.
+    background("bg_onboarding_identity_fullhd", 1941, VIOLET)
+    background("bg_onboarding_appearance_fullhd", 2759, (112,89,229))
+    background("bg_onboarding_week_fullhd", 4631, CYAN)
+    background("bg_onboarding_goals_fullhd", 8843, (183,91,252))
+    background("bg_onboarding_restrictions_fullhd", 3149, (119,155,248))
     for color_name,color in [("violet",VIOLET),("cyan",CYAN),("gold",GOLD)]:
         frame(f"frame_profile_{color_name}",color)
     badge()
@@ -224,8 +229,8 @@ def main() -> None:
         ("icon_profile_xp","xp")
     ]:
         icon(name,kind)
-    assert len(list(DEST.glob("bg_*fullhd.png")))>=2
-    print("PNG reproducible: 2 backgrounds Full HD, 3 marcos, 1 insignia, 9 iconos.")
+    assert len(list(DEST.glob("bg_onboarding_*_fullhd.png"))) == 5
+    print("PNG reproducible: 5 fondos de panel Full HD, 3 marcos, 1 insignia, 9 iconos.")
 
 
 if __name__ == "__main__":
