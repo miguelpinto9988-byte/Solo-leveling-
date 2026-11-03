@@ -13,7 +13,12 @@ src = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("art/source/background_at
 out = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("app/src/main/res/drawable-nodpi")
 out.mkdir(parents=True,exist_ok=True)
 image = Image.open(src).convert("RGB")
-if image.size != (1536,1024):
+if image.size == (200,133):
+    # La URL pública de Canva ofrece solo una miniatura; estas imágenes son
+    # placeholders de baja resolución, reemplazables con el atlas 1536x1024.
+    print("AVISO: atlas reducido 200x133; fondos provisionales no FullHD.")
+    image = image.resize((1536,1024),Image.Resampling.LANCZOS)
+elif image.size != (1536,1024):
     raise SystemExit(f"Atlas con dimensiones inesperadas: {image.size}")
 
 def box(x1,x2,y1,y2):
