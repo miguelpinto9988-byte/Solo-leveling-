@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -20,6 +21,7 @@ import com.google.android.material.button.MaterialButton
 import com.gymbreaker.app.data.TrainingDatabase
 import com.gymbreaker.app.domain.HunterProgression
 import com.gymbreaker.app.onboarding.HunterOnboardingBackdrop
+import com.gymbreaker.app.onboarding.ProfileArtwork
 import com.gymbreaker.app.onboarding.HunterSetupStore
 import java.io.File
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +35,7 @@ import kotlinx.coroutines.withContext
  */
 class ProfileActivity : AppCompatActivity() {
     private lateinit var body: LinearLayout
+    private lateinit var backgroundArt: ImageView
     private fun dp(n: Int) = (n * resources.displayMetrics.density + .5f).toInt()
     private fun label(value: String, size: Float, color: Int = Color.WHITE, bold: Boolean = false) =
         TextView(this).apply {
@@ -50,16 +53,24 @@ class ProfileActivity : AppCompatActivity() {
             catch (_: Exception) { Color.rgb(165, 108, 255) }
         window.statusBarColor = Color.rgb(8, 7, 22)
         window.navigationBarColor = Color.rgb(8, 7, 22)
+        val root = FrameLayout(this).apply { setBackgroundColor(Color.rgb(8, 7, 26)) }
+        backgroundArt = ImageView(this).apply {
+            setImageResource(ProfileArtwork.summaryBackground(HunterSetupStore.load(this@ProfileActivity).darkTheme))
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
+        root.addView(backgroundArt, FrameLayout.LayoutParams(-1, -1))
         val scroll = ScrollView(this).apply {
             isFillViewport = true
-            background = HunterOnboardingBackdrop(accent)
+            isVerticalScrollBarEnabled = false
         }
         body = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(24), dp(20), dp(30))
         }
         scroll.addView(body)
-        setContentView(scroll)
+        root.addView(scroll, FrameLayout.LayoutParams(-1, -1))
+        setContentView(root)
     }
 
     override fun onResume() {
@@ -79,6 +90,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun showProfile() {
         if (!::body.isInitialized) return
         val setup = HunterSetupStore.load(this)
+        backgroundArt.setImageResource(ProfileArtwork.summaryBackground(setup.darkTheme))
         body.removeAllViews()
         val accent = try { Color.parseColor(setup.accent) }
             catch (_: Exception) { Color.rgb(165, 108, 255) }
@@ -100,23 +112,10 @@ class ProfileActivity : AppCompatActivity() {
             LinearLayout.LayoutParams(0, -2, 1f).apply { marginStart = dp(9) })
         body.addView(header)
         body.addView(View(this), LinearLayout.LayoutParams(1, dp(16)))
-        val art = ImageView(this).apply {
-            val file = File(filesDir, "hunter_profile_photo.jpg")
-            if (setup.photoSelected && file.exists()) {
-                setImageBitmap(BitmapFactory.decodeFile(file.absolutePath))
-            } else setImageResource(avatar(setup.avatarVariant))
-            contentDescription = "Fotografía o avatar de ${setup.hunterName}"
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            background = GradientDrawable().apply {
-                shape = GradientDrawable.OVAL
-                setColor(Color.rgb(32, 22, 64))
-                setStroke(dp(3), accent)
-            }
-            clipToOutline = true
-        }
-        body.addView(art, LinearLayout.LayoutParams(dp(136), dp(136)).apply {
-            gravity = Gravity.CENTER_HORIZONTAL
-        })
+        body.addView(ProfileArtwork.portrait(this, setup, 150),
+            LinearLayout.LayoutParams(dp(150), dp(150)).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            })
         body.addView(View(this), LinearLayout.LayoutParams(1, dp(14)))
         body.addView(label(setup.hunterName, 25f, Color.WHITE, true).apply {
             gravity = Gravity.CENTER
@@ -124,6 +123,15 @@ class ProfileActivity : AppCompatActivity() {
         val stats = label("Rango E · Nivel 1 · 0 XP", 17f,
             Color.rgb(218, 193, 255), true).apply { gravity = Gravity.CENTER }
         body.addView(stats)
+        val rankEmblem = ImageView(this).apply {
+            setImageResource(R.drawable.badge_rank_e)
+            contentDescription = "Insignia de rango actual"
+            scaleType = ImageView.ScaleType.FIT_CENTER
+        }
+        body.addView(rankEmblem, LinearLayout.LayoutParams(dp(82), dp(82)).apply {
+            gravity = Gravity.CENTER_HORIZONTAL
+            topMargin = dp(10)
+        })
         body.addView(View(this), LinearLayout.LayoutParams(1, dp(20)))
 
         val card = LinearLayout(this).apply {
@@ -137,6 +145,20 @@ class ProfileActivity : AppCompatActivity() {
                 setStroke(dp(2), accent)
             }
         }
+        val utilityIcons = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER }
+        listOf(R.drawable.icon_profile_target,
+            R.drawable.icon_profile_calendar, R.drawable.icon_profile_difficulty)
+            .forEach { icon ->
+                utilityIcons.addView(ImageView(this).apply {
+                    setImageResource(icon)
+                    scaleType = ImageView.ScaleType.FIT_CENTER
+                    importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                }, LinearLayout.LayoutParams(dp(47), dp(47)).apply {
+                    marginStart = dp(9); marginEnd = dp(9)
+                })
+            }
+        card.addView(utilityIcons)
+        card.addView(View(this), LinearLayout.LayoutParams(1, dp(13)))
         fun addLine(title: String, detail: String) {
             card.addView(label(title, 12f, Color.rgb(184, 164, 218), true))
             card.addView(label(detail, 16f, Color.WHITE))
@@ -181,7 +203,10 @@ class ProfileActivity : AppCompatActivity() {
                     .observeSessions().first().sumOf { it.xpEarned }
             }
             if (!isFinishing && !isDestroyed) {
-                stats.text = "Rango ${HunterProgression.rank(xp)} · " +
+                val currentRank = HunterProgression.rank(xp)
+                rankEmblem.setImageResource(ProfileArtwork.rankBadge(currentRank))
+                rankEmblem.contentDescription = "Insignia rango " + currentRank
+                stats.text = "Rango $currentRank · " +
                     "Nivel ${HunterProgression.level(xp)} · ${xp} XP"
             }
         }
