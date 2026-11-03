@@ -10,6 +10,7 @@ import com.gymbreaker.app.data.TrainingDatabase
 import com.gymbreaker.app.data.TrainingProfileEntity
 import com.gymbreaker.app.data.TrainingRepository
 import com.gymbreaker.app.domain.*
+import com.gymbreaker.app.ai.ShadowLocalLanguageModel
 import com.gymbreaker.app.ai.ShadowCoreAI
 import com.gymbreaker.app.ai.ShadowIntent
 import com.gymbreaker.app.ai.ShadowLearning
@@ -346,23 +347,23 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
                     "La solicitud no cambia tus preferencias sin confirmación."
 
             ShadowIntent.CATALOG ->
-                "La depuración dejó 198 denominaciones con fuentes concordantes, " +
-                    "distribuidas en 119 familias propuestas y 402 referencias " +
-                    "originales. Las demás entradas se excluyeron de la APK por " +
-                    "falta de evidencia suficiente o contradicciones de nivel. " +
-                    "Consulta variantes por dificultad en Catálogo. Estas " +
-                    "familias todavía no tienen autorización técnica para " +
-                    "ser propuestas automáticamente."
+                "En esta versión hay 3 denominaciones con referencia ACE, " +
+                    "6 referencias originales de catálogo y 3 familias propuestas. " +
+                    "Otras 1820 denominaciones quedan fuera de la APK por " +
+                    "documentación insuficiente o conflictos de revisión. " +
+                    "Las familias documentales aún no están autorizadas " +
+                    "para rutinas automáticas. Consulta Catálogo para verlas."
 
             ShadowIntent.EXPLANATION -> lastDecisionAudit().readable()
 
             ShadowIntent.SYSTEM ->
-                "Shadow Core AI opera localmente con reglas, historial y " +
-                    "decodificación JSON. El límite de recursos de la IA es " +
-                    "90 MB de almacenamiento (no RAM). En el Panel de Control " +
-                    "puedes medir los archivos incluidos, inspeccionar la " +
-                    "última decisión y copiar o decodificar su informe. " +
-                    "No se ha instalado un modelo generativo general."
+                "Shadow Core AI combina un modelo neuronal GGUF local de " +
+                    "aproximadamente 88 MB para diálogo limitado con reglas " +
+                    "verificables de planificación. El presupuesto de assets " +
+                    "es 90 MB, distinto de RAM y del tamaño de la APK. " +
+                    "La generación puede no estar disponible en equipos sin ARM64 " +
+                    "o con recursos insuficientes. Su salida nunca modifica " +
+                    "restricciones, experiencia ni aprobación de ejercicios."
 
             ShadowIntent.GREETING -> ShadowCoreAI.limitationMessage()
             ShadowIntent.UNKNOWN -> ShadowCoreAI.limitationMessage() +
@@ -370,5 +371,22 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    suspend fun askShadowCore(question: String): String = askAssistant(question)
+    suspend fun askShadowCore(question: String): String {
+        // El LLM nunca toma decisiones sobre rutinas, salud, niveles ni catálogo.
+        // Esas consultas usan exclusivamente el planificador auditable.
+        val parsed = ShadowCoreAI.interpret(question)
+        if (parsed.intent !in setOf(ShadowIntent.GREETING, ShadowIntent.UNKNOWN)) {
+            return askAssistant(question)
+        }
+        val reply = ShadowLocalLanguageModel.answer(getApplication(), question)
+        lastInterpretation = parsed
+        return if (reply != null) {
+            "Respuesta experimental del modelo neuronal offline " +
+                "(puede cometer errores):\\n\\n" + reply +
+                "\\n\\nLas rutinas solo se generan mediante reglas verificadas."
+        } else {
+            askAssistant(question) +
+                "\\n\\nNo se pudo ejecutar el modelo local en este dispositivo."
+        }
+    }
 }
