@@ -13,6 +13,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -242,7 +243,8 @@ class MainActivity : AppCompatActivity() {
             "Puedes consultar al asistente, revisar cómo se aplicaron los " +
                 "filtros de tu última rutina, inspeccionar datos disponibles, " +
                 "abrir las familias por nivel y exportar un informe JSON. " +
-                "El proceso es verificable, no una conversación generativa libre.",
+                "Las rutinas siguen un proceso verificable. El diálogo experimental " +
+                "utiliza un modelo GGUF local en teléfonos ARM64 compatibles.",
             "CONSULTAR SOMBRA", { askAssistant() },
             "HERRAMIENTAS DE IA",
             "Seis etapas explicables: entrada, lectura de datos, " +
@@ -567,7 +569,18 @@ class MainActivity : AppCompatActivity() {
                 val question = input.text.toString().trim().take(400)
                 if (question.isBlank()) return@setPositiveButton
                 lifecycleScope.launch {
-                    val response = model.askShadowCore(question)
+                    val busy = AlertDialog.Builder(this@MainActivity)
+                        .setTitle("Procesando consulta sin conexión")
+                        .setMessage("La primera consulta puede preparar el modelo local de 88 MB.")
+                        .setView(ProgressBar(this@MainActivity))
+                        .setCancelable(false)
+                        .create()
+                    busy.show()
+                    val response = try {
+                        model.askShadowCore(question)
+                    } finally {
+                        busy.dismiss()
+                    }
                     if (!isFinishing && !isDestroyed) {
                         AlertDialog.Builder(this@MainActivity)
                             .setTitle("Respuesta del asistente offline")
@@ -627,7 +640,11 @@ class MainActivity : AppCompatActivity() {
                                 "se mantiene local. El catálogo de investigación " +
                                 "no está habilitado para planificación. 90 MB es " +
                                 "el límite de recursos, no una cantidad utilizada " +
-                                "ni memoria RAM. No es una IA generativa general."
+                                "ni memoria RAM. Incluye un modelo GGUF cuantizado " +
+                                "de aproximadamente 88 MB, solo para diálogo " +
+                                "experimental en dispositivos ARM64. " +
+                                "El planificador y sus restricciones no dependen " +
+                                "de las respuestas generadas."
                         ).setPositiveButton("Cerrar", null).show()
                 }
             }
