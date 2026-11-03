@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import com.gymbreaker.app.onboarding.HunterSetupStore
 import com.gymbreaker.app.ui.HunterHomeDashboard
+import com.gymbreaker.app.ui.MissionBackgroundCatalog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -14,6 +15,11 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.BitmapFactory
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.BitmapDrawable
+import android.view.Gravity
+import androidx.annotation.DrawableRes
 import java.io.File
 import android.os.Build
 import android.os.Bundle
@@ -47,6 +53,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Calendar
+import java.time.LocalDate
+import java.time.temporal.IsoFields
 
 private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS, CATALOG, PROGRESS }
 
@@ -197,6 +205,26 @@ class MainActivity : AppCompatActivity() {
         binding.heroCard.visibility = if (home) View.GONE else View.VISIBLE
         binding.secondaryCard.visibility = if (home) View.GONE else View.VISIBLE
         binding.xpBar.progress = (state.xp % 200) * 100 / 200
+        if (!home) {
+            val day = LocalDate.now().dayOfYear
+            val banner = if (currentScreen == Screen.MISSIONS)
+                MissionBackgroundCatalog.monarchBackground(selectedMonarch())
+            else MissionBackgroundCatalog.normalBackground(
+                currentScreen.name, state.companion, day
+            )
+            val normal = if (currentScreen == Screen.MISSIONS)
+                MissionBackgroundCatalog.companionBackground(state.companion)
+            else MissionBackgroundCatalog.normalBackground(
+                "CATALOG", state.companion, day + 2
+            )
+            applyCardArtwork(binding.heroCard, banner)
+            applyCardArtwork(binding.secondaryCard, normal)
+        }
+        binding.heroCard.setOnClickListener(
+            if (currentScreen == Screen.MISSIONS) View.OnClickListener { chooseMonarch() }
+            else null
+        )
+        binding.heroCard.isClickable = currentScreen == Screen.MISSIONS
         when (currentScreen) {
             Screen.SYSTEM -> renderSystem(state)
             Screen.MISSIONS -> renderMissions(state)
@@ -207,6 +235,47 @@ class MainActivity : AppCompatActivity() {
             Screen.CATALOG -> renderCatalog(state)
             Screen.PROGRESS -> renderProgress(state)
         }
+    }
+
+    private fun selectedMonarch(): MissionBackgroundCatalog.MonarchTheme {
+        val week = LocalDate.now().get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)
+        return MissionBackgroundCatalog.selectedMonarch(
+            preferences.getString("monarch_visual_theme", null), week
+        )
+    }
+
+    private fun chooseMonarch() {
+        val options = MissionBackgroundCatalog.monarchs
+        AlertDialog.Builder(this)
+            .setTitle("Escenario Monarca · solo misión semanal")
+            .setSingleChoiceItems(
+                options.map { it.label }.toTypedArray(),
+                options.indexOf(selectedMonarch())
+            ) { dialog, index ->
+                preferences.edit().putString("monarch_visual_theme",
+                    options[index].name).apply()
+                render(model.state.value)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun applyCardArtwork(
+        card: com.google.android.material.card.MaterialCardView,
+        @DrawableRes imageId: Int
+    ) {
+        val surface = card.getChildAt(0) ?: return
+        val image = ContextCompat.getDrawable(this, imageId)?.mutate() ?: return
+        if (image is BitmapDrawable) image.gravity = Gravity.FILL
+        val veil = GradientDrawable(
+            GradientDrawable.Orientation.TOP_BOTTOM,
+            intArrayOf(Color.argb(205, 10, 8, 28),
+                Color.argb(234, 11, 9, 31),
+                Color.argb(245, 9, 11, 32))
+        )
+        surface.background = LayerDrawable(arrayOf(image, veil))
+        card.clipToOutline = true
     }
 
     private fun show(
@@ -266,11 +335,14 @@ class MainActivity : AppCompatActivity() {
         val done = state.weeklySessions
         val setup = HunterSetupStore.load(this)
         val target = setup.weeklyMissions.coerceIn(1, 7)
+        val monarch = selectedMonarch()
         show(
             "MISIONES DEL CAZADOR",
             "Templo · Mazmorra · Portal · Consecuencias narrativas",
-            "MISIÓN MONARCA · SEMANAL",
-            "Meta de misiones elegida: " + target +
+            "MONARCA · " + monarch.label.uppercase(),
+            "Escenario: " + monarch.narrative +
+                " (toca esta tarjeta para cambiar el fondo)." +
+                "\nMeta de misiones elegida: " + target +
                 " de 7. Sesiones registradas esta semana: " + done + ". " +
                 "Desafío narrativo opcional: " + (if (done >= target) "meta narrativa alcanzada." else
                     "sesiones confirmadas " + done.coerceAtMost(target) + "/" + target + ".") +
