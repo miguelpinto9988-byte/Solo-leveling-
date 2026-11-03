@@ -382,11 +382,11 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         lastInterpretation = parsed
         return if (reply != null) {
             "Respuesta experimental del modelo neuronal offline " +
-                "(puede cometer errores):\\n\\n" + reply +
-                "\\n\\nLas rutinas solo se generan mediante reglas verificadas."
+                "(puede cometer errores):\n\n" + reply +
+                "\n\nLas rutinas solo se generan mediante reglas verificadas."
         } else {
             askAssistant(question) +
-                "\\n\\nNo se pudo ejecutar el modelo local en este dispositivo."
+                "\n\nNo se pudo ejecutar el modelo local en este dispositivo."
         }
     }
 }
