@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "uso": "Referencia contextual externa: NO descargar ni empaquetar sin comprobar autorización",
+  "fuentes": [
+    {
+      "id": "oficial-anime-sombras",
+      "url": "https://sololeveling-anime.net/special/shadows-visual/",
+      "publisher": "Sitio oficial del anime",
+      "personajes": [
+        "Igris/Igrit",
+        "Beru",
+        "Iron",
+        "Tank",
+        "Kiba/Tusk",
+        "Kaisel"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "NO_VERIFICADO"
+    },
+    {
+      "id": "netmarble-igris-2026",
+      "url": "https://ch.netmarble.com/Eng/Games/Detail?bbs_code=1018&post_seq=6437",
+      "publisher": "Netmarble",
+      "personajes": [
+        "Igris / Sian Halat"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "NO_VERIFICADO"
+    },
+    {
+      "id": "netmarble-beru",
+      "url": "https://ch.netmarble.com/Eng/Games/Detail?bbs_code=1018&post_seq=5430",
+      "publisher": "Netmarble",
+      "personajes": [
+        "Beru"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "NO_VERIFICADO"
+    },
+    {
+      "id": "desarrollo-personajes",
+      "url": "https://ch.netmarble.com/Eng/Games/Detail?bbs_code=1018&post_seq=4713",
+      "publisher": "Netmarble",
+      "personajes": [
+        "Jinwoo",
+        "Estatua del Templo",
+        "Igris"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "NO_VERIFICADO"
+    },
+    {
+      "id": "galeria-arise",
+      "url": "https://sololeveling.netmarble.com/en/gallery",
+      "publisher": "Netmarble",
+      "personajes": [
+        "varios"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "NO_VERIFICADO"
+    },
+    {
+      "id": "galeria-comunidad",
+      "url": "https://solo-leveling.fandom.com/wiki/Shadows/Gallery",
+      "publisher": "Fandom (no oficial)",
+      "personajes": [
+        "varios"
+      ],
+      "copiar_imagen": false,
+      "permiso_reutilizacion": "DERECHOS_POR_ARCHIVO"
+    }
+  ]
+}
