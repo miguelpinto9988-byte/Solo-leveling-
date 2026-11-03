@@ -19,7 +19,10 @@ def audit() -> int:
     assert doc["engine"] == "Shadow Core AI"
     assert doc["networkRequired"] is False
     assert doc["storageBudgetBytes"] == LIMIT
-    assert doc["modelWeightsIncluded"] is False
+    assert doc["modelWeightsIncluded"] is True
+    from fetch_offline_model import RELATIVE_PATH, EXPECTED_SHA256, verify
+    assert doc["modelAssetPath"] == RELATIVE_PATH
+    assert doc["modelSha256"] == EXPECTED_SHA256
     assert doc["sourceEvidenceStatus"] == "independent_ace_public_reference_not_professional_approval"
     assert doc["includesCompiledDex"] is False
 
@@ -74,6 +77,12 @@ def audit() -> int:
 
     measured = sum((ASSETS / file).stat().st_size for file in listed)
     full_assets = sum(file.stat().st_size for file in ASSETS.rglob("*") if file.is_file())
+    model_file = ASSETS / doc["modelAssetPath"]
+    if model_file.exists():
+        measured += verify(model_file)
+        print("Modelo GGUF verificado y presente para empaquetar.")
+    else:
+        print("Aviso: modelo sin descargar todavía; CI debe descargarlo antes de compilar.")
     assert full_assets <= LIMIT and measured <= LIMIT
     print(f"Depuración conforme: {source_rows} referencias documentales, "
           f"{nominal} variantes nominales, {groups} familias provisionales.")

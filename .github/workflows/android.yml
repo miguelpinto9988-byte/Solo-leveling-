@@ -33,6 +33,10 @@ jobs:
         run: python3 scripts/validate_catalog_reviews.py
       - name: Catalog validation unit tests
         run: python3 -m unittest discover -s scripts/tests -v
+      - name: Download and authenticate real GGUF weights (offline APK)
+        run: python3 scripts/fetch_offline_model.py
+      - name: Verify authenticated GGUF weights are in assets
+        run: python3 scripts/fetch_offline_model.py --check
       - name: Android SDK
         uses: android-actions/setup-android@v4
         with:
