@@ -23,9 +23,9 @@ data class ShadowResourceMetrics(
             "Tamaño de assets: " + "%.2f".format(bytes / 1_000_000.0) + " MB\n" +
             "Presupuesto máximo: " + "%.0f".format(maxBytes / 1_000_000.0) + " MB\n" +
             "Porcentaje: " + "%.2f".format(percentUsed) + "%\n\n" +
-            "Registros documentales: " + sourceRecords + "\n" +
-            "Nombres normalizados por categoría: " + nominalNames + "\n" +
-            "Agrupaciones propuestas sin verificar: " + proposedGroups + "\n" +
+            "Referencias documentales (no ejercicios): " + sourceRecords + "\n" +
+            "Variantes nominales conservadas: " + nominalNames + "\n" +
+            "Familias propuestas sin revisión técnica: " + proposedGroups + "\n" +
             "Familias revisadas incorporadas: " + approvedFamilies + "\n\n" +
             "Los tamaños corresponden a los assets de catálogo, índices y " +
             "licencias incluidos; no representan RAM, tamaño total de APK " +
