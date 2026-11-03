@@ -1,4 +1,4 @@
-# Shadow Core AI · arquitectura offline (revisada para 0.6.0)
+# Shadow Core AI · arquitectura offline (revisada para 0.6.1)
 
 ## Objetivo de tamaño
 
@@ -10,7 +10,7 @@ después) debe pasar la tarea `verifyShadowCoreModelBudget`.
 
 El límite de modelos no incluye el tamaño de la APK, Kotlin/ART, Room, imágenes,
 base de datos ni memoria RAM. Hasta medir el paquete instalado y PSS en un móvil,
-**no se puede afirmar que la IA completa ocupe 60 MB o menos**. El límite es un
+**no se puede afirmar que la IA completa ocupe 90 MB o menos**. El límite es un
 objetivo de ingeniería, sujeto a verificación en dispositivo.
 
 ## Qué se ha construido
