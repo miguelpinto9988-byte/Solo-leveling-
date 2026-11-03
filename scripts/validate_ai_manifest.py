@@ -20,6 +20,7 @@ def audit() -> int:
     assert doc["networkRequired"] is False
     assert doc["storageBudgetBytes"] == LIMIT
     assert doc["modelWeightsIncluded"] is False
+    assert doc["sourceEvidenceStatus"] == "independent_ace_public_reference_not_professional_approval"
     assert doc["includesCompiledDex"] is False
 
     allowed = {
@@ -53,11 +54,13 @@ def audit() -> int:
         )
         assert candidates["sourceRecords"] == families["sourceRecords"]
 
-    assert doc["documentedRecords"] == source_rows == review["retainedSourceEvidence"] == 402
-    assert doc["nominalNamesByCategory"] == nominal == review["retainedNominalNames"] == 198
-    assert doc["proposedGroups"] == groups == 119
+    externally_documented = [e for e in review["accepted"] if e.get("externalEvidence")]
+    assert doc["documentedRecords"] == source_rows == sum(
+        len(e["sourceReferences"]) for e in externally_documented)
+    assert doc["nominalNamesByCategory"] == nominal == len(externally_documented)
+    assert doc["proposedGroups"] == groups
     assert doc["originalResearchRecords"] == review["originalRecordCount"] == 2186
-    assert doc["quarantinedNominalNames"] == review["removedNominalNames"] == 1625
+    assert doc["quarantinedNominalNames"] == review["originalNominalNames"] - nominal
     assert len(doc["categoryBreakdown"]) == 5
     for cat in doc["categoryBreakdown"]:
         assert by_category[cat["name"]] == (
