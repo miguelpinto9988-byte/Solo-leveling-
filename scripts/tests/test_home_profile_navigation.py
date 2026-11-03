@@ -64,7 +64,7 @@ class HunterHomeTests(unittest.TestCase):
         assets=list((APP/"res/drawable-nodpi").glob("mission_bg_*.webp"))
         self.assertEqual(len(assets),34)
         self.assertEqual(len([a for a in assets if a.name.startswith("mission_bg_monarch_")]),9)
-        self.assertEqual(len(re.findall(r"R\\.drawable\\.mission_bg_monarch_",self.catalog)),9)
+        self.assertEqual(self.catalog.count("R.drawable.mission_bg_monarch_"),9)
         self.assertNotIn("mission_bg_monarch_",self.home)
         self.assertIn("MissionBackgroundCatalog.monarchBackground(selectedMonarch())",self.main)
         self.assertIn("MissionBackgroundCatalog.companionBackground(state.companion)",self.main)
