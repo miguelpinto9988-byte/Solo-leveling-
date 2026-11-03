@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.gymbreaker.app.ai.ShadowLocalLanguageModel
+import com.gymbreaker.app.onboarding.HunterSetupStore
 import com.gymbreaker.app.data.TrainingDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -70,7 +71,9 @@ class SplashActivity : AppCompatActivity() {
             poster.updateProgress(100)
             delay(240)
             if (!isFinishing && !isDestroyed) {
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashActivity,
+                    if (HunterSetupStore.completed(this@SplashActivity)) MainActivity::class.java
+                    else OnboardingActivity::class.java))
                 finish()
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             }
