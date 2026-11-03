@@ -23,6 +23,17 @@ class OnboardingScenesTests(unittest.TestCase):
         self.assertIn("bg_01_ciudad_moderna_fhd.png",self.scenes)
         self.assertIn("bg_02_gimnasio_del_cazador_fhd.png",self.scenes)
         self.assertIn("bg_09_cueva_de_cristales_fhd.png",self.scenes)
+        self.assertEqual([p for _,p in entries],[
+            "bg_01_ciudad_moderna_fhd.png",
+            "bg_03_sede_de_la_asociacion_fhd.png",
+            "bg_06_base_de_cazadores_fhd.png",
+            "bg_02_gimnasio_del_cazador_fhd.png",
+            "bg_04_sala_de_entrenamiento_fhd.png",
+            "bg_09_cueva_de_cristales_fhd.png",
+            "bg_24_interior_del_gate_fhd.png",
+        ])
+        self.assertIn("Paso 6 de 6",self.ui)
+        self.assertIn("(1..6).joinToString",self.ui)
 
     def test_android_ui_keeps_native_controls_above_background(self):
         self.assertIn("ProfileSceneArtwork.apply",self.ui)
