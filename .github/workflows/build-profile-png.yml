@@ -1,0 +1,61 @@
+name: Build Profile PNG FullHD
+
+on:
+  push:
+    branches:
+      - feature/profile-png-fullhd-20261103
+    paths:
+      - scripts/build_profile_png_assets.py
+      - .github/workflows/build-profile-png.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install image renderer
+        run: python -m pip install Pillow==11.3.0
+      - name: Render all five full-resolution creation panels
+        run: python scripts/build_profile_png_assets.py
+      - name: Validate actual dimensions and alpha
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          root=Path('app/src/main/res/drawable-nodpi')
+          names=['identity','appearance','week','goals','restrictions']
+          for n in names:
+              p=root/f'bg_onboarding_{n}_fullhd.png'
+              with Image.open(p) as img:
+                  assert img.format=='PNG' and img.size==(1080,1920), (p,img.size)
+                  print(p, img.size, img.mode)
+          frames=list(root.glob('frame_profile_*.png'))
+          icons=list(root.glob('icon_profile_*.png'))
+          assert len(frames)==3 and len(icons)==9,(frames,icons)
+          for p in frames+icons+[root/'badge_rank_e.png']:
+              with Image.open(p) as im:
+                  assert im.format=='PNG' and im.mode=='RGBA'
+                  alpha=im.getchannel('A')
+                  assert alpha.getextrema()==(0,255), (p,alpha.getextrema())
+                  assert im.size[0]>=512 and im.size[1]>=512
+          print('OK: 5 FullHD, 3 transparent frames, 9 transparent icons, 1 rank badge.')
+          PY
+      - name: Commit generated original PNGs
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add app/src/main/res/drawable-nodpi/ assets_master/profile/
+          if git diff --cached --quiet; then
+            echo "No binary changes"
+          else
+            git commit -m "Renderizar 5 fondos PNG FHD e iconografía RGBA para creación de perfil"
+            git push origin HEAD:feature/profile-png-fullhd-20261103
+          fi
