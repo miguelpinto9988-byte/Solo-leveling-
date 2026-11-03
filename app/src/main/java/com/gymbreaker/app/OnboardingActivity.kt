@@ -593,7 +593,8 @@ class OnboardingActivity : AppCompatActivity() {
         setContentView(root)
     }
 
-    private fun installPrivatePhoto(uri: Uri): Boolean = try {
+    private fun installPrivatePhoto(uri: Uri): Boolean {
+        return try {
         val resolver = contentResolver
         val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
         resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
@@ -618,8 +619,9 @@ class OnboardingActivity : AppCompatActivity() {
             bitmap.recycle()
             temporary.delete()
         }
-    } catch (_: Exception) {
-        false
+        } catch (_: Exception) {
+            false
+        }
     }
 
     private fun openApp() {
