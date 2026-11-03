@@ -24,7 +24,12 @@ def audit() -> int:
         (entry["category"], entry["name"].casefold()): entry
         for entry in ledger["accepted"] if entry.get("externalEvidence")
     }
-    assert len(selected) == len(ledger["accepted"])
+    assert selected, "No se ha documentado ninguna referencia técnica externa"
+    assert all(
+        all(ref.get("publisher") == "ACE" and ref.get("level") == entry["level"]
+            for ref in entry["externalEvidence"])
+        for entry in selected.values()
+    ), "Referencia técnica externa no conciliada"
     actual_refs: set[str] = set()
     actual_names: set[tuple[str, str]] = set()
 
