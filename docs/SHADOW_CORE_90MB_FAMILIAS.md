@@ -1,163 +1,116 @@
-# Shadow Core AI · familias por nivel y presupuesto de 90 MB
+# Shadow Core AI offline y familias de ejercicios — versión 0.6.1
 
-**Versión de código: 0.6.0. Estado: implementación fuente; compilación Android pendiente de comprobar.**
+**Estado:** implementación en código fuente; compilación Android y pruebas físicas
+pendientes de comprobar.
 
-## Solicitud implementada
+## Contenido actual de la APK
 
-1. Ampliar el proceso de investigación de variantes sin contarlas como ejercicios nuevos.
-2. Reunir movimientos relacionados como posibles familias, distinguiendo las
-   variantes por **Inicial / Intermedio / Avanzado / Sin determinar**.
-3. Dar al usuario un panel completo para consultar Shadow Core AI y visualizar
-   la explicación reproducible de las reglas utilizadas.
-4. Aceptar hasta **90.000.000 bytes (90 MB decimales)** de recursos offline:
-   índices, metadatos, vocabulario y eventuales pesos de modelos.
+Se estudiaron originalmente **2.186 entradas de metadatos** con
+**1.823 denominaciones nominales por categoría**. Esa investigación permanece
+en `catalog/staging`, fuera de los recursos distribuidos en la aplicación.
 
-La IA **no aumenta automáticamente** la dificultad física. Las fichas avanzadas
-y los datos sin revisión permanecen exclusivamente consultables.
+Tras depurar las fuentes y dificultades, los recursos que carga Android
+contienen únicamente **198 denominaciones documentadas**, respaldadas por
+**402 referencias originales**, ordenadas en **119 familias propuestas**.
+Otras **1.625 denominaciones** están excluidas de la APK y registradas en
+`catalog/review/verification_registry.json`.
 
-## 1. Grupos y variantes
+| Categoría principal | Denominaciones conservadas | Familias propuestas |
+| --- | ---: | ---: |
+| Tren superior | 125 | 67 |
+| Tren inferior | 35 | 23 |
+| Zona central | 24 | 16 |
+| Cardio | 3 | 2 |
+| Movilidad | 11 | 11 |
+| **TOTAL** | **198** | **119** |
 
-Se generaron cinco índices de `family_groups_*.json` usando la información
-ya recopilada de cuatro repositorios con metadatos abiertos:
+De ellas, **145** tienen nivel documental inicial y **53** nivel intermedio.
+Ninguna variante avanzada quedó acreditada con los filtros de esta depuración.
+**20 familias propuestas** reúnen varias denominaciones; esas relaciones todavía
+requieren revisión técnica, no deben presentarse como biomecánicamente aprobadas.
 
-| Familia funcional | Registros originales | Nombres distintos en categoría | Agrupaciones propuestas |
-|---|---:|---:|---:|
-| Tren superior | 1.009 | 789 | 376 |
-| Tren inferior | 479 | 417 | 232 |
-| Zona central | 400 | 344 | 236 |
-| Cardio | 139 | 128 | 109 |
-| Movilidad | 159 | 145 | 136 |
-| **Total** | **2.186** | **1.823** | **1.089** |
+El informe de criterios, descartes y referencias ACE está en
+[DEPURACION_VARIANTES_2026.md](DEPURACION_VARIANTES_2026.md).
 
-Entre estas agrupaciones, 28 fusionan **provisionalmente** más de una denominación
-relacionada por pistas léxicas. La fusión es una **hipótesis de revisión, NO una
-identificación biomecánica certificada**.
+## Acceso a Shadow Core AI
 
-Para cada agrupación se conservan:
-- Nombre(s) original(es) e identificador de la fuente.
-- Equipo documentado y dificultad declarada por el proveedor.
-- Cubetas de cuatro niveles; etiquetas sin evidencia permanecen
-  `sin_determinar`.
-- Estado explícito `research_only_unverified` y
-  `autoPlanningEligible=false`.
-- Aviso sobre fuentes y agrupación provisional.
+La pestaña IA dispone de un **panel de control** que permite consultar el
+asistente local en español, revisar seis etapas de la última decisión,
+consultar restricciones y variantes elegidas, inspeccionar el historial
+estadístico, codificar y decodificar informes JSON, medir los recursos
+empaquetados y cambiar la dificultad solicitada.
 
-Las variantes de investigación **no se convierten en `ExerciseVariantEntity`**.
-Solo las familias aprobadas por el flujo
-`validate_catalog_reviews.py` pasan a Room.
+Los informes muestran **reglas explícitas y reproducibles**, no pensamientos
+ocultos de un modelo generativo. Copiar al portapapeles requiere acción
+del usuario. Los datos permanecen locales salvo que el usuario los comparta.
 
-Los 2.186 registros no equivalen a 2.186 ejercicios independientes y tampoco
-las 1.089 agrupaciones equivalen a 1.089 familias validadas. Las cuotas de
-400 movimientos verificados por cada una de las cinco categorías siguen
-pendientes de acreditar.
+Componentes principales:
+- `ShadowCoreAI.kt`: interpretación de intención y parámetros en español.
+- `ShadowDecisionAudit.kt` y `ShadowAuditCodec.kt`: proceso auditable
+  y codificación/decodificación JSON.
+- `ResearchCatalogLoader.kt` y `ResearchFamilyGroupLoader.kt`: lectura
+  de índices documentales por categoría, familia, dificultad y fuente.
+- `ExerciseVariantSelector.kt`: selección únicamente de variantes
+  autorizadas, con filtros por nivel, restricciones y equipo.
+- `ApprovedCatalogLoader.kt`: cargador separado que rechaza entradas
+  sin aprobación técnica.
 
-## 2. Panel completo de Shadow Core AI
+**Ninguna de las 198 denominaciones investigadas está aprobada para
+planificación automática.** El catálogo aprobado permanece vacío. Las doce
+fichas de demostración históricas son independientes.
 
-En **IA → Abrir panel de control**, el usuario puede:
+## Dificultad y adaptación
 
-- Consultar en español al asistente especializado.
-- Leer la última decisión y los motivos de sus filtros de forma explícita.
-- Ver la clasificación orientativa de su última consulta.
-- Codificar su informe de reglas en JSON y copiarlo voluntariamente.
-- Decodificar y revisar informes JSON locales, sin ejecutar acciones.
-- Inspeccionar el presupuesto, número de registros y recursos incluidos.
-- Cambiar la dificultad solicitada y explorar grupos de variantes por nivel.
-- Ver los registros originales y limpiar la propuesta sin borrar sesiones.
-- Consultar el alcance y las limitaciones del motor.
+Cada denominación conserva su nivel confirmado entre las fuentes:
+`inicio` o `intermedio`. Si las fuentes discrepaban, se descartó
+la entrada en lugar de inventar una dificultad.
 
-El informe detalla seis etapas **deterministas y auditables**:
-entrada, lectura local, exclusiones, variantes, datos históricos y decisión.
-No contiene deliberaciones ocultas de una red neuronal. Los informes son
-resúmenes reproducibles de reglas del programa.
+El jugador selecciona experiencia y dificultad preferida de forma
+independiente. El planificador no puede ignorar exclusiones,
+incompatibilidades de equipamiento ni restricciones pendientes. Las
+misiones RPG no penalizan el descanso ni fuerzan un aumento físico.
 
-La exportación al portapapeles se realiza solo por acción explícita del usuario,
-pues el texto puede incluir parámetros personales declarados.
+La familia es un **patrón propuesto**. Las variantes documentadas
+comparten una ficha y no incrementan el contador de ejercicios
+principales. Se conservan las referencias de cada variante.
 
-## 3. Inteligencia offline y codificación/decodificación
+## Presupuesto de hasta 90 MB
 
-- `ShadowCoreAI.kt`: reconocimiento local de intenciones; incluye solicitudes
-  de catálogo, explicación de la selección y estado del sistema.
-- `ShadowDecisionAudit.kt`: razones de cada decisión sin bloquear el
-  derecho del usuario a consultar su información.
-- `ShadowAuditCodec.kt`: codificación y lectura de informes JSON versión 1,
-  con validación de esquema y límites de tamaño.
-- `ResearchFamilyGroupLoader.kt`: descodificación JSON de agrupaciones en
-  las cinco categorías; rechaza datos marcados como aprobados sin autorización.
-- `ShadowResourceMetrics.kt`: lectura de manifiesto local, medición de bytes
-  de los recursos y presentación de cifras.
-- `ExerciseVariantSelector.kt`: selecciona únicamente variantes validadas
-  según nivel solicitado, experiencia, restricciones, equipo e historial.
+El presupuesto de recursos offline es **90 MB decimales =
+90.000.000 bytes**. Incluye archivos locales, índices de catálogo,
+metadatos y eventuales modelos que se añadan con autorización.
 
-Los cálculos de catálogo y las consultas estructuradas se ejecutan sin permiso
-Android `INTERNET`. No se ha incluido un LLM genérico.
+El núcleo actual es especializado en reglas y estadísticas, **no
+contiene un modelo generativo de propósito general**. No se añaden
+archivos ficticios para utilizar todo el presupuesto.
 
-## 4. Presupuesto de 90 MB
+Las tareas `verifyShadowCoreModelBudget` y
+`verifyOfflineAiResourceBudget` supervisan el tamaño de archivos
+empaquetados. Los validadores `verify_catalog_evidence.py`,
+`validate_research_assets.py`, `validate_family_groups.py` y
+`validate_ai_manifest.py` verifican identidad documental, exclusiones,
+índices y contadores. GitHub Actions ejecuta el conjunto configurado
+antes de compilar.
 
-- Presupuesto: **90 MB decimales = 90.000.000 bytes**.
-- Recursos incluidos actualmente (medidos en los archivos fuente desde
-  GitHub, versión 0.6): aproximadamente **1,78 MB** de archivos de catálogo,
-  índices, avisos y manifiesto; no representa RAM ni tamaño de la APK.
-- No se añaden bytes de relleno para alcanzar el techo.
-- Gradle incluye `verifyShadowCoreModelBudget` y
-  `verifyOfflineAiResourceBudget`; ambas tareas rechazan recursos que
-  excedan el límite.
-- GitHub Actions informa además el tamaño del APK `app-debug.apk` cuando
-  la compilación sea exitosa. El código DEX, las bibliotecas, el almacenamiento
-  dinámico y la RAM requieren medición propia.
+**El tamaño real de APK, RAM y latencia no se ha certificado aún.**
 
-Modelos generativos LiteRT-LM ampliamente disponibles actualmente están
-por encima de 90 MB; Google documenta tamaños de aproximadamente 289 MB
-para FunctionGemma y 586 MB para Qwen3-0.6B. Por eso este motor **no
-promete generación libre al nivel de un LLM** y utiliza una arquitectura
-especializada de reglas, búsqueda e índices.
+## Evidencia y límites
 
-Documentación oficial: https://developers.google.com/edge/litert-lm/overview
+La [biblioteca ACE](https://www.acefitness.org/resources/everyone/exercise-library/)
+publica movimientos con equipamiento y dificultad. Se contrastaron
+referencias concretas para Bodyweight Squat, Crunch y Front Raise.
+ACE marca Front Plank como intermedio, mientras datos históricos lo
+marcaban inicial; esa contradicción motivó su exclusión de la APK.
 
-## 5. Fuentes nuevas investigadas sin redistribuir datos
+Los repositorios pueden compartir material upstream, por lo que
+dos nombres concordantes **no son automáticamente dos fuentes científicas
+independientes** ni una autorización profesional de uso.
 
-Además de los repositorios ya incorporados, se estudiaron:
+## Mejoras posteriores (sujetas a revisión)
 
-- **Kinetic Exercises Database** (MIT):
-  https://github.com/kinetic-place/exercises-db
-  Ofrece 899 entradas con niveles y traducciones. Reconoce derivación
-  sustancial de `wrkout/exercises.json`, por lo que no se añade su total
-  como si fueran 899 ejercicios nuevos o variantes originales.
-- **Yoga API** (código MIT):
-  https://github.com/alexcumplido/yoga-api
-  Define posturas y niveles, pero reutiliza información y recursos visuales
-  de terceros con licencias distintas; no se incorporaron imágenes ni
-  un lote de posturas sin rastrear la licencia por entrada.
-- **OpenExerciseDB**, derivada de wger:
-  https://github.com/rfivesix/OpenExerciseDB
-  Útil para contraste y referencias, pero con procedencia/atribución
-  específica por registro y fuerte solapamiento con otras bases.
-- **RepDB**:
-  https://github.com/RepDB/exercise-dataset
-  Condiciones de atribución y restricciones sobre redistribuir el contenido
-  como dataset independiente. No se copiaron sus fichas.
-
-Estas fuentes refuerzan la investigación de sinónimos y dificultad, pero
-**no justifican contar ni importar nuevas familias sin revisión de identidad**.
-
-## 6. Control de calidad
-
-Se añadió `scripts/validate_family_groups.py` al flujo CI para asegurar:
-- Conservación íntegra de los 2.186 registros y su procedencia.
-- Cubetas completas de dificultad y números coherentes.
-- Ausencia de aprobación o eligibilidad automática para datos investigados.
-- No duplicar identificadores de origen.
-- Total de 1.823 nombres y 1.089 propuestas con estados inequívocos.
-
-Se añadieron pruebas Kotlin de consulta de catálogo, explicación de decisiones
-y selección bajo restricciones. Los flujos de GitHub Actions deben finalizar
-correctamente antes de declarar una APK verificada.
-
-### Próximas mejoras propuestas (no implementadas automáticamente)
-
-1. Revisión por un profesional cualificado de las 28 agrupaciones sugeridas
-   y sus variantes. Beneficio: identificar familias verdaderas y evitar
-   agrupaciones falsas.
-2. Resolver conflictos entre categorías y aprobar fichas con dificultad
-   documentada. Beneficio: aumentar los ejercicios elegibles para el motor.
-3. Pruebas instrumentadas de Room, consumo de RAM y latencia en Android.
-   Beneficio: validar estabilidad, migraciones y rendimiento real.
+1. Revisar profesionalmente las 20 familias propuestas con varias
+   denominaciones antes de declararlas canónicas.
+2. Recuperar entradas excluidas solo cuando nuevas fuentes concilien
+   identidad, nivel, equipamiento y condiciones de uso.
+3. Verificar CI, migraciones Room, consumo de memoria y latencia en
+   dispositivos Android reales.
