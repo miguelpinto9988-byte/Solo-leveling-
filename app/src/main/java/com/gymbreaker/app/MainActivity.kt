@@ -280,10 +280,11 @@ class MainActivity : AppCompatActivity() {
         show(
             "CATÁLOGO DE FAMILIAS",
             "Ejercicio principal · variantes · dificultad · equipamiento",
-            "198 DENOMINACIONES DOCUMENTADAS",
-            "El catálogo se depuró: 198 denominaciones conservadas " +
-                "y 119 familias propuestas, con 402 referencias de fuente. " +
-                "Los datos sin respaldo suficiente fueron excluidos de la APK. " +
+            "3 VARIANTES CON REFERENCIA TÉCNICA",
+            "Consulta restringida a 3 denominaciones de nivel inicial " +
+                "agrupadas en 3 familias propuestas y respaldadas por fichas ACE. " +
+                "Otras 195 denominaciones con solo coincidencia entre catálogos " +
+                "se retiraron de la APK y permanecen en auditoría. " +
                 "Las variantes se agrupan por nivel y requieren aprobación " +
                 "técnica antes de recomendarse automáticamente.",
             "VER GRUPOS Y NIVELES", { showGroupCategoryDialog() },
@@ -302,8 +303,8 @@ class MainActivity : AppCompatActivity() {
         if (approved.isEmpty()) {
             AlertDialog.Builder(this).setTitle("Familias autorizadas")
                 .setMessage("Todavía no existen ejercicios nuevos con aprobación técnica " +
-                    "documentada. El catálogo contiene únicamente 198 denominaciones " +
-                    "con referencias concordantes, agrupadas en 119 familias propuestas. " +
+                    "documentada. El catálogo contiene 3 denominaciones con referencia " +
+                    "técnica ACE en 3 familias propuestas. " +
                     "Shadow Core AI aún no las utiliza automáticamente.")
                 .setPositiveButton("Entendido", null).show()
             return
@@ -354,7 +355,7 @@ class MainActivity : AppCompatActivity() {
             setSingleLine(true)
         }
         AlertDialog.Builder(this)
-            .setTitle("Buscar familias propuestas")
+            .setTitle("Buscar familias con referencia ACE")
             .setMessage("Solo se incluyen registros con referencias concordantes " +
                 "y nivel documentado. La agrupación por familia sigue " +
                 "pendiente de revisión técnica y no cambia las rutinas de IA.")
