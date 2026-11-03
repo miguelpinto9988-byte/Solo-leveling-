@@ -23,6 +23,7 @@ data class HunterSetup(
     var accent: String = "#A56CFF",
     var frame: String = "Violeta",
     var photoSelected: Boolean = false,
+    var avatarVariant: String = "Igris",
     var preferredDifficulty: String = "inicio",
     var primaryGoal: String = "Mejorar mi condición física",
     var subGoal: String = "",
@@ -82,6 +83,8 @@ object HunterSetupStore {
                 accent = obj.optString("accent", "#A56CFF")
                 frame = obj.optString("frame", "Violeta")
                 photoSelected = obj.optBoolean("photoSelected", false)
+                avatarVariant = obj.optString("avatarVariant", "Igris")
+                    .takeIf { it in listOf("Igris", "Beru", "Tank", "Iron", "Tusk", "Kaisel") } ?: "Igris"
                 preferredDifficulty = obj.optString("difficulty", "inicio")
                     .takeIf { it in HunterSetup.difficultyLevels } ?: "inicio"
                 primaryGoal = obj.optString("goal", HunterSetup.goals[3])
@@ -132,6 +135,7 @@ object HunterSetupStore {
             put("accent", data.accent)
             put("frame", data.frame)
             put("photoSelected", data.photoSelected)
+            put("avatarVariant", data.avatarVariant)
             put("difficulty", data.preferredDifficulty)
             put("goal", data.primaryGoal)
             put("subGoal", data.subGoal.take(300))
