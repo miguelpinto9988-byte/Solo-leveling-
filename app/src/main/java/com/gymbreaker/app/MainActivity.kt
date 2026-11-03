@@ -280,11 +280,12 @@ class MainActivity : AppCompatActivity() {
         show(
             "CATÁLOGO DE FAMILIAS",
             "Ejercicio principal · variantes · dificultad · equipamiento",
-            "2.186 REGISTROS DOCUMENTALES",
-            "2.186 registros en 1.823 nombres por categoría y 1.089 " +
-                "agrupaciones provisionales por movimiento. Cada grupo muestra " +
-                "variantes en inicial, intermedio, avanzado o sin determinar, " +
-                "con fuentes y autorización pendientes de revisión.",
+            "198 VARIANTES DOCUMENTADAS",
+            "El catálogo se depuró: 198 denominaciones conservadas " +
+                "y 119 familias propuestas, con 402 referencias de fuente. " +
+                "Los datos sin respaldo suficiente fueron excluidos de la APK. " +
+                "Las variantes se agrupan por nivel y requieren aprobación " +
+                "técnica antes de recomendarse automáticamente.",
             "VER GRUPOS Y NIVELES", { showGroupCategoryDialog() },
             "FICHAS AUTORIZADAS PARA LA IA",
             approved.toString() + " familias nuevas importadas. " +
@@ -300,9 +301,10 @@ class MainActivity : AppCompatActivity() {
         val approved = state.exercises.filter { it.id >= 10_000 }
         if (approved.isEmpty()) {
             AlertDialog.Builder(this).setTitle("Familias autorizadas")
-                .setMessage("Todavía no existen ejercicios nuevos con revisión técnica " +
-                    "documentada. Los 2.186 registros de investigación pueden consultarse " +
-                    "en el catálogo, pero Shadow Core AI no los utiliza.")
+                .setMessage("Todavía no existen ejercicios nuevos con aprobación técnica " +
+                    "documentada. El catálogo contiene únicamente 198 denominaciones " +
+                    "con referencias concordantes, agrupadas en 119 familias propuestas. " +
+                    "Shadow Core AI aún no las utiliza automáticamente.")
                 .setPositiveButton("Entendido", null).show()
             return
         }
@@ -390,7 +392,7 @@ class MainActivity : AppCompatActivity() {
         }
         val shown = groups.take(40)
         val items = shown.map { group ->
-            group.name + " · " + group.sourceCount + " registros"
+            group.name + " · " + group.documentedVariantCount + " variantes"
         }.toTypedArray()
         AlertDialog.Builder(this)
             .setTitle("Familias propuestas: " + groups.size)
