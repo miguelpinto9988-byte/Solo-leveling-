@@ -31,6 +31,7 @@ import com.gymbreaker.app.onboarding.HunterSetup
 import com.gymbreaker.app.onboarding.HunterSetupStore
 import com.gymbreaker.app.onboarding.HunterOnboardingBackdrop
 import com.gymbreaker.app.onboarding.ProfileArtwork
+import com.gymbreaker.app.onboarding.ProfileSceneArtwork
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -576,14 +577,14 @@ class OnboardingActivity : AppCompatActivity() {
         mainFrame = root
         // PNG Full HD original; CENTER_CROP mantiene proporciones en dispositivos distintos.
         val decor = ImageView(this).apply {
-            setImageResource(
-                if (page == 6) ProfileArtwork.summaryBackground(setup.darkTheme)
-                else ProfileArtwork.setupBackground(setup.darkTheme)
-            )
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            ProfileSceneArtwork.apply(this, this@OnboardingActivity, page, setup.darkTheme)
         }
         root.addView(decor, FrameLayout.LayoutParams(-1, -1))
+        val veil = View(this).apply {
+            background = ProfileSceneArtwork.veil(setup.darkTheme)
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
+        root.addView(veil, FrameLayout.LayoutParams(-1, -1))
         val scroll = ScrollView(this).apply {
             isFillViewport = true
             isVerticalScrollBarEnabled = false
