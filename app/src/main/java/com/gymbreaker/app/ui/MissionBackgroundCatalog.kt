@@ -33,16 +33,47 @@ object MissionBackgroundCatalog {
     fun selectedMonarch(saved: String?, weekOfYear: Int): MonarchTheme =
         monarchs.firstOrNull { it.name == saved } ?: monarchOfWeek(weekOfYear)
 
+    // La rotación diaria reutiliza todos los escenarios generales,
+    // de exploración y portales sin exponer fondos Monarca.
+    private val general = intArrayOf(
+        R.drawable.mission_bg_general_city_sunset,
+        R.drawable.mission_bg_general_gym_hall,
+        R.drawable.mission_bg_general_association,
+        R.drawable.mission_bg_general_training_room,
+        R.drawable.mission_bg_general_night_city,
+        R.drawable.mission_bg_general_hunters_base
+    )
+    private val exploration = intArrayOf(
+        R.drawable.mission_bg_exploration_forest,
+        R.drawable.mission_bg_exploration_ruins,
+        R.drawable.mission_bg_exploration_crystals,
+        R.drawable.mission_bg_exploration_mineshaft,
+        R.drawable.mission_bg_exploration_canyon,
+        R.drawable.mission_bg_exploration_shadow_plain
+    )
+    private val portals = intArrayOf(
+        R.drawable.mission_bg_portal_blue_gate,
+        R.drawable.mission_bg_portal_purple_gate,
+        R.drawable.mission_bg_portal_crimson_gate,
+        R.drawable.mission_bg_portal_unstable,
+        R.drawable.mission_bg_portal_shadow_world,
+        R.drawable.mission_bg_portal_gate_hall
+    )
+
+    private fun rotate(items: IntArray, number: Int): Int =
+        items[Math.floorMod(number, items.size)]
+
     @DrawableRes
-    fun normalBackground(screen: String, companion: String): Int = when (screen) {
-        "SYSTEM" -> R.drawable.mission_bg_general_city_sunset
-        "TRAIN" -> R.drawable.mission_bg_general_gym_hall
-        "SHADOWS", "MISSIONS" -> companionBackground(companion)
-        "AI" -> R.drawable.mission_bg_portal_purple_gate
-        "SETTINGS" -> R.drawable.mission_bg_general_night_city
-        "CATALOG" -> R.drawable.mission_bg_exploration_ruins
-        else -> R.drawable.mission_bg_exploration_forest
-    }
+    fun normalBackground(screen: String, companion: String, dayOfYear: Int = 0): Int =
+        when (screen) {
+            "SYSTEM" -> rotate(general, dayOfYear)
+            "TRAIN" -> rotate(general, dayOfYear + 1)
+            "SHADOWS", "MISSIONS" -> companionBackground(companion)
+            "AI" -> rotate(portals, dayOfYear)
+            "SETTINGS" -> rotate(general, dayOfYear + 3)
+            "CATALOG" -> rotate(exploration, dayOfYear)
+            else -> rotate(exploration, dayOfYear + 2)
+        }
 
     @DrawableRes
     fun companionBackground(companion: String): Int = when (companion.lowercase()) {
