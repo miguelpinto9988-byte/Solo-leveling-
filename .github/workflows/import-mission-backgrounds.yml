@@ -1,0 +1,62 @@
+name: Import generated mission backgrounds (temporary)
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/import-mission-backgrounds.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - name: Download original art atlas and verify resolution
+        env:
+          ORIGINAL_ATLAS_URL: "https://media.canva.com/v2/image-resize/format:PNG/height:1024/quality:100/uri:ifs%3A%2F%2FM%2Ffb149023-a61f-44af-82e9-f3677db3b211/watermark:F/width:1536?csig=AAAAAAAAAAAAAAAAAAAAAFWVvzYlzsFQYBR6xUHP8SGUj-F-j4-78YoeCYfNTYWr&exp=1793698297&osig=AAAAAAAAAAAAAAAAAAAAAJetFHMw3MXFnTCOa4kzO5m1Cwp5L7U_PkPIaSC11tTp&signer=media-rpc&token=AAIAAU0AJGZiMTQ5MDIzLWE2MWYtNDRhZi04MmU5LWYzNjc3ZGIzYjIxMQAAAAABoaC_9KhME1D7I5TFwX0LUc-Bl3YM8eE5j3iefwtIrk5bSUDMAQ&x-canva-quality=thumbnail"
+        run: |
+          set -euo pipefail
+          mkdir -p art/source
+          curl -fL --retry 3 --max-time 120 "$ORIGINAL_ATLAS_URL" -o art/source/background_atlas.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          source=Path('art/source/background_atlas.png').read_bytes()
+          assert source[:8]==bytes.fromhex('89504e470d0a1a0a'), 'Not a PNG'
+          dims=struct.unpack('>II',source[16:24])
+          assert dims==(1536,1024),f'Wrong image size: {dims}'
+          assert len(source)>150_000, 'Source image is unexpectedly small'
+          print(f'Original PNG verified {dims}, {len(source):,} bytes')
+          PY
+      - name: Generate and verify thirty-four background WebP assets
+        run: |
+          python3 -m pip install --quiet Pillow==11.3.0
+          python3 scripts/build_mission_backgrounds.py art/source/background_atlas.png app/src/main/res/drawable-nodpi
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          root=Path('app/src/main/res/drawable-nodpi')
+          files=list(root.glob('mission_bg_*.webp'))
+          assert len(files)==34,f'expected 34, got {len(files)}'
+          assert len(list(root.glob('mission_bg_monarch_*.webp')))==9
+          for path in files:
+              with Image.open(path) as img:
+                  assert img.size==(720,320) and img.format=='WEBP'
+          print('All backgrounds are valid')
+          PY
+      - name: Store optimized backdrops in the pull-request branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/src/main/res/drawable-nodpi/mission_bg_*.webp art/source/background_atlas.png
+          if git diff --cached --quiet; then
+            echo "No changes to background images"
+          else
+            git commit -m "Incluir 34 fondos optimizados: 25 normales y 9 monarcas"
+            git push
+          fi
