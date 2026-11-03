@@ -18,6 +18,8 @@ def audit() -> int:
     all_refs = set()
     group_count = 0
     name_count = 0
+    expected_group_count = 0
+    externally_documented = [e for e in register["accepted"] if e.get("externalEvidence")]
 
     for slug in SLUGS:
         source = json.loads(
@@ -33,15 +35,18 @@ def audit() -> int:
 
         expected = collections.Counter()
         related = collections.defaultdict(set)
+        name_by_ref = {}
         for nominal in source["families"]:
             key = "documented:" + nominal["relatedFamilyHint"]
             related[key].add(nominal["name"])
             for record in nominal["records"]:
+                name_by_ref[(record["source"], str(record["sourceId"]))] = nominal["name"]
                 expected[(
                     key, record["source"], str(record["sourceId"]),
                     record["suggestedDifficulty"]
                 )] += 1
 
+        expected_group_count += len(related)
         actual = collections.Counter()
         seen_groups = set()
         for group in data["groups"]:
@@ -61,6 +66,7 @@ def audit() -> int:
                     ref = (entry["source"], str(entry["sourceId"]))
                     assert ref not in all_refs, f"Referencia duplicada: {ref}"
                     all_refs.add(ref)
+                    assert entry["name"] == name_by_ref[ref], "Variante sin nombre real de movimiento"
                     assert entry["autoPlanningEligible"] is False
                     assert entry["difficultyVerified"] is False
                     assert entry["evidenceStatus"] == (
@@ -71,6 +77,7 @@ def audit() -> int:
                     refs += 1
             assert refs == group["totalRecords"]
             assert len(group["relatedNames"]) == group["distinctVariantNames"]
+            assert len(group.get("externalReferences", [])) >= 1, "Familia sin referencia técnica ACE"
 
         assert expected == actual, f"Variantes perdidas o adicionales: {slug}"
         assert data["nominalFamilies"] == len(source["families"])
@@ -80,11 +87,12 @@ def audit() -> int:
         name_count += len(source["families"])
         print(f"{data['category']}: {len(data['groups'])} familias propuestas")
 
-    assert group_count == 119, group_count
-    assert name_count == register["retainedNominalNames"] == 198, name_count
-    assert len(all_refs) == register["retainedSourceEvidence"] == 402
-    print("Auditoría conforme: 198 variantes nominales, 119 familias propuestas, "
-          "402 referencias de origen, ninguna aprobada automáticamente")
+    assert group_count == expected_group_count, group_count
+    assert name_count == len(externally_documented), name_count
+    assert len(all_refs) == sum(len(e["sourceReferences"]) for e in externally_documented)
+    print(f"Auditoría conforme: {name_count} variantes nominales, {group_count} familias "
+          f"propuestas y {len(all_refs)} referencias originales; "
+          "ninguna aprobada automáticamente")
     return 0
 
 
