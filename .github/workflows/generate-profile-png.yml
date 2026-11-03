@@ -1,0 +1,57 @@
+name: Generate original Profile PNG artwork
+on:
+  pull_request:
+    paths:
+      - scripts/generate_profile_png_assets.py
+      - .github/workflows/generate-profile-png.yml
+permissions:
+  contents: write
+jobs:
+  generate:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Render 20 original PNG resources at their native resolutions
+        run: |
+          python3 -m pip install --quiet "Pillow==11.3.0"
+          python3 scripts/generate_profile_png_assets.py
+          python3 scripts/validate_profile_png_assets.py
+      - name: Verify real transparency, not just an RGBA header
+        run: |
+          python3 - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          folder = Path("app/src/main/res/drawable-nodpi")
+          frames = list(folder.glob("frame_profile_*.png"))
+          assert len(frames) == 3, "Faltan marcos transparentes"
+          for item in frames:
+              im = Image.open(item).convert("RGBA")
+              assert im.size == (512, 512)
+              assert im.getpixel((256, 256))[3] == 0
+              assert im.getpixel((0, 0))[3] == 0
+              assert max(im.getchannel("A").getextrema()) > 0
+          print("Marcos RGBA auténticos validados")
+          PY
+      - name: Commit generated PNG masters and SHA-256 manifest to this PR
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/src/main/res/drawable-nodpi/bg_profile_*.png
+          git add app/src/main/res/drawable-nodpi/frame_profile_*.png
+          git add app/src/main/res/drawable-nodpi/badge_rank_*.png
+          git add app/src/main/res/drawable-nodpi/icon_profile_*.png
+          git add art/profile_asset_manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Incorporar 20 PNG originales HD/FHD y manifiesto auditable"
+            git push
+          else
+            echo "Los recursos PNG ya son reproducibles y coinciden"
+          fi
