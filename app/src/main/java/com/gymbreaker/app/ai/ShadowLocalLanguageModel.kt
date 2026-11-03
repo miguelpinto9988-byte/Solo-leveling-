@@ -8,6 +8,7 @@ import java.io.File
 import java.security.MessageDigest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -24,6 +25,26 @@ object ShadowLocalLanguageModel {
     const val MODEL_SHA256 =
         "478cca924101ed67bb2751f597be41532b2f4817ee2ab1b0d7cc379c76e79faf"
     private val mutex = Mutex()
+    private const val MODEL_BYTES = 88_202_816L
+
+    /** Prepara los pesos privados verificando el SHA-256 y comunica avance real. */
+    suspend fun prepare(context: Context, onProgress: (Int) -> Unit): Boolean =
+        withContext(Dispatchers.IO) {
+            if (!Build.SUPPORTED_ABIS.contains("arm64-v8a")) {
+                onProgress(100)
+                return@withContext false
+            }
+            mutex.withLock {
+                try {
+                    getAuthenticatedModelFile(context.applicationContext, onProgress)
+                    true
+                } catch (_: Exception) {
+                    onProgress(100)
+                    false
+                }
+            }
+        }
+
 
     private const val SYSTEM_PROMPT =
         "Eres Shadow Core, un asistente de una aplicacion de ejercicios. " +
@@ -83,22 +104,42 @@ object ShadowLocalLanguageModel {
         return digest.digest().joinToString("") { "%02x".format(it) }
     }
 
-    private fun getAuthenticatedModelFile(context: Context): File {
+    private fun getAuthenticatedModelFile(context: Context, onProgress: (Int) -> Unit = {}): File {
         val dir = File(context.filesDir, "shadow_core")
         check(dir.isDirectory || dir.mkdirs()) { "No se pudo crear el directorio privado" }
         val target = File(dir, "SmolLM2-135M-Instruct-Q2_K.gguf")
-        if (target.isFile && sha256(target) == MODEL_SHA256) return target
+        if (target.isFile && sha256(target) == MODEL_SHA256) {
+            onProgress(100)
+            return target
+        }
 
         // No reutilizar pesos viejos o corruptos.
         target.delete()
         val tmp = File(dir, "model.download.partial")
         tmp.delete()
         try {
-            context.assets.open(MODEL_ASSET).use { input ->
-                tmp.outputStream().buffered().use { output -> input.copyTo(output) }
+            var copied = 0L
+            context.assets.open(MODEL_ASSET).buffered().use { input ->
+                tmp.outputStream().buffered().use { output ->
+                    val buffer = ByteArray(256 * 1024)
+                    var lastPercent = -1
+                    while (true) {
+                        val count = input.read(buffer)
+                        if (count < 0) break
+                        output.write(buffer, 0, count)
+                        copied += count
+                        val percent = (copied * 100 / MODEL_BYTES).toInt().coerceIn(0, 99)
+                        if (percent > lastPercent) {
+                            lastPercent = percent
+                            onProgress(percent)
+                        }
+                    }
+                }
             }
+            check(copied == MODEL_BYTES) { "Longitud GGUF inesperada" }
             check(sha256(tmp) == MODEL_SHA256) { "Pesos GGUF incorrectos" }
             check(tmp.renameTo(target)) { "No se pudo instalar el modelo local" }
+            onProgress(100)
             return target
         } finally {
             tmp.delete()
