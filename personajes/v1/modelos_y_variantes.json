@@ -1,0 +1,269 @@
+{
+  "version": "1.0",
+  "documento": "Guía editorial para recreaciones originales",
+  "proyecto": "Solo Leveling Gym Breaker",
+  "personajes": [
+    {
+      "id": "igris",
+      "nombre_de_trabajo": "Igris: caballero de penacho rojo",
+      "fuentes_usuario": [
+        "img-28962",
+        "img-igris-previa"
+      ],
+      "rasgos_no_negociables": "Casco cerrado, armadura de placas, penacho rojo y capa; silueta esbelta y formal.",
+      "variantes_de_color": [
+        "carmesi",
+        "azul_negro"
+      ],
+      "certeza_identificacion": "alta",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "tusk_kiba",
+      "nombre_de_trabajo": "Kiba / Tusk",
+      "fuentes_usuario": [
+        "img-28965"
+      ],
+      "rasgos_no_negociables": "Chamán de capucha oscura, máscara rojiza y collar de calaveras brillantes.",
+      "variantes_de_color": [
+        "violeta_rojo"
+      ],
+      "certeza_identificacion": "alta",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "iron",
+      "nombre_de_trabajo": "Guerrero de armadura metálica",
+      "fuentes_usuario": [
+        "img-28966",
+        "img-28974"
+      ],
+      "rasgos_no_negociables": "Volumen ancho de torso, armadura azul-gris, brillo ocular; evitar confundir versiones.",
+      "variantes_de_color": [
+        "acero_azul"
+      ],
+      "certeza_identificacion": "media",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "tank",
+      "nombre_de_trabajo": "Bestia sombría",
+      "fuentes_usuario": [
+        "img-28967"
+      ],
+      "rasgos_no_negociables": "Bestia cuadrúpeda oscura con ribetes de niebla violeta; proporciones animales.",
+      "variantes_de_color": [
+        "violeta_negro"
+      ],
+      "certeza_identificacion": "media",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "kaisel",
+      "nombre_de_trabajo": "Dragón de sombra",
+      "fuentes_usuario": [
+        "img-28968"
+      ],
+      "rasgos_no_negociables": "Silueta serpentina alargada, escamas azules y brillo cian, alas reconocibles.",
+      "variantes_de_color": [
+        "azul_electrico"
+      ],
+      "certeza_identificacion": "alta",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "jinwoo",
+      "nombre_de_trabajo": "Cazador del aura violeta",
+      "fuentes_usuario": [
+        "img-28951"
+      ],
+      "rasgos_no_negociables": "Cabello oscuro, chaqueta negra, silueta humana y brillo púrpura.",
+      "variantes_de_color": [
+        "morado_profundo"
+      ],
+      "certeza_identificacion": "media",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    },
+    {
+      "id": "otros_sin_confirmar",
+      "nombre_de_trabajo": "Referencias pendientes de asignación",
+      "fuentes_usuario": [],
+      "rasgos_no_negociables": "No identificar por intuición; conservar títulos descriptivos y el ID del original.",
+      "variantes_de_color": [
+        "pendiente"
+      ],
+      "certeza_identificacion": "baja",
+      "escenas": [
+        "estudio neutro",
+        "galería de piedra y niebla",
+        "bosque nocturno",
+        "terraza al atardecer"
+      ],
+      "angulos_pendientes": [
+        "frontal cuerpo completo",
+        "perfil cuerpo completo",
+        "espalda cuerpo completo",
+        "tres cuartos"
+      ],
+      "poses_pendientes": [
+        "postura neutra",
+        "caminando",
+        "giro de hombros",
+        "composición solemne",
+        "movimiento atlético no violento"
+      ],
+      "versiones_entregadas": [],
+      "aprobado_para_uso_en_app": false
+    }
+  ],
+  "estilo": {
+    "lineas": "anime 2D dark fantasy, sombras profundas y cel shading moderado",
+    "legibilidad": "Silueta entera, mantener 7% de margen y una figura por recorte final",
+    "paleta": {
+      "fondo": "#090B18",
+      "morado": "#9668EA",
+      "carmesí": "#AA3047",
+      "cian": "#54B9E8",
+      "gris": "#93A1B7"
+    }
+  },
+  "bocetos_creados": [
+    {
+      "archivo": "primer_roster_ocho_conceptos.png",
+      "tipo": "hoja_ocho_personajes",
+      "estado": "exploratorio_no_aprobado"
+    },
+    {
+      "archivo": "8 recortes PNG de cada panel",
+      "tipo": "borradores_individuales",
+      "estado": "exploratorio_no_aprobado"
+    }
+  ],
+  "restricciones": [
+    "No descargar ni copiar fotos externas sin permiso.",
+    "No presentar retratos parciales como cuerpo completo verificado.",
+    "No introducir fotos originales en la APK mientras no estén aprobadas y autorizadas para distribución.",
+    "No confundir ilustraciones 2D con modelos tridimensionales o rigged."
+  ],
+  "estado_binarios": "PENDIENTE_SUBIR_ZIP_AL_REPOSITORIO"
+}
