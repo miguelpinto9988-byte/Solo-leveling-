@@ -10,8 +10,8 @@ android {
         applicationId = "com.gymbreaker.app"
         minSdk = 26 // provisional hasta confirmar dispositivos
         targetSdk = 36
-        versionCode = 13
-        versionName = "0.9.3"
+        versionCode = 14
+        versionName = "0.9.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
