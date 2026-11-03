@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.LruCache
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
@@ -47,14 +48,44 @@ object ProfileArtwork {
         else -> R.drawable.badge_rank_e
     }
 
-    @DrawableRes
-    fun avatar(name: String): Int = when (name) {
-        "Beru" -> R.drawable.shadow_beru
-        "Tank" -> R.drawable.shadow_tank
-        "Iron" -> R.drawable.shadow_iron
-        "Tusk" -> R.drawable.shadow_tusk
-        "Kaisel" -> R.drawable.shadow_kaisel
-        else -> R.drawable.shadow_igris
+    private val imageFiles = linkedMapOf(
+        "Sung Jinwoo" to "avatar_01_sung_jinwoo.png",
+        "Woo Jinchul" to "avatar_02_woo_jinchul.png",
+        "Sung Jinah" to "avatar_03_sung_jinah.png",
+        "Go Gunhee" to "avatar_04_go_gunhee.png",
+        "Choi Jong-in" to "avatar_05_choi_jongin.png",
+        "Baek Yoonho" to "avatar_06_baek_yoonho.png",
+        "Liu Zhigang" to "avatar_07_liu_zhigang.png",
+        "Cha Hae-in" to "avatar_18_cha_haein.png"
+    )
+    private val avatarCache = LruCache<String, Bitmap>(12 * 1024) {
+        _, bitmap -> bitmap.byteCount / 1024
+    }
+
+    fun avatarNames(): List<String> = imageFiles.keys.toList()
+    fun avatarAssetName(name: String): String? = imageFiles[name]
+
+    /** Decode using sample size to avoid eight full 1254px bitmaps in memory on selector. */
+    private fun readAvatar(context: Context, name: String, thumbnail: Boolean): Bitmap? {
+        val file = imageFiles[name] ?: return null
+        val key = file + if (thumbnail) ":thumb" else ":portrait"
+        avatarCache.get(key)?.let { if (!it.isRecycled) return it }
+        return try {
+            val options = BitmapFactory.Options().apply { inSampleSize = if (thumbnail) 4 else 2 }
+            context.assets.open("profile_avatars/" + file).use { input ->
+                BitmapFactory.decodeStream(input, null, options)
+            }?.also { avatarCache.put(key, it) }
+        } catch (_: Exception) { null }
+    }
+
+    fun showAvatar(imageView: ImageView, context: Context, name: String,
+                   thumbnail: Boolean = true) {
+        val bitmap = readAvatar(context, name, thumbnail)
+        if (bitmap != null) imageView.setImageBitmap(bitmap)
+        else imageView.setImageResource(R.drawable.icon_profile_camera)
+        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
+        imageView.contentDescription = "Avatar " + name +
+            if (bitmap == null) " · imagen aún no incorporada" else ""
     }
 
     fun photoFile(context: Context): File? {
@@ -70,9 +101,12 @@ object ProfileArtwork {
     fun showPortrait(imageView: ImageView, context: Context, setup: HunterSetup) {
         val image = if (setup.photoSelected) photoFile(context) else null
         val bitmap = image?.let { BitmapFactory.decodeFile(it.absolutePath) }
-        if (bitmap != null) imageView.setImageBitmap(bitmap)
-        else imageView.setImageResource(avatar(setup.avatarVariant))
-        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap)
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        } else {
+            showAvatar(imageView, context, setup.avatarVariant, thumbnail = false)
+        }
         imageView.contentDescription = "Fotografía o avatar personal de " +
             setup.hunterName.ifBlank { "cazador" }
     }
@@ -94,13 +128,15 @@ object ProfileArtwork {
             clipToOutline = true
         }
         container.addView(photo, FrameLayout.LayoutParams(d(sizeDp-15), d(sizeDp-15), Gravity.CENTER))
-        val frameImage = ImageView(context).apply {
-            setImageResource(frame(setup.frame))
-            scaleType = ImageView.ScaleType.FIT_CENTER
-            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-            isClickable = false
+        if (setup.frame != "Sin marco") {
+            val frameImage = ImageView(context).apply {
+                setImageResource(frame(setup.frame))
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                isClickable = false
+            }
+            container.addView(frameImage, FrameLayout.LayoutParams(-1, -1))
         }
-        container.addView(frameImage, FrameLayout.LayoutParams(-1, -1))
         container.contentDescription = photo.contentDescription
         return container
     }
