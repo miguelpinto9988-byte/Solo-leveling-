@@ -29,6 +29,9 @@ data class ProposedFamilyGroup(
     val variantsByLevel: Map<String, List<ProposedVariantRecord>>
 ) {
     val sourceCount: Int get() = variantsByLevel.values.sumOf { it.size }
+    val documentedVariantCount: Int get() = variantsByLevel.values.sumOf { variants ->
+        variants.map { it.name.trim().lowercase() }.distinct().size
+    }
     val isProposedMerge: Boolean get() = aliases.size > 1
 
     fun levelsSummary(): String = ResearchFamilyGroupLoader.levels
@@ -121,20 +124,28 @@ object ResearchFamilyGroupLoader {
         val selectedLevels = if (level == null) levels else levels.filter { it.second == level }
         val detail = selectedLevels.joinToString("\n\n") { (label, key) ->
             val entries = group.variantsByLevel[key].orEmpty()
-            val lines = entries.take(16).joinToString("\n") { variant ->
-                "• " + variant.name + " (" + variant.equipment + ")\n" +
-                    "  " + variant.source + " · " + variant.sourceId
+            val distinctVariants = entries.groupBy { it.name.trim().lowercase() }
+            val displayed = distinctVariants.values.take(16)
+            val lines = displayed.joinToString("\n") { refs ->
+                val item = refs.first()
+                "• " + item.name + " (" + item.equipment + ") · " +
+                    refs.size + " referencias" + "\n" +
+                    refs.joinToString("\n") { evidence ->
+                        "  " + evidence.source + " · " + evidence.sourceId
+                    }
             }
-            "$label: ${entries.size} registros" +
-                (if (entries.isNotEmpty()) "\n" + lines else "") +
-                (if (entries.size > 16) "\n… " + (entries.size - 16) +
-                    " registros adicionales; afina la consulta." else "")
+            "$label: ${distinctVariants.size} variantes documentadas" +
+                (if (displayed.isNotEmpty()) "\n" + lines else "") +
+                (if (distinctVariants.size > 16) "\n… " +
+                    (distinctVariants.size - 16) +
+                    " variantes adicionales; afina la consulta." else "")
         }
         return "FAMILIA PROPUESTA: " + group.name +
             "\nCATEGORÍA: " + group.category +
             "\nESTADO: SIN REVISIÓN BIOMECÁNICA" +
             "\nNombres relacionados: " + group.aliases.size +
-            "\nVariantes documentales: " + group.sourceCount +
+            "\nVariantes documentadas: " + group.documentedVariantCount +
+            "\nReferencias originales: " + group.sourceCount +
             "\n\n" + detail +
             "\n\nEstos registros se agrupan por nombre o patrón sugerido. " +
             "No están aprobados para rutinas automáticas. Los niveles " +
