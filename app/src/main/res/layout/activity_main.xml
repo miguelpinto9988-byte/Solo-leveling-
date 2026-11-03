@@ -40,6 +40,7 @@
             android:padding="3dp" android:background="@drawable/home_avatar_border"
             android:contentDescription="Abrir mi perfil desde la fotografía"
             android:clickable="true" android:focusable="true"
+            android:clipToOutline="true"
             android:scaleType="centerCrop"
             android:src="@drawable/shadow_igris" />
     </LinearLayout>
