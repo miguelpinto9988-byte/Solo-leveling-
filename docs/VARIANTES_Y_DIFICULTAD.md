@@ -1,5 +1,8 @@
 # Familias, variantes y dificultad · Shadow Core AI 0.6.1
 
+> **Nota de versión:** este documento describe el cribado histórico 0.6.1 (198 denominaciones corroboradas solo entre catálogos). La [revisión estricta posterior](FILTRO_ACE_2026.md) reduce la consulta actual de la APK a **3 denominaciones con referencia ACE**, **3 familias propuestas**, **6 referencias originales** y **0 nuevas aprobaciones para rutinas**. Las otras 195 entradas del primer cribado permanecen únicamente en los registros de investigación.
+
+
 ## Definición
 
 Un **ejercicio principal** corresponde a una familia canónica de movimiento.
