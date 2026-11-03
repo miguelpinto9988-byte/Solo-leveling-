@@ -1,70 +1,56 @@
 # Solo Leveling Gym Breaker
 
-Aplicación Android nativa en **Kotlin + XML**, Room/SQLite, Coroutines, MVVM y
-Shadow Core AI offline. Estado de código: **prototipo 0.6.1**, todavía sin APK
-validada mediante pruebas de compilación y ejecución en dispositivo.
+Aplicación Android nativa en **Kotlin + XML**, Room/SQLite, Coroutines, MVVM y Shadow Core AI offline. Estado: **prototipo**; la compilación de esta rama y la ejecución en un dispositivo Android requieren comprobación.
+
+## Catálogo distribuido: filtro de evidencia externa
+
+La investigación histórica de `catalog/staging` reúne **2.186 registros** y **1.823 denominaciones por categoría**. Una primera depuración conservó **198 nombres con concordancia entre catálogos** y descartó **1.625**. Sin embargo, concordancia entre repositorios no es necesariamente corroboración editorial independiente.
+
+En esta revisión, la **APK únicamente muestra tres denominaciones respaldadas también por referencias técnicas públicas de ACE**, seis registros originales y tres familias *propuestas*:
+
+| Categoría | Denominación consultable | Dificultad documental |
+| --- | --- | --- |
+| Tren superior | Front Dumbbell Raise | Inicial |
+| Tren inferior | Bodyweight Squat | Inicial |
+| Zona central | Crunches | Inicial |
+| Cardio | Sin entradas que superen el filtro | — |
+| Movilidad | Sin entradas que superen el filtro | — |
+
+Las otras **195 denominaciones** previamente conservadas se retiraron de los assets Android por no registrar una referencia técnica externa independiente. Sumadas a las 1.625 ya excluidas, son **1.820 denominaciones fuera de la APK**. Se mantienen la investigación y los descartes en GitHub para auditoría; «retirado de la aplicación» no significa que el ejercicio sea imposible, sino que **no hay evidencia suficiente según este filtro**.
+
+Los nombres de variantes en los assets muestran el **nombre del movimiento**, no el nombre del repositorio que aportó el dato. Las variantes están subordinadas a la familia; **no incrementan el recuento de ejercicios principales**.
+
+**Cero familias nuevas están aprobadas para entrenamiento automático.** La coincidencia con una ficha ACE confirma documentación pública del movimiento y de su clasificación; no supone una evaluación de seguridad individual, aprobación profesional del programa ni equivalencia de todas las variantes biomecánicas. Los 12 ejercicios de demostración anteriores permanecen separados del catálogo investigado.
+
+## Dificultad y seguridad
+
+La consulta expone solo el nivel **inicial** documentado de esas tres denominaciones. No se han acreditado entradas intermedias ni avanzadas con este nuevo filtro. El nivel preferido del jugador es un **techo**, no una obligación de aumentar la carga ni la frecuencia; las restricciones y molestias mantienen prioridad y la progresión RPG es simbólica.
+
+`ExerciseVariantSelector.kt` solo admite variantes cuya aprobación individual está registrada, y `ApprovedCatalogLoader.kt` lee exclusivamente `catalog_approved.json`, que sigue vacío. No se convierte material de investigación en rutinas por automatización.
 
 ## Shadow Core AI offline
 
-El motor interpreta solicitudes habituales en español, permite consultar el
-progreso, propone rutinas desde fichas habilitadas y explica sus filtros. Los
-informes se codifican y decodifican mediante JSON local, sin conexión a Internet.
-La IA no es un modelo generativo de propósito general.
+El motor local interpreta solicitudes habituales en español, consulta el progreso, aplica filtros y genera informes JSON sin conexión. **No es un LLM de propósito general.** El presupuesto configurado es de **90 MB decimales de recursos offline**, no de RAM ni del tamaño instalado de la APK.
 
-El límite configurado para **archivos de recursos offline de IA es 90 MB
-decimales**. No representa el tamaño instalado de la APK ni RAM. Gradle verifica
-el presupuesto y GitHub Actions está configurado para pruebas y compilación.
+## Evidencia y control de calidad
 
-## Catálogo depurado: documentación frente a aprobación
+- [Filtro estricto y referencias oficiales](docs/FILTRO_ACE_2026.md).
+- [Registro completo de la depuración anterior](catalog/review/verification_registry.json).
+- [Protocolo de revisión profesional](catalog/review/REVIEW_PROTOCOL.md).
+- [Licencias y procedencia](catalog/SOURCE_LICENSES.md).
+- [GitHub Actions](.github/workflows/android.yml).
 
-Durante la investigación se localizaron **2.186 registros de fuentes abiertas**,
-equivalentes a **1.823 denominaciones por categoría**. Esta recopilación se
-conserva en `catalog/staging` exclusivamente como archivo de investigación.
+Para auditar los datos:
 
-Después de comprobar fuentes, categorías, niveles y patrones confusos, la
-**APK solo incluye 198 denominaciones documentales**, con **402 referencias de
-origen**, organizadas en **119 familias provisionales** y cinco categorías:
+```bash
+python3 scripts/audit_catalog.py
+python3 scripts/audit_review_queues.py
+python3 scripts/verify_catalog_evidence.py
+python3 scripts/validate_research_assets.py
+python3 scripts/validate_family_groups.py
+python3 scripts/validate_ai_manifest.py
+python3 scripts/validate_catalog_reviews.py
+python3 -m unittest discover -s scripts/tests -v
+```
 
-| Categoría | Denominaciones retenidas | Familias propuestas |
-| --- | ---: | ---: |
-| Tren superior | 125 | 67 |
-| Tren inferior | 35 | 23 |
-| Zona central | 24 | 16 |
-| Cardio | 3 | 2 |
-| Movilidad | 11 | 11 |
-| **Total** | **198** | **119** |
-
-Las **1.625 denominaciones excluidas** no se muestran en la APK; su motivo y
-procedencia siguen disponibles en `catalog/review/verification_registry.json`.
-Se han descartado entradas sin corroboración, niveles contradictorios,
-conflictos de categoría y patrones de ejecución ambiguos. ACE aporta
-referencias externas para algunos movimientos; no se reproduce su contenido.
-
-**Importante:** corroboración documental **NO equivale a aprobación profesional
-para generar rutinas**. Las relaciones entre nombres y familias siguen siendo
-provisionales; no se han firmado fichas nuevas por un profesional cualificado.
-El archivo `catalog_approved.json` contiene cero familias nuevas aprobadas.
-Shadow Core AI mantiene los 12 ejemplos previos como demostración y no utiliza
-automáticamente las 198 denominaciones investigadas.
-
-Las variantes se agrupan por niveles **inicial** e **intermedio** con datos
-concordantes. No se conservaron variantes avanzadas con evidencia suficiente
-en esta depuración. Las variantes no incrementan el número de ejercicios
-principales. La dificultad elegida por el jugador y las restricciones
-siguen siendo límites obligatorios del planificador.
-
-## Documentación y auditorías
-
-- [Informe de depuración, criterios y fuentes](docs/DEPURACION_VARIANTES_2026.md)
-- [Registro de aceptación y descarte](catalog/review/verification_registry.json)
-- [Diseño offline y presupuesto 90 MB](docs/SHADOW_CORE_90MB_FAMILIAS.md)
-- [Estado de implementación](docs/IMPLEMENTATION_STATUS.md)
-- [GitHub Actions](.github/workflows/android.yml)
-
-Las pruebas y auditorías configuradas se ejecutan en GitHub Actions. No debe
-afirmarse que existe una APK funcional sin comprobar una compilación exitosa
-y pruebas en un dispositivo Android. Los recursos gráficos oficiales y el
-catálogo final de 2.000 movimientos independientes continúan pendientes.
-
-El sistema no diagnostica lesiones y las misiones RPG no incluyen
-penalizaciones físicas ni progresión forzada.
+Estas comprobaciones validan estructura y trazabilidad, **no técnica deportiva ni salud**. La compilación, migraciones Room y pruebas reales en Android se considerarán verificadas solo después de obtener resultados de CI y pruebas de dispositivo.

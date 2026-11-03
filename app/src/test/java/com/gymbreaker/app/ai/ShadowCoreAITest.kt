@@ -85,7 +85,9 @@ class ShadowCoreAITest {
                 equipment = TrainingPlace.DUMBBELLS,
                 experience = Experience.INTERMEDIATE,
                 requestedCategories = setOf("Espalda"),
-                excludedExerciseIds = setOf(4)
+                excludedExerciseIds = setOf(4),
+                // La experiencia intermedia no sustituye el nivel solicitado.
+                preferredDifficulty = "intermedio"
             )
         )
         assertTrue(result is PlanningDecision.Candidate)
@@ -111,6 +113,25 @@ class ShadowCoreAITest {
     @Test fun offlineStorageQuestionsAreNotTreatedAsWorkoutCommands() {
         val query = ShadowCoreAI.interpret("Cuánta memoria usa la inteligencia artificial")
         assertEquals(ShadowIntent.SYSTEM, query.intent)
+    }
+
+    @Test fun focusNeverOverridesSelectedInitialDifficulty() {
+        val input = listOf(
+            ExerciseEntity(1, "Movilidad", "Movilidad", "none", "inicio"),
+            ExerciseEntity(2, "Caminar", "Cardio", "none", "inicio"),
+            ExerciseEntity(3, "Remo", "Espalda", "dumbbell", "intermedio")
+        )
+        val result = OfflineTrainingIntelligence.propose(
+            input,
+            TrainingPreferences(
+                equipment = TrainingPlace.DUMBBELLS,
+                experience = Experience.INTERMEDIATE,
+                requestedCategories = setOf("Espalda"),
+                preferredDifficulty = "inicio"
+            )
+        )
+        assertTrue("No se debe sugerir espalda intermedia con nivel inicial",
+            result is PlanningDecision.ReviewRequired)
     }
 
 }

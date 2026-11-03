@@ -96,6 +96,7 @@ class ExerciseVariantSelectorTest {
         )
         val selection = ExerciseVariantSelector.choose(
             exercise, options, TrainingPlace.HOME, Experience.INTERMEDIATE,
+            preferredDifficulty = "intermedio",
             recentSelections = mapOf("10001:variant-alpha" to 4)
         )
         assertEquals("variant-beta", selection?.variantId)
@@ -124,6 +125,37 @@ class ExerciseVariantSelectorTest {
         )
         assertEquals("inicio", selected?.level)
         assertNull(selected?.variantId)
+    }
+
+    @Test fun historyCannotPromoteAnInitialPreference() {
+        val selection = ExerciseVariantSelector.choose(
+            exercise,
+            listOf(variant("variant-alpha", "intermedio"),
+                variant("variant-beta", "intermedio")),
+            TrainingPlace.HOME,
+            Experience.INTERMEDIATE,
+            preferredDifficulty = "inicio",
+            recentSelections = mapOf("10001:variant-alpha" to 100)
+        )
+        assertEquals("inicio", selection?.level)
+        assertNull(selection?.variantId)
+    }
+
+    @Test fun historyDoesNotBypassReviewAndEquipmentRestrictions() {
+        val selection = ExerciseVariantSelector.choose(
+            exercise,
+            listOf(
+                variant("not-approved", "intermedio", eligibility = "catalog_only"),
+                variant("gym-only", "intermedio", equipment = "gym"),
+                variant("restricted", "intermedio", restrictions = "review"),
+                variant("approved", "intermedio")
+            ),
+            TrainingPlace.DUMBBELLS,
+            Experience.INTERMEDIATE,
+            preferredDifficulty = "intermedio",
+            recentSelections = mapOf("10001:approved" to 20)
+        )
+        assertEquals("approved", selection?.variantId)
     }
 
 }
