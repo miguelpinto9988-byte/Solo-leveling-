@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="VERSIÓN 0.5 · CATÁLOGO Y VARIANTES EN REVISIÓN"
+            android:text="VERSIÓN 0.6.1 · CATÁLOGO DEPURADO"
             android:textColor="@color/textSecondary"
             android:textSize="12sp"
             android:textStyle="bold"/>
