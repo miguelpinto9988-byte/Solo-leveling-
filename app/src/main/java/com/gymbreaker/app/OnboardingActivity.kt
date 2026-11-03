@@ -599,16 +599,18 @@ class OnboardingActivity : AppCompatActivity() {
             gravity = Gravity.CENTER
         })
         spacing(content, 8)
+        // El asistente contiene cinco formularios y una confirmación final.
+        // La bienvenida no cuenta como paso, igual que en la maqueta aprobada.
         val header = when (page) {
-            0 -> "CREACIÓN DE PERFIL"
-            6 -> "REGISTRO COMPLETADO"
-            else -> "Creación de Perfil  ·  Paso $page de 5"
+            0 -> "CREA TU PERFIL DE CAZADOR"
+            6 -> "Creación de Perfil  ·  Paso 6 de 6"
+            else -> "Creación de Perfil  ·  Paso $page de 6"
         }
         content.addView(label(header, 15f, pale, true).apply { gravity = Gravity.CENTER })
-        if (page in 1..5) {
+        if (page in 1..6) {
             spacing(content, 8)
             content.addView(label(
-                (1..5).joinToString("  ") { if (it <= page) "◆" else "◇" },
+                (1..6).joinToString("  ") { if (it <= page) "◆" else "◇" },
                 17f, accent()
             ).apply { gravity = Gravity.CENTER })
         }
