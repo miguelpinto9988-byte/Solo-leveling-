@@ -1,6 +1,6 @@
 # Solo Leveling Gym Breaker
 
-Aplicación Android nativa en **Kotlin + XML**, Room/SQLite, Coroutines, MVVM y Shadow Core AI offline. Estado: **prototipo**; la compilación de esta rama y la ejecución en un dispositivo Android requieren comprobación.
+Aplicación Android nativa en **Kotlin + XML**, Room/SQLite, Coroutines, MVVM y Shadow Core AI offline. Estado: **prototipo**; el modelo GGUF necesita compilación con descarga verificada y pruebas en dispositivo antes de declararse estable.
 
 ## Catálogo distribuido: filtro de evidencia externa
 
@@ -30,7 +30,11 @@ La consulta expone solo el nivel **inicial** documentado de esas tres denominaci
 
 ## Shadow Core AI offline
 
-El motor local interpreta solicitudes habituales en español, consulta el progreso, aplica filtros y genera informes JSON sin conexión. **No es un LLM de propósito general.** El presupuesto configurado es de **90 MB decimales de recursos offline**, no de RAM ni del tamaño instalado de la APK.
+El motor híbrido combina reglas locales comprobables para rutinas y restricciones con **SmolLM2-135M-Instruct Q2_K, un modelo GGUF neuronal real cuantizado de ~88,2 MB** utilizado únicamente para respuestas conversacionales experimentales. Los pesos proceden de una revisión fijada de [TensorBlock / Hugging Face](https://huggingface.co/tensorblock/SmolLM2-135M-Instruct-GGUF) y se autentican con SHA-256 (`478cca924101ed67bb2751f597be41532b2f4817ee2ab1b0d7cc379c76e79faf`) antes de crear la APK. La licencia del modelo es Apache-2.0 y la biblioteca de inferencia llama.cpp Android es MIT.
+
+**Importante:** el modelo es muy pequeño, está entrenado principalmente en inglés y esta cuantización sacrifica calidad; **no es fiable para prescribir ejercicios ni evaluar salud**. Por diseño, solo atiende conversación general; el catálogo, la dificultad, el equipamiento, los límites y las decisiones de entrenamiento permanecen en el sistema de reglas existente. Funciona sin Internet en dispositivos `arm64-v8a` compatibles y, si falla la inferencia, se conserva el asistente por reglas. La primera consulta prepara una copia local privada del modelo, por lo que el almacenamiento instalado será superior al tamaño de descarga.
+
+La compilación descarga el GGUF durante GitHub Actions con `python3 scripts/fetch_offline_model.py`. No se agregan 88 MB al historial de Git. El límite de 90 MB se refiere a **recursos del asistente**, no al tamaño final de la APK ni a la RAM. **El modelo no aumenta la cantidad de familias de ejercicios aprobadas**.
 
 ## Evidencia y control de calidad
 
