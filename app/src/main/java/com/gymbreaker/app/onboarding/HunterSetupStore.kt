@@ -21,9 +21,9 @@ data class HunterSetup(
     var weight: String = "",
     var darkTheme: Boolean = true,
     var accent: String = "#A56CFF",
-    var frame: String = "Violeta",
+    var frame: String = "Sin marco",
     var photoSelected: Boolean = false,
-    var avatarVariant: String = "Igris",
+    var avatarVariant: String = "Sung Jinwoo",
     var preferredDifficulty: String = "inicio",
     var primaryGoal: String = "Mejorar mi condición física",
     var subGoal: String = "",
@@ -44,6 +44,11 @@ data class HunterSetup(
             "Tren inferior", "Tren central", "Cardio", "Movilidad"
         )
         val days = listOf("D", "L", "M", "X", "J", "V", "S")
+        // Únicos ocho personajes permitidos en el selector; sombras y monarcas excluidos.
+        val profileAvatars = listOf(
+            "Sung Jinwoo", "Woo Jinchul", "Sung Jinah", "Go Gunhee",
+            "Choi Jong-in", "Baek Yoonho", "Liu Zhigang", "Cha Hae-in"
+        )
         val goals = listOf(
             "Ganar fuerza", "Mejorar resistencia", "Mejorar movilidad",
             "Mejorar mi condición física", "Sentirme más activo"
@@ -81,10 +86,11 @@ object HunterSetupStore {
                 weight = obj.optString("weight", "")
                 darkTheme = obj.optBoolean("darkTheme", true)
                 accent = obj.optString("accent", "#A56CFF")
-                frame = obj.optString("frame", "Violeta")
+                frame = obj.optString("frame", "Sin marco")
+                    .takeIf { it in setOf("Sin marco", "Violeta", "Cian", "Dorado") } ?: "Sin marco"
                 photoSelected = obj.optBoolean("photoSelected", false)
-                avatarVariant = obj.optString("avatarVariant", "Igris")
-                    .takeIf { it in listOf("Igris", "Beru", "Tank", "Iron", "Tusk", "Kaisel") } ?: "Igris"
+                avatarVariant = obj.optString("avatarVariant", "Sung Jinwoo")
+                    .takeIf { it in HunterSetup.profileAvatars } ?: "Sung Jinwoo"
                 preferredDifficulty = obj.optString("difficulty", "inicio")
                     .takeIf { it in HunterSetup.difficultyLevels } ?: "inicio"
                 primaryGoal = obj.optString("goal", HunterSetup.goals[3])
@@ -118,6 +124,8 @@ object HunterSetupStore {
     suspend fun save(context: Context, data: HunterSetup) {
         require(data.hunterName.trim().length in 2..35)
         require(data.preferredDifficulty in HunterSetup.difficultyLevels)
+        require(data.avatarVariant in HunterSetup.profileAvatars)
+        require(data.frame in setOf("Sin marco", "Violeta", "Cian", "Dorado"))
         require(data.groups.size == 7 && data.groups.all {
             it in HunterSetup.trainingGroups
         })
