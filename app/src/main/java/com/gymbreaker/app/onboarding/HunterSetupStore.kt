@@ -151,7 +151,10 @@ object HunterSetupStore {
             val existing = dao.getProfile() ?: TrainingProfileEntity()
             // Si se declara dolor, la revisión de seguridad siempre queda pendiente.
             val review = existing.requiresReview ||
-                "Molestia o lesión actual" in data.restrictions
+                data.restrictions.any {
+                    it in setOf("Molestia o lesión actual", "Movilidad limitada",
+                        "Evitar impacto", "Otra restricción")
+                }
             dao.upsertProfile(
                 existing.copy(
                     experience = when (data.preferredDifficulty) {
@@ -176,7 +179,7 @@ object HunterSetupStore {
             .putBoolean("dark_theme", data.darkTheme)
             .putString("accent", data.accent)
             .putBoolean(DONE, true)
-            .commit()
+            .commit().also { check(it) { "No se pudo guardar el perfil local" } }
     }
 
     /** La interpretación propone; jamás cambia el perfil sin una confirmación. */
