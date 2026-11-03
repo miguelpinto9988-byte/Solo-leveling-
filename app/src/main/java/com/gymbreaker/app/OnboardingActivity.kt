@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import androidx.annotation.DrawableRes
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
@@ -29,7 +30,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.gymbreaker.app.onboarding.HunterSetup
 import com.gymbreaker.app.onboarding.HunterSetupStore
-import com.gymbreaker.app.onboarding.HunterOnboardingBackdrop
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -118,11 +118,78 @@ class OnboardingActivity : AppCompatActivity() {
         container.addView(View(this), LinearLayout.LayoutParams(1, dp(height)))
     }
 
+    @DrawableRes
+    private fun currentBackground(): Int = when (page) {
+        2 -> R.drawable.bg_onboarding_appearance_fullhd
+        3 -> R.drawable.bg_onboarding_week_fullhd
+        4 -> R.drawable.bg_onboarding_goals_fullhd
+        5 -> R.drawable.bg_onboarding_restrictions_fullhd
+        else -> R.drawable.bg_onboarding_identity_fullhd
+    }
+
+    @DrawableRes
+    private fun currentStepIcon(): Int = when (page) {
+        2 -> R.drawable.icon_profile_photo
+        3 -> R.drawable.icon_profile_week
+        4 -> R.drawable.icon_profile_goal
+        5 -> R.drawable.icon_profile_restrictions
+        6 -> R.drawable.badge_rank_e
+        else -> R.drawable.icon_profile_identity
+    }
+
+    @DrawableRes
+    private fun currentFrame(): Int = when (setup.frame) {
+        "Cian" -> R.drawable.frame_profile_cyan
+        "Dorado" -> R.drawable.frame_profile_gold
+        else -> R.drawable.frame_profile_violet
+    }
+
+    // Retrato y marco PNG de 1024 px con interior transparente.
+    private fun framedPortrait(size: Int): FrameLayout {
+        val frame = FrameLayout(this)
+        val portrait = ImageView(this).apply {
+            val privatePhoto = File(filesDir, "hunter_profile_photo.jpg")
+            if (setup.photoSelected && privatePhoto.isFile) {
+                setImageBitmap(BitmapFactory.decodeFile(privatePhoto.absolutePath))
+            } else {
+                setImageResource(avatarDrawable())
+            }
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                setColor(Color.rgb(22, 13, 46))
+            }
+            clipToOutline = true
+            contentDescription = "Fotografía o avatar de " + setup.hunterName
+        }
+        val inner = (size * 0.79f).toInt()
+        frame.addView(portrait, FrameLayout.LayoutParams(dp(inner), dp(inner), Gravity.CENTER))
+        val overlay = ImageView(this).apply {
+            setImageResource(currentFrame())
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }
+        frame.addView(overlay, FrameLayout.LayoutParams(dp(size), dp(size), Gravity.CENTER))
+        frame.contentDescription = "Retrato con marco " + setup.frame
+        return frame
+    }
+
     private fun section(title: String, subtitle: String? = null): LinearLayout {
         val panel = vertical()
         panel.background = rounded(Color.argb(221, 12, 10, 33), Color.argb(220, 137, 83, 240), 18)
         panel.setPadding(dp(16), dp(16), dp(16), dp(18))
-        panel.addView(label(title, 20f, Color.WHITE, true))
+        val heading = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        heading.addView(ImageView(this).apply {
+            setImageResource(currentStepIcon())
+            scaleType = ImageView.ScaleType.FIT_CENTER
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, LinearLayout.LayoutParams(dp(43), dp(43)).apply { marginEnd = dp(10) })
+        heading.addView(label(title, 20f, Color.WHITE, true),
+            LinearLayout.LayoutParams(0, -2, 1f))
+        panel.addView(heading)
         if (subtitle != null) {
             spacing(panel, 6)
             panel.addView(label(subtitle, 13f, muted))
@@ -257,20 +324,8 @@ class OnboardingActivity : AppCompatActivity() {
     private fun appearance(): LinearLayout {
         val panel = section("Apariencia del perfil", "Usa tu propia fotografía o un avatar de la aplicación.")
         spacing(panel, 12)
-        val portrait = ImageView(this).apply {
-            val privatePhoto = File(filesDir, "hunter_profile_photo.jpg")
-            if (setup.photoSelected && privatePhoto.isFile)
-                setImageBitmap(BitmapFactory.decodeFile(privatePhoto.absolutePath))
-            else setImageResource(avatarDrawable())
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            background = rounded(Color.rgb(18, 12, 47), accent(), 28, 2)
-            clipToOutline = true
-            contentDescription = "Imagen de perfil elegida"
-        }
-        val photoParams = LinearLayout.LayoutParams(dp(148), dp(148)).apply {
-            gravity = Gravity.CENTER_HORIZONTAL
-        }
-        panel.addView(portrait, photoParams)
+        panel.addView(framedPortrait(186), LinearLayout.LayoutParams(dp(186), dp(186))
+            .apply { gravity = Gravity.CENTER_HORIZONTAL })
         spacing(panel, 12)
         choiceRow(panel, listOf("Elegir foto", "Usar avatar"), if (setup.photoSelected) "Elegir foto" else "Usar avatar") {
             if (it == "Elegir foto") photoPicker.launch("image/*")
@@ -507,16 +562,13 @@ class OnboardingActivity : AppCompatActivity() {
     private fun success(): LinearLayout {
         val panel = section("¡Perfil creado!", "Tu camino como cazador ha comenzado.")
         spacing(panel, 20)
-        val img = ImageView(this).apply {
-            if (setup.photoSelected && File(filesDir, "hunter_profile_photo.jpg").isFile) {
-                setImageBitmap(BitmapFactory.decodeFile(
-                    File(filesDir, "hunter_profile_photo.jpg").absolutePath
-                ))
-            } else setImageResource(avatarDrawable())
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            contentDescription = "Retrato del perfil"
-        }
-        panel.addView(img, LinearLayout.LayoutParams(dp(120), dp(120)).apply {
+        panel.addView(framedPortrait(150), LinearLayout.LayoutParams(dp(150), dp(150))
+            .apply { gravity = Gravity.CENTER_HORIZONTAL })
+        spacing(panel, 10)
+        panel.addView(ImageView(this).apply {
+            setImageResource(R.drawable.badge_rank_e)
+            contentDescription = "Insignia del rango inicial E"
+        }, LinearLayout.LayoutParams(dp(68), dp(68)).apply {
             gravity = Gravity.CENTER_HORIZONTAL
         })
         spacing(panel, 16)
@@ -585,16 +637,31 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun render() {
         val root = FrameLayout(this)
-        root.background = HunterOnboardingBackdrop(accent())
         mainFrame = root
-        // Ilustración atmosférica sutil, siempre detrás de controles legibles.
-        val decor = ImageView(this).apply {
-            setImageResource(R.drawable.shadow_igris)
-            alpha = 0.12f
-            scaleType = ImageView.ScaleType.FIT_CENTER
+        // Cinco ilustraciones originales rasterizadas a 1080×1920 PNG RGB.
+        // CENTER_CROP conserva las proporciones en móviles con otras dimensiones.
+        root.addView(ImageView(this).apply {
+            setImageResource(currentBackground())
+            scaleType = ImageView.ScaleType.CENTER_CROP
             importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, FrameLayout.LayoutParams(-1, -1))
+        // La capa oscura permite leer controles sobre fondos ilustrados.
+        root.addView(View(this).apply {
+            background = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                intArrayOf(Color.argb(75, 6, 4, 18),
+                    Color.argb(130, 5, 6, 22), Color.argb(155, 6, 4, 19)))
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, FrameLayout.LayoutParams(-1, -1))
+        if (page == 0 || page == 6) {
+            val decor = ImageView(this).apply {
+                setImageResource(R.drawable.shadow_igris)
+                alpha = 0.22f
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            }
+            root.addView(decor, FrameLayout.LayoutParams(dp(240), dp(380),
+                Gravity.RIGHT or Gravity.CENTER_VERTICAL))
         }
-        root.addView(decor, FrameLayout.LayoutParams(dp(300), dp(480), Gravity.RIGHT or Gravity.CENTER_VERTICAL))
         val scroll = ScrollView(this).apply {
             isFillViewport = true
             isVerticalScrollBarEnabled = false
