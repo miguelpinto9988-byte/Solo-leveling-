@@ -1,92 +1,81 @@
-# Registro de implementación · 0.6.0
+# Estado de implementación · Solo Leveling Gym Breaker 0.6.1
 
-## Integrado al código fuente (sin certificación de ejecución)
-- Proyecto Kotlin + interfaces XML, Gradle Kotlin DSL, Android SDK.
-- MVVM con ViewModel, StateFlow, Coroutines y Flow.
-- Room + SQLite: ejercicios de demostración y sesiones completadas.
-- Motor local determinista con exclusiones por categorías y ejercicios, experiencia declarada y bloqueo de revisión.
-- Estimador de esfuerzo offline que requiere cinco sesiones comparables.
-- Perfil Room y metadatos de sesiones con migración 1→2.
-- Sistema RPG básico: experiencia virtual, nivel, rango y avance semanal.
-- Misiones Monarca narrativas, opcionales; sin incrementos punitivos de carga.
-- Shadow Core AI integrado: reconocimiento especializado de solicitudes en español, parámetros de rutina y estadísticas locales. No es un LLM ni una IA generativa de propósito general.
-- Navegación: Sistema, Misiones, Entrenar, Sombras, IA y Ajustes.
-- Temas claro y oscuro, texto en negrita y cuatro colores de acento para botones y marcos.
-- Gradientes suaves para tarjetas y seis acompañantes originales PNG transparentes 256 × 256.
-- Alarma diaria aproximada con permiso de notificaciones, restauración al reinicio.
-- Pruebas JUnit del planificador, rangos y asistente.
-- GitHub Actions configurado para pruebas y compilación APK de depuración.
+**Estado general: código fuente actualizado; compilación, CI y prueba en móvil
+pendientes de confirmación.**
 
-- Presupuesto automatizado de recursos y modelos offline de hasta 90 MB; no implica tamaño final de APK ni RAM.
-- Pruebas unitarias nuevas para la comprensión local y el aprendizaje descriptivo.
+## Android y experiencia
 
-## Investigación del catálogo (solo consulta en la app; no habilitado para rutinas)
-- Cinco categorías principales en `CatalogTaxonomy.kt`: tren superior, tren inferior,
-  zona central, cardio y movilidad.
-- 2.186 registros de metadatos de cuatro fuentes abiertas conservados en staging.
-- 1.823 pares categoría/nombre distintos, 1.794 nombres distintos globales.
-- 44 grupos léxicos de posibles variantes en cola de revisión manual;
-  29 conflictos entre categorías y diez casos documentados de cribado editorial.
-- 273 denominaciones de cardio/movilidad priorizadas para revisión
-  (128 y 145, respectivamente).
-- Nuevo archivo de familias aprobado **vacío**, más validador de fuentes,
-  revisión humana y nivel de autorización.
-- `ApprovedCatalogLoader` importa desde assets únicamente familias aprobadas;
-  variantes subordinadas en Room y migraciones adicionales 3→4, 4→5 y 5→6.
-- Cinco archivos de investigación de solo consulta incluidos en la APK, con
-  2.186 entradas y 1.823 nombres nominales por categoría.
-- Cinco índices de posibles familias y niveles que generan 1.089 grupos
-  **no revisados**. De ellos, 28 agrupan nombres diferentes por
-  similitud textual y requieren especial atención.
-- Pantalla de exploración por familia y dificultad: inicial, intermedio,
-  avanzado y sin determinar. Los datos de investigación no se proponen para entrenar.
-- Panel completo de Shadow Core AI: consultas, interpretación, proceso
-  determinista de seis etapas, informe JSON codificable/decodificable,
-  tamaño de recursos y preferencias.
-- Consultas en español sobre explicación de decisiones, catálogo y recursos.
-- Comprobación del presupuesto de 90 MB con auditoría en GitHub Actions;
-  los assets actuales se estimaron en aproximadamente 1,78 MB de
-  archivos fuente, sin incluir código DEX ni RAM.
-- Dificultades de origen normalizadas únicamente si la fuente usa niveles
-  explícitos, y no certificadas como dificultades biomecánicas.
-- Jugador elige dificultad y experiencia de forma independiente. Selector offline
-  prioriza variantes revisadas compatibles y alterna entre opciones del mismo
-  nivel según historial confirmado; no fuerza progresión.
-- Registro de variante elegida en historial local de sesiones.
-- Auditorías y pruebas del catálogo incorporadas al flujo CI.
-- **No son 2.000 ejercicios principales comprobados**: el solapamiento semántico
-  y la existencia de muchas variantes impiden certificar la cifra.
-- Cardio y movilidad concentran los mayores déficits de nombres (272 y 255
-  antes de la revisión de variantes).
-- Ningún ejercicio de staging se activa en Shadow Core AI hasta revisión.
-- Auditoría automática: `python3 scripts/audit_catalog.py`.
-- Información: [CATALOG_RESEARCH.md](CATALOG_RESEARCH.md).
+- Kotlin + interfaces XML, Gradle Kotlin DSL, Android SDK, Room/SQLite,
+  ViewModel, Coroutines y Flow.
+- Páginas: Sistema, Misiones, Entrenar, Sombras, IA, Ajustes y Catálogo.
+- Temas claro y oscuro, con color de acento independiente para bordes,
+  marcos y botones.
+- Misiones RPG y XP virtual sin penalizaciones físicas.
+- Perfil de experiencia, equipo, dificultad elegida y exclusiones.
+- Registro de sesiones, percepción de esfuerzo y variantes utilizadas.
+- Alertas locales sujetas a permisos y limitaciones del sistema.
 
-## Pendiente para el producto objetivo
-- Los **2000 ejercicios revisados**: por ahora hay 12 ejemplos, sin validación biomecánica.
-- Editor completo de rutinas, sesión guiada por series/descansos y estadísticas avanzadas.
-- Sistema de acompañantes animados con partículas y aura reactiva.
-- Imágenes oficiales/escenarios autorizados: se necesitan los archivos y el alcance de las licencias.
-- La evaluación e integración opcional de un modelo neuronal cuantizado queda pendiente; el núcleo propio actual funciona sin pesos de modelo y sin conexión.
-- Comprobación con datos reales de las estimaciones estadísticas, la detección de intenciones y su calidad.
-- Misiones Monarca y recompensas complejas.
-- Alarmas por días, sonidos personalizados y ajustes de precisión según permisos.
-- Exportación/restauración segura, pruebas instrumentadas y revisión de migraciones en dispositivos reales.
-- Validación de rendimiento, accesibilidad y compatibilidad física.
-- APK firmada para distribución: la app-debug.apk de CI es solo una compilación de desarrollo.
+## Shadow Core AI offline
 
-## Seguridad
-- Sin permisos de micrófono, cámara, contactos, ubicación ni Internet en esta primera versión.
-- Sin secretos ni credenciales.
-- Los puntos y rangos son símbolos del juego, no indicadores de salud.
-- Las misiones no penalizan con ejercicios adicionales ni aumentos de carga.
-- La app no verifica técnica ni diagnostica lesiones.
+- Comprensión especializada de solicitudes frecuentes en español.
+- Propuestas revisables y filtros obligatorios de equipo, restricciones
+  y nivel, con bloqueo ante molestias o exceso de esfuerzo declarado.
+- Historial local y estimación descriptiva con mínimos de muestra.
+- Panel de controles, explicación de decisiones y
+  codificación/decodificación JSON de informes.
+- Presupuesto máximo de **90 MB decimales de recursos offline**;
+  no representa RAM ni APK instalada.
+- **No contiene un LLM generativo de propósito general.**
 
-## Compilación
-El flujo CI usa JDK 17, SDK 36, Gradle 8.13 y AGP 8.13.2 con Kotlin 2.2.21. Incluye `verifyShadowCoreModelBudget` y `verifyOfflineAiResourceBudget`, además de
-`validate_family_groups.py`.
-Abrir **Actions → Android Debug CI** para ver resultados. Solo un resultado exitoso y
-un artefacto presente permitirían afirmar que la APK de prueba se ha compilado.
+## Catálogo depurado (versión 0.6.1)
 
-Versión mínima técnica provisional: Android 8.0 (API 26). Android 15+ será evaluado,
-según hardware y disponibilidad del asistente generativo, antes del lanzamiento.
+- Investigación histórica: **2.186 registros** de cuatro repositorios,
+  con **1.823 denominaciones** por categoría en `catalog/staging`.
+- Depuración de fuente, nivel, clasificación, ambigüedad y contraste ACE:
+  **198 denominaciones documentales conservadas** en la APK, respaldadas
+  por **402 referencias originales**.
+- Organización: **119 familias propuestas**, de las cuales **20**
+  agrupan varias denominaciones.
+- Niveles conservados: **145 iniciales**, **53 intermedios**,
+  **0 avanzados** suficientemente documentados en esta selección.
+- Excluidas **1.625 denominaciones** por documentación insuficiente
+  o contradicciones. Motivos en
+  `catalog/review/verification_registry.json`.
+- Las fuentes originales se conservan para auditoría **fuera de la APK**.
+- **0 familias nuevas aprobadas para uso automático**. Las 12 fichas
+  de demostración son independientes de esta revisión.
+- Los ejercicios de investigación no son equivalentes a las
+  2.000 familias biomecánicas finales solicitadas.
+
+## Control de calidad configurado
+
+GitHub Actions ejecuta las auditorías de investigación,
+`verify_catalog_evidence.py`, `validate_research_assets.py`,
+`validate_family_groups.py`, `validate_ai_manifest.py`,
+la puerta de aprobación de familias, los tests Python/JUnit,
+la verificación de recursos y `assembleDebug`.
+
+**No se ha certificado el resultado del flujo ni la compilación
+de la APK:** comprobar GitHub Actions y ejecutar pruebas en Android
+antes de distribuir.
+
+## Pendiente
+
+1. Revisión humana de identidad, técnica y restricciones de las
+   20 agrupaciones de varios nombres y del resto de fichas.
+2. Incorporar solo las fichas realmente aprobadas al catálogo
+   activo de Shadow Core AI.
+3. Revisar con nueva evidencia los descartes, sin inventar variantes
+   ni sumar fuentes duplicadas.
+4. Pruebas instrumentadas de migraciones Room, memoria RAM,
+   latencia, accesibilidad y compatibilidad Android.
+5. Editor completo de rutinas, acompañantes animados e imágenes
+   oficiales con autorización de uso.
+6. APK firmada y validada para distribución.
+
+**Información:** [depuración documental](DEPURACION_VARIANTES_2026.md),
+[catálogo de fuentes](CATALOG_RESEARCH.md),
+[IA y límite de recursos](SHADOW_CORE_90MB_FAMILIAS.md).
+
+Los puntos y rangos son elementos de juego. El motor no sustituye
+una valoración médica ni un entrenador cualificado.
