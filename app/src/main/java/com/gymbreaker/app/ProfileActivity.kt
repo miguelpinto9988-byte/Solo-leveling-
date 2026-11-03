@@ -24,6 +24,7 @@ import com.gymbreaker.app.onboarding.HunterSetupStore
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 /**
@@ -176,14 +177,8 @@ class ProfileActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val xp = withContext(Dispatchers.IO) {
-                // Los cálculos del juego proceden únicamente de sesiones registradas.
-                var total = 0
                 TrainingDatabase.get(applicationContext).trainingDao()
-                    .observeSessions().collect { sessions ->
-                        total = sessions.sumOf { it.xpEarned }
-                        return@collect
-                    }
-                total
+                    .observeSessions().first().sumOf { it.xpEarned }
             }
             if (!isFinishing && !isDestroyed) {
                 stats.text = "Rango ${HunterProgression.rank(xp)} · " +
