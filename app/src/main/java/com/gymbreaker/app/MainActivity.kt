@@ -27,6 +27,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -88,6 +89,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         bindNavigation()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (currentScreen != Screen.SYSTEM) navigate(Screen.SYSTEM)
+                else finish()
+            }
+        })
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.state.collect { render(it) }
@@ -907,26 +914,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSettingsDialog() {
-        AlertDialog.Builder(this).setTitle("Personalización y restricciones")
+        AlertDialog.Builder(this).setTitle("Ajustes generales")
             .setItems(arrayOf(
-                "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
-                "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
-                "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación",
-                "Dificultad deseada de las rutinas", "Licencias del catálogo offline"
+                "Cambiar color de acento",
+                "Programar alarma diaria",
+                "Desactivar alarma",
+                "Revisar bloqueo de seguridad",
+                "Licencias del catálogo offline"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
                     1 -> showTimePicker()
                     2 -> { TrainingAlarms.disable(this); render(model.state.value) }
-                    3 -> showExperienceDialog()
-                    4 -> showMinutesDialog()
-                    5 -> showCategoriesDialog()
-                    6 -> model.savePreferences(requiresReview = true)
-                    7 -> showReviewDialog()
-                    8 -> showRoutineDifficultyDialog()
-                    9 -> showCatalogLicenses()
+                    3 -> showReviewDialog()
+                    4 -> showCatalogLicenses()
                 }
-            }.show()
+            }
+            .setNegativeButton("Cerrar", null)
+            .show()
     }
 
     private fun showExperienceDialog() {
