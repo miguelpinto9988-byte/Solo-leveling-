@@ -596,7 +596,7 @@ class OnboardingActivity : AppCompatActivity() {
         }
         root.addView(decor, FrameLayout.LayoutParams(dp(300), dp(480), Gravity.RIGHT or Gravity.CENTER_VERTICAL))
         val scroll = ScrollView(this).apply {
-            fillViewport = true
+            isFillViewport = true
             isVerticalScrollBarEnabled = false
         }
         val content = vertical()
