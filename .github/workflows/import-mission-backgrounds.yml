@@ -17,7 +17,7 @@ jobs:
           persist-credentials: true
       - name: Download original art atlas and verify resolution
         env:
-          ORIGINAL_ATLAS_URL: "https://media.canva.com/v2/image-resize/format:PNG/height:1024/quality:100/uri:ifs%3A%2F%2FM%2Ffb149023-a61f-44af-82e9-f3677db3b211/watermark:F/width:1536?csig=AAAAAAAAAAAAAAAAAAAAAFWVvzYlzsFQYBR6xUHP8SGUj-F-j4-78YoeCYfNTYWr&exp=1793698297&osig=AAAAAAAAAAAAAAAAAAAAAJetFHMw3MXFnTCOa4kzO5m1Cwp5L7U_PkPIaSC11tTp&signer=media-rpc&token=AAIAAU0AJGZiMTQ5MDIzLWE2MWYtNDRhZi04MmU5LWYzNjc3ZGIzYjIxMQAAAAABoaC_9KhME1D7I5TFwX0LUc-Bl3YM8eE5j3iefwtIrk5bSUDMAQ&x-canva-quality=thumbnail"
+          ORIGINAL_ATLAS_URL: "https://media.canva.com/v2/image-resize/format:PNG/height:133/quality:100/uri:ifs%3A%2F%2FM%2Ffb149023-a61f-44af-82e9-f3677db3b211/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAFWVvzYlzsFQYBR6xUHP8SGUj-F-j4-78YoeCYfNTYWr&exp=1793698297&osig=AAAAAAAAAAAAAAAAAAAAAJetFHMw3MXFnTCOa4kzO5m1Cwp5L7U_PkPIaSC11tTp&signer=media-rpc&token=AAIAAU0AJGZiMTQ5MDIzLWE2MWYtNDRhZi04MmU5LWYzNjc3ZGIzYjIxMQAAAAABoaC_9KhME1D7I5TFwX0LUc-Bl3YM8eE5j3iefwtIrk5bSUDMAQ&x-canva-quality=thumbnail"
         run: |
           set -euo pipefail
           mkdir -p art/source
@@ -28,9 +28,9 @@ jobs:
           source=Path('art/source/background_atlas.png').read_bytes()
           assert source[:8]==bytes.fromhex('89504e470d0a1a0a'), 'Not a PNG'
           dims=struct.unpack('>II',source[16:24])
-          assert dims==(1536,1024),f'Wrong image size: {dims}'
-          assert len(source)>150_000, 'Source image is unexpectedly small'
-          print(f'Original PNG verified {dims}, {len(source):,} bytes')
+          assert dims==(200,133),f'Wrong signed preview size: {dims}'
+          assert len(source)>3_000, 'Preview source is unexpectedly small'
+          print(f'Canva PNG preview verified {dims}, {len(source):,} bytes')
           PY
       - name: Generate and verify thirty-four background WebP assets
         run: |
