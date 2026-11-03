@@ -146,6 +146,9 @@ class OnboardingActivity : AppCompatActivity() {
             )
             minHeight = dp(48)
             minimumHeight = dp(48)
+            minWidth = 0
+            minimumWidth = 0
+            setPadding(dp(4), dp(4), dp(4), dp(4))
             setOnClickListener { onClick() }
         }
 
