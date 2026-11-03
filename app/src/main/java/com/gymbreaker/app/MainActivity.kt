@@ -78,8 +78,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         WindowInsetsControllerCompat(window, window.decorView).apply {
-            isAppearanceLightStatusBars = !dark
-            isAppearanceLightNavigationBars = !dark
+            // Las barras y la cabecera se mantienen oscuras en ambos temas.
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
         }
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
@@ -149,6 +150,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: DashboardState) {
         val setup = HunterSetupStore.load(this)
+        if (setup.darkTheme) {
+            binding.root.background = ContextCompat.getDrawable(this, R.drawable.home_canvas)
+        } else {
+            binding.root.setBackgroundColor(Color.rgb(234, 231, 249))
+        }
         val accent = try { Color.parseColor(setup.accent) } catch (_: Exception) {
             Color.rgb(165, 108, 255)
         }
