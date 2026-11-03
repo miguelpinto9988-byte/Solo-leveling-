@@ -57,6 +57,29 @@ jobs:
           else:
               raise SystemExit("APK output missing")
           PY
+      - name: Validate APK structure and Android debug signature
+        if: success()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, BadZipFile
+
+          apk = Path("app/build/outputs/apk/debug/app-debug.apk")
+          if not apk.is_file() or apk.stat().st_size == 0:
+              raise SystemExit("APK missing or empty")
+          try:
+              with ZipFile(apk) as archive:
+                  if archive.testzip() is not None:
+                      raise SystemExit("APK ZIP entry damaged")
+                  names = set(archive.namelist())
+                  assert "AndroidManifest.xml" in names, "APK has no manifest"
+                  assert "classes.dex" in names, "APK has no executable DEX"
+          except (BadZipFile, AssertionError) as error:
+              raise SystemExit(f"APK package invalid: {error}")
+          print("APK archive and basic Android contents: OK")
+          PY
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose \
+            app/build/outputs/apk/debug/app-debug.apk
       - name: Publish debug APK
         uses: actions/upload-artifact@v4
         with:
