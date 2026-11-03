@@ -265,15 +265,6 @@ class OnboardingActivity : AppCompatActivity() {
         return panel
     }
 
-    private fun avatarDrawable(): Int = when (setup.avatarVariant) {
-        "Beru" -> R.drawable.shadow_beru
-        "Tank" -> R.drawable.shadow_tank
-        "Iron" -> R.drawable.shadow_iron
-        "Tusk" -> R.drawable.shadow_tusk
-        "Kaisel" -> R.drawable.shadow_kaisel
-        else -> R.drawable.shadow_igris
-    }
-
     private fun appearance(): LinearLayout {
         val panel = section("Apariencia del perfil", "Usa tu propia fotografía o un avatar de la aplicación.")
         spacing(panel, 12)
@@ -291,15 +282,15 @@ class OnboardingActivity : AppCompatActivity() {
         }
         spacing(panel, 8)
         panel.addView(label("Avatares disponibles", 13f, pale, true))
-        listOf("Igris", "Beru", "Tank", "Iron", "Tusk", "Kaisel")
-            .chunked(3).forEach { names ->
+        ProfileArtwork.avatars
+            .chunked(2).forEach { names ->
                 val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
                 names.forEach { name ->
                     val item = vertical().apply {
-                        setPadding(dp(4), dp(5), dp(4), dp(5))
+                        setPadding(dp(7), dp(8), dp(7), dp(8))
                         background = rounded(Color.argb(220, 20, 14, 46),
                             if (!setup.photoSelected && setup.avatarVariant == name)
-                                accent() else Color.rgb(75, 60, 116), 10)
+                                accent() else Color.rgb(75, 60, 116), 12)
                         setOnClickListener {
                             setup.avatarVariant = name
                             setup.photoSelected = false
@@ -307,27 +298,23 @@ class OnboardingActivity : AppCompatActivity() {
                         }
                     }
                     val art = ImageView(this).apply {
-                        setImageResource(when (name) {
-                            "Beru" -> R.drawable.shadow_beru
-                            "Tank" -> R.drawable.shadow_tank
-                            "Iron" -> R.drawable.shadow_iron
-                            "Tusk" -> R.drawable.shadow_tusk
-                            "Kaisel" -> R.drawable.shadow_kaisel
-                            else -> R.drawable.shadow_igris
-                        })
+                        setImageResource(ProfileArtwork.avatar(name))
                         scaleType = ImageView.ScaleType.FIT_CENTER
-                        contentDescription = "Avatar " + name
+                        contentDescription = "Elegir avatar " + name
                     }
-                    item.addView(art, LinearLayout.LayoutParams(-1, dp(65)))
-                    item.addView(label(name, 12f, pale, true).apply { gravity = Gravity.CENTER })
-                    row.addView(item, LinearLayout.LayoutParams(0, dp(95), 1f)
-                        .apply { marginEnd = dp(6); topMargin = dp(6) })
+                    item.addView(art, LinearLayout.LayoutParams(-1, dp(104)))
+                    item.addView(label(name, 12f, pale, true).apply {
+                        gravity = Gravity.CENTER
+                        maxLines = 2
+                    })
+                    row.addView(item, LinearLayout.LayoutParams(0, dp(145), 1f)
+                        .apply { marginEnd = dp(7); topMargin = dp(7) })
                 }
                 panel.addView(row)
             }
         spacing(panel, 14)
         panel.addView(label("Marco de retrato · opcional", 14f, pale, true))
-        choiceRow(panel, listOf("Violeta", "Cian", "Dorado"), setup.frame) {
+        choiceRow(panel, listOf("Sin marco", "Violeta", "Cian", "Dorado"), setup.frame) {
             setup.frame = it
         }
         spacing(panel, 14)
