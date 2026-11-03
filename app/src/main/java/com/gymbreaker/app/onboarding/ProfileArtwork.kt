@@ -58,8 +58,9 @@ object ProfileArtwork {
         "Liu Zhigang" to "avatar_07_liu_zhigang.png",
         "Cha Hae-in" to "avatar_18_cha_haein.png"
     )
-    private val avatarCache = LruCache<String, Bitmap>(12 * 1024) {
-        _, bitmap -> bitmap.byteCount / 1024
+    private val avatarCache = object : LruCache<String, Bitmap>(12 * 1024) {
+        override fun sizeOf(key: String, value: Bitmap): Int =
+            (value.byteCount / 1024).coerceAtLeast(1)
     }
 
     fun avatarNames(): List<String> = imageFiles.keys.toList()
