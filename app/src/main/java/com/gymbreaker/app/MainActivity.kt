@@ -159,11 +159,11 @@ class MainActivity : AppCompatActivity() {
     private fun applyMissionBackdrops(state: DashboardState) {
         val hero = if (currentScreen == Screen.MISSIONS)
             MissionBackgroundCatalog.monarchBackground(selectedMonarch())
-        else MissionBackgroundCatalog.normalBackground(currentScreen.name, state.companion)
+        else MissionBackgroundCatalog.normalBackground(currentScreen.name, state.companion, LocalDate.now().dayOfYear)
         // La segunda tarjeta de Misiones es siempre normal.
         val normal = if (currentScreen == Screen.MISSIONS)
             MissionBackgroundCatalog.companionBackground(state.companion)
-        else MissionBackgroundCatalog.normalBackground("CATALOG", state.companion)
+        else MissionBackgroundCatalog.normalBackground("CATALOG", state.companion, LocalDate.now().dayOfYear + 1)
         paintCardBackdrop(binding.heroCard, hero)
         paintCardBackdrop(binding.secondaryCard, normal)
         binding.monarchThemeAction.visibility =
