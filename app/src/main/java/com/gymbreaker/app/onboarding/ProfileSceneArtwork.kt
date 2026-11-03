@@ -23,14 +23,17 @@ import androidx.annotation.DrawableRes
 object ProfileSceneArtwork {
     data class Scene(val label: String, val filename: String)
 
+    // Asignación aprobada visualmente: bienvenida + cinco formularios + cierre.
+    // Únicamente escenarios de las categorías General/Exploración/Portal:
+    // los Monarcas permanecen reservados a sus misiones.
     val scenes = listOf(
         Scene("Ciudad moderna", "bg_01_ciudad_moderna_fhd.png"),
         Scene("Sede de la Asociación", "bg_03_sede_de_la_asociacion_fhd.png"),
-        Scene("Bosque de Rangos", "bg_07_bosque_de_rangos_fhd.png"),
+        Scene("Base de Cazadores", "bg_06_base_de_cazadores_fhd.png"),
         Scene("Gimnasio del Cazador", "bg_02_gimnasio_del_cazador_fhd.png"),
+        Scene("Sala de Entrenamiento", "bg_04_sala_de_entrenamiento_fhd.png"),
         Scene("Cueva de Cristales", "bg_09_cueva_de_cristales_fhd.png"),
-        Scene("Ruinas Antiguas", "bg_08_ruinas_antiguas_fhd.png"),
-        Scene("Base de Cazadores", "bg_06_base_de_cazadores_fhd.png")
+        Scene("Interior del Gate", "bg_24_interior_del_gate_fhd.png")
     )
 
     private val cache = object : LruCache<String, Bitmap>(16 * 1024) {
