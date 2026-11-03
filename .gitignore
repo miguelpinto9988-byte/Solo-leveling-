@@ -7,4 +7,7 @@ local.properties
 *.jks
 *.keystore
 *.hprof
+# Los pesos verificados se incorporan desde CI, nunca al historial Git.
+/app/src/main/assets/shadow_core/*.gguf
+/app/src/main/assets/shadow_core/*.partial
 .DS_Store
