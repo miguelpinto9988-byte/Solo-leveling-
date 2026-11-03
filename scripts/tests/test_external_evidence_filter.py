@@ -69,6 +69,15 @@ class ExternalEvidenceFilterTest(unittest.TestCase):
     def test_manifest_and_approval_gate_stay_closed(self):
         manifest = load(ASSETS / "ai_manifest.json")
         approved = load(ASSETS / "catalog_approved.json")
+        self.assertTrue(manifest["modelWeightsIncluded"])
+        self.assertEqual(
+            manifest["modelAssetPath"],
+            "shadow_core/SmolLM2-135M-Instruct-Q2_K.gguf"
+        )
+        self.assertEqual(
+            manifest["modelSha256"],
+            "478cca924101ed67bb2751f597be41532b2f4817ee2ab1b0d7cc379c76e79faf"
+        )
         self.assertEqual(manifest["nominalNamesByCategory"], 3)
         self.assertEqual(manifest["documentedRecords"], 6)
         self.assertEqual(manifest["proposedGroups"], 3)
