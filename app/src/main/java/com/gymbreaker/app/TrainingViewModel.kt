@@ -9,6 +9,7 @@ import com.gymbreaker.app.data.SessionEntity
 import com.gymbreaker.app.data.TrainingDatabase
 import com.gymbreaker.app.data.TrainingProfileEntity
 import com.gymbreaker.app.data.TrainingRepository
+import com.gymbreaker.app.onboarding.HunterSetupStore
 import com.gymbreaker.app.domain.*
 import com.gymbreaker.app.ai.ShadowLocalLanguageModel
 import com.gymbreaker.app.ai.ShadowCoreAI
@@ -159,6 +160,25 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
     fun generateRoutine(place: TrainingPlace) {
         val s = state.value
         val p = s.profile
+        val setup = HunterSetupStore.load(getApplication())
+        val weekdayIndex = LocalDate.now().dayOfWeek.value % 7
+        val assignedGroup = setup.groups.getOrNull(weekdayIndex) ?: "Descanso"
+        if (assignedGroup == "Descanso") {
+            latestDecision.value = PlanningDecision.ReviewRequired(
+                "Hoy está marcado como descanso en Tu semana. " +
+                    "Puedes modificar el calendario desde Perfil. " +
+                    "Descansar no genera penalizaciones."
+            )
+            return
+        }
+        val weeklyFocus = when (assignedGroup) {
+            "Tren superior" -> setOf("Espalda", "Pecho", "Hombros", "Brazos")
+            "Tren inferior" -> setOf("Piernas", "Glúteos", "Pantorrillas")
+            "Tren central" -> setOf("Zona central", "Abdominales")
+            "Cardio" -> setOf("Cardio")
+            "Movilidad" -> setOf("Movilidad", "Estabilidad")
+            else -> emptySet()
+        }
         val experience = Experience.entries.firstOrNull { it.name == p.experience }
             ?: Experience.BEGINNER
         val restrictions = p.excludedCategoriesCsv.split(',').map { it.trim() }
@@ -177,7 +197,9 @@ class TrainingViewModel(application: Application) : AndroidViewModel(application
         }
         val preferences = TrainingPreferences(
             place, experience, p.availableMinutes, restrictions,
-            excludedIds, p.requiresReview, preferredDifficulty = p.preferredDifficulty
+            excludedIds, p.requiresReview,
+            requestedCategories = weeklyFocus,
+            preferredDifficulty = p.preferredDifficulty
         )
         lastAuditPreferences = preferences
         val decision = OfflineTrainingIntelligence.propose(
