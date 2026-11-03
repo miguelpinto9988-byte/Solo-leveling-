@@ -6,46 +6,46 @@
   "storageBudgetBytes": 90000000,
   "includesCompiledDex": false,
   "modelWeightsIncluded": false,
-  "documentedRecords": 2186,
-  "nominalNamesByCategory": 1823,
-  "proposedGroups": 1089,
+  "documentedRecords": 402,
+  "nominalNamesByCategory": 198,
+  "proposedGroups": 119,
   "biomechanicallyApprovedGroups": 0,
   "sourceDatasets": 4,
   "categoryBreakdown": [
     {
       "slug": "upper",
       "name": "Tren superior",
-      "nominal": 789,
-      "proposed": 376,
-      "records": 1009
+      "records": 253,
+      "nominal": 125,
+      "proposed": 67
     },
     {
       "slug": "lower",
       "name": "Tren inferior",
-      "nominal": 417,
-      "proposed": 232,
-      "records": 479
+      "records": 71,
+      "nominal": 35,
+      "proposed": 23
     },
     {
       "slug": "core",
       "name": "Zona central",
-      "nominal": 344,
-      "proposed": 236,
-      "records": 400
+      "records": 50,
+      "nominal": 24,
+      "proposed": 16
     },
     {
       "slug": "cardio",
       "name": "Cardio",
-      "nominal": 128,
-      "proposed": 109,
-      "records": 139
+      "records": 6,
+      "nominal": 3,
+      "proposed": 2
     },
     {
       "slug": "mobility",
       "name": "Movilidad",
-      "nominal": 145,
-      "proposed": 136,
-      "records": 159
+      "records": 22,
+      "nominal": 11,
+      "proposed": 11
     }
   ],
   "assetList": [
@@ -64,5 +64,9 @@
     "ai_manifest.json"
   ],
   "privacy": "Datos de entrenamiento en el dispositivo, sin conexión requerida",
-  "warning": "La cantidad de grupos propuestos no equivale al número de ejercicios biomecánicamente verificados."
+  "warning": "Solo 198 denominaciones con respaldo documental suficiente para consulta; 1625 nombres sin documentación o con conflictos excluidos de la APK. 119 familias provisionales, 0 aprobadas técnicamente para rutinas. Los 2186 registros originales permanecen en staging para auditoría.",
+  "originalResearchRecords": 2186,
+  "originalNominalNames": 1823,
+  "quarantinedNominalNames": 1625,
+  "sourceEvidenceStatus": "matching-source-names-and-explicit-levels-not-professional-approval"
 }
