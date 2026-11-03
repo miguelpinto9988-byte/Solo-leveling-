@@ -57,7 +57,9 @@ class OnboardingContractTests(unittest.TestCase):
         self.assertIn("private fun appearance()", self.ui)
         self.assertIn('"Tema y colores"', self.ui)
         self.assertIn("2 -> appearance()", self.ui)
-        self.assertIn("shadow_igris", self.ui)
+        self.assertIn("HunterSetup.profileAvatars.chunked(2)", self.ui)
+        self.assertIn("ProfileArtwork.showAvatar", self.ui)
+        self.assertIn('"Sin marco"', self.ui)
 
     def test_goal_recommendations_need_confirmation_and_restrictions_block(self):
         self.assertIn("suggestGoal", self.ui)
