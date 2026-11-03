@@ -3,6 +3,7 @@ package com.gymbreaker.app
 import android.Manifest
 import android.content.Intent
 import com.gymbreaker.app.onboarding.HunterSetupStore
+import com.gymbreaker.app.ui.HunterHomeDashboard
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -47,11 +48,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 
-private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS, CATALOG }
+private enum class Screen { SYSTEM, MISSIONS, TRAIN, SHADOWS, AI, SETTINGS, CATALOG, PROGRESS }
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val model: TrainingViewModel by viewModels()
+    private val homeDashboard by lazy { HunterHomeDashboard(this) }
     private var currentScreen = Screen.SYSTEM
     private val preferences by lazy { getSharedPreferences("hunter_preferences", MODE_PRIVATE) }
     private val accentOptions = arrayOf("Violeta", "Azul", "Cian", "Rojo")
@@ -89,10 +91,33 @@ class MainActivity : AppCompatActivity() {
         binding.navSystem.setOnClickListener { navigate(Screen.SYSTEM) }
         binding.navMissions.setOnClickListener { navigate(Screen.MISSIONS) }
         binding.navTrain.setOnClickListener { navigate(Screen.TRAIN) }
+        binding.navProgress.setOnClickListener { navigate(Screen.PROGRESS) }
+        binding.navMore.setOnClickListener { showMoreMenu() }
         binding.navShadows.setOnClickListener { navigate(Screen.SHADOWS) }
         binding.navAi.setOnClickListener { navigate(Screen.AI) }
         binding.navSettings.setOnClickListener { navigate(Screen.SETTINGS) }
         binding.navCatalog.setOnClickListener { navigate(Screen.CATALOG) }
+        // No existe ruta de Perfil en la barra inferior ni en Más.
+        binding.profileButton.setOnClickListener {
+            if (currentScreen == Screen.SYSTEM) {
+                startActivity(Intent(this, ProfileActivity::class.java))
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::binding.isInitialized) render(model.state.value)
+    }
+
+    private fun showMoreMenu() {
+        val names = arrayOf("Sombras", "Shadow Core · IA", "Catálogo", "Ajustes")
+        val destinations = listOf(Screen.SHADOWS, Screen.AI, Screen.CATALOG, Screen.SETTINGS)
+        AlertDialog.Builder(this)
+            .setTitle("Más secciones")
+            .setItems(names) { _, index -> navigate(destinations[index]) }
+            .setNegativeButton("Cerrar", null)
+            .show()
     }
 
     private fun navigate(screen: Screen) {
@@ -100,55 +125,77 @@ class MainActivity : AppCompatActivity() {
         render(model.state.value)
         binding.rootScroll.smoothScrollTo(0, 0)
         if (ValueAnimator.areAnimatorsEnabled()) {
-            ObjectAnimator.ofFloat(binding.heroCard, View.ALPHA, 0.75f, 1f)
-                .setDuration(180).start()
+            ObjectAnimator.ofFloat(
+                if (screen == Screen.SYSTEM) binding.homeContainer else binding.heroCard,
+                View.ALPHA, 0.78f, 1f
+            ).setDuration(180).start()
         }
     }
 
     private fun render(state: DashboardState) {
-        val accent = Color.parseColor(preferences.getString("accent", "#A56CFF"))
-        val companionImage = when (state.companion) {
+        val setup = HunterSetupStore.load(this)
+        val accent = try { Color.parseColor(setup.accent) } catch (_: Exception) {
+            Color.rgb(165, 108, 255)
+        }
+        // Fotografía personal: únicamente visible / pulsable en Inicio.
+        binding.profileButton.visibility =
+            if (currentScreen == Screen.SYSTEM) View.VISIBLE else View.INVISIBLE
+        val photo = File(filesDir, "hunter_profile_photo.jpg")
+        if (setup.photoSelected && photo.isFile) {
+            binding.profileButton.setImageBitmap(BitmapFactory.decodeFile(photo.absolutePath))
+        } else {
+            val avatar = when (setup.avatarVariant) {
+                "Igris" -> R.drawable.shadow_igris
+                "Iron" -> R.drawable.shadow_iron
+                "Tank" -> R.drawable.shadow_tank
+                "Tusk" -> R.drawable.shadow_tusk
+                "Kaisel" -> R.drawable.shadow_kaisel
+                else -> R.drawable.shadow_beru
+            }
+            binding.profileButton.setImageResource(avatar)
+        }
+        binding.profileButton.contentDescription = "Abrir mi perfil, " +
+            setup.hunterName.ifBlank { "cazador" }
+
+        binding.heroCard.strokeColor = accent
+        binding.secondaryCard.strokeColor = accent
+        binding.xpBar.progressTintList = ColorStateList.valueOf(accent)
+        binding.primaryAction.backgroundTintList = ColorStateList.valueOf(accent)
+        binding.secondaryAction.backgroundTintList = ColorStateList.valueOf(accent)
+        binding.shadowPortrait.setImageResource(when (state.companion) {
             "Igris" -> R.drawable.shadow_igris
             "Iron" -> R.drawable.shadow_iron
             "Tank" -> R.drawable.shadow_tank
             "Tusk" -> R.drawable.shadow_tusk
             "Kaisel" -> R.drawable.shadow_kaisel
             else -> R.drawable.shadow_beru
+        })
+        binding.shadowPortrait.contentDescription = "Sombra " + state.companion
+        val active = when (currentScreen) {
+            Screen.SYSTEM -> binding.navSystem
+            Screen.TRAIN -> binding.navTrain
+            Screen.MISSIONS -> binding.navMissions
+            Screen.PROGRESS -> binding.navProgress
+            else -> binding.navMore
         }
-        if (currentScreen == Screen.SETTINGS) {
-            val setup = HunterSetupStore.load(this)
-            val image = File(filesDir, "hunter_profile_photo.jpg")
-            if (setup.photoSelected && image.isFile) {
-                binding.shadowPortrait.setImageBitmap(BitmapFactory.decodeFile(image.absolutePath))
-            } else {
-                val profileAvatar = when (setup.avatarVariant) {
-                    "Igris" -> R.drawable.shadow_igris
-                    "Iron" -> R.drawable.shadow_iron
-                    "Tank" -> R.drawable.shadow_tank
-                    "Tusk" -> R.drawable.shadow_tusk
-                    "Kaisel" -> R.drawable.shadow_kaisel
-                    else -> R.drawable.shadow_beru
-                }
-                binding.shadowPortrait.setImageResource(profileAvatar)
-            }
-            binding.shadowPortrait.contentDescription = "Foto o avatar personal"
-        } else {
-            binding.shadowPortrait.setImageResource(companionImage)
-            binding.shadowPortrait.contentDescription = "Sombra " + state.companion
-        }
-        binding.heroCard.strokeColor = accent
-        binding.secondaryCard.strokeColor = accent
-        binding.xpBar.progressTintList = ColorStateList.valueOf(accent)
-        binding.primaryAction.backgroundTintList = ColorStateList.valueOf(accent)
-        binding.secondaryAction.backgroundTintList = ColorStateList.valueOf(accent)
-        val tabs = arrayOf(
-            binding.navSystem, binding.navMissions, binding.navTrain,
-            binding.navShadows, binding.navAi, binding.navSettings, binding.navCatalog
-        )
-        tabs.forEachIndexed { index, button ->
-            button.alpha = if (currentScreen.ordinal == index) 1f else 0.58f
+        listOf(binding.navSystem, binding.navTrain, binding.navMissions,
+            binding.navProgress, binding.navMore).forEach { button ->
+            val highlighted = button == active
+            button.alpha = if (highlighted) 1f else 0.70f
+            button.strokeWidth = if (highlighted) 2 else 1
             button.strokeColor = ColorStateList.valueOf(accent)
+            button.backgroundTintList = ColorStateList.valueOf(
+                if (highlighted) Color.rgb(73, 37, 139) else Color.rgb(21, 16, 43)
+            )
+            button.setTextColor(Color.WHITE)
         }
+
+        val home = currentScreen == Screen.SYSTEM
+        binding.homeContainer.visibility = if (home) View.VISIBLE else View.GONE
+        binding.pageTitle.visibility = if (home) View.GONE else View.VISIBLE
+        binding.pageSubtitle.visibility = if (home) View.GONE else View.VISIBLE
+        binding.heroCard.visibility = if (home) View.GONE else View.VISIBLE
+        binding.secondaryCard.visibility = if (home) View.GONE else View.VISIBLE
         binding.xpBar.progress = (state.xp % 200) * 100 / 200
         when (currentScreen) {
             Screen.SYSTEM -> renderSystem(state)
@@ -158,6 +205,7 @@ class MainActivity : AppCompatActivity() {
             Screen.AI -> renderAi(state)
             Screen.SETTINGS -> renderSettings(state)
             Screen.CATALOG -> renderCatalog(state)
+            Screen.PROGRESS -> renderProgress(state)
         }
     }
 
@@ -181,16 +229,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderSystem(state: DashboardState) {
+        homeDashboard.show(
+            binding.homeContainer, state, HunterSetupStore.load(this),
+            try { Color.parseColor(preferences.getString("accent", "#A56CFF")) }
+                catch (_: Exception) { Color.rgb(165, 108, 255) },
+            HunterHomeDashboard.Actions(
+                onRoutine = { showPlaceDialog() },
+                onMissions = { navigate(Screen.MISSIONS) },
+                onProgress = { navigate(Screen.PROGRESS) },
+                onShadows = { navigate(Screen.SHADOWS) },
+                onAssistant = { navigate(Screen.AI) }
+            )
+        )
+    }
+
+    private fun renderProgress(state: DashboardState) {
+        val completed = state.sessions.filter { it.confirmedComplete }
+        val latest = completed.maxByOrNull { it.occurredAtMillis }
         show(
-            "SISTEMA DEL CAZADOR",
-            "Perfil: " + HunterSetupStore.load(this).hunterName.ifBlank { "Cazador" } +
-                " · XP virtual, no evaluación de salud",
-            "NIVEL " + state.level + " · RANGO " + state.rank,
-            state.xp.toString() + " XP · " + state.sessions.size + " sesiones registradas",
-            "CREAR RUTINA", { showPlaceDialog() },
-            "MISIÓN DEL DÍA",
-            "Entrena con el equipo disponible y registra solo lo que realmente realizaste. " +
-                "Tu sombra acompañante es " + state.companion + ".",
+            "PROGRESO DEL CAZADOR",
+            "Las estadísticas reflejan sesiones registradas, no una evaluación médica",
+            "RANGO ${state.rank} · NIVEL ${state.level}",
+            "Experiencia confirmada: ${state.xp} XP." +
+                "\nSesiones completadas: ${completed.size}." +
+                "\nSesiones registradas esta semana: ${state.weeklySessions}.",
+            "IR A INICIO", { navigate(Screen.SYSTEM) },
+            "ÚLTIMA SESIÓN REGISTRADA",
+            latest?.let { it.summary.take(400) + "\nEsfuerzo declarado: ${it.perceivedEffort}/10." }
+                ?: "Todavía no has registrado ninguna sesión. El descanso no reduce la experiencia.",
             "VER MISIONES", { navigate(Screen.MISSIONS) },
             progressVisible = true
         )
@@ -206,7 +272,8 @@ class MainActivity : AppCompatActivity() {
             "MISIÓN MONARCA · SEMANAL",
             "Meta de misiones elegida: " + target +
                 " de 7. Sesiones registradas esta semana: " + done + ". " +
-                "Desafío narrativo opcional: " + (if (done >= 3) "insignia disponible." else "progreso " + done.coerceAtMost(3) + "/3.") +
+                "Desafío narrativo opcional: " + (if (done >= target) "meta narrativa alcanzada." else
+                    "sesiones confirmadas " + done.coerceAtMost(target) + "/" + target + ".") +
                 " No hay castigos físicos por descanso o incumplimiento.",
             "GENERAR UNA SESIÓN", { showPlaceDialog() },
             "TU SEMANA · " + setup.groups.count { it != "Descanso" } + " días de rutina",
@@ -285,37 +352,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderSettings(state: DashboardState) {
-        val setup = HunterSetupStore.load(this)
-        val difficulty = when (state.profile.preferredDifficulty) {
-            "avanzado" -> "Avanzado"
-            "intermedio" -> "Intermedio"
-            else -> "Básico"
-        }
+        val dark = preferences.getBoolean("dark_theme", true)
         show(
-            "MI PERFIL DE CAZADOR",
-            "Rango independiente de la dificultad y calculado únicamente a partir de XP",
-            setup.hunterName.ifBlank { "Cazador" } + " · RANGO " + state.rank,
-            "Nivel " + state.level + " · " + state.xp + " XP confirmados." +
-                "\\nObjetivo: " + setup.primaryGoal +
-                "\\nSubobjetivo: " + setup.subGoal.ifBlank { "Sin definir" } +
-                "\\nDificultad: " + difficulty,
-            "EDITAR MI PERFIL", {
-                startActivity(Intent(this, OnboardingActivity::class.java)
-                    .putExtra("edit_profile", true))
-            },
-            "MI SEMANA · " + setup.weeklyMissions + " MISIONES (MÁX. 7)",
-            "Rutinas previstas: " +
-                setup.groups.mapIndexed { index, group ->
-                    listOf("D", "L", "M", "X", "J", "V", "S")[index] + ": " + group
-                }.joinToString(" · ") +
-                "\\nDuración: " + setup.minutes + " min · Descanso: " +
-                setup.restSeconds + " s." +
-                "\\nRestricciones: " +
-                setup.restrictions.joinToString(", ").ifBlank { "ninguna declarada" } +
+            "AJUSTES DE LA APLICACIÓN",
+            "Preferencias de apariencia y configuración general",
+            if (dark) "TEMA OSCURO" else "TEMA CLARO",
+            "Cambiar tema, color de acento y recordatorios del dispositivo. " +
+                "El perfil se abre exclusivamente tocando la fotografía superior desde Inicio.",
+            "CAMBIAR TEMA", { showThemeDialog() },
+            "RECORDATORIOS Y SEGURIDAD",
+            "Acento: " + preferences.getString("accent_name", "Violeta") +
+                "\n" + TrainingAlarms.label(this) +
+                "\nEjercicios con restricciones: " +
                 (if (state.profile.requiresReview)
-                    "\\nExiste una revisión de seguridad pendiente; se mantienen las restricciones."
-                else ""),
-            "AJUSTES", { showSettingsDialog() }
+                    "revisión pendiente, no generar rutinas automáticamente."
+                 else "se conservan las exclusiones registradas."),
+            "CONFIGURAR", { showSettingsDialog() }
         )
     }
 
@@ -788,8 +840,7 @@ class MainActivity : AppCompatActivity() {
                 "Cambiar color de acento", "Programar alarma diaria", "Desactivar alarma",
                 "Experiencia de entrenamiento", "Tiempo disponible", "Excluir categorías",
                 "Marcar molestia o restricción pendiente", "Revisar bloqueo de planificación",
-                "Dificultad deseada de las rutinas", "Licencias del catálogo offline",
-                "Editar perfil, foto, objetivo y semana"
+                "Dificultad deseada de las rutinas", "Licencias del catálogo offline"
             )) { _, index ->
                 when (index) {
                     0 -> showAccentDialog()
@@ -802,8 +853,6 @@ class MainActivity : AppCompatActivity() {
                     7 -> showReviewDialog()
                     8 -> showRoutineDifficultyDialog()
                     9 -> showCatalogLicenses()
-                    10 -> startActivity(Intent(this, OnboardingActivity::class.java)
-                        .putExtra("edit_profile", true))
                 }
             }.show()
     }
