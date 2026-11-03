@@ -12,7 +12,8 @@ data class ShadowResourceMetrics(
     val nominalNames: Int,
     val proposedGroups: Int,
     val approvedFamilies: Int,
-    val assetCount: Int
+    val assetCount: Int,
+    val modelBytes: Long
 ) {
     val percentUsed: Double get() =
         if (maxBytes == 0L) 0.0 else 100.0 * bytes / maxBytes
@@ -21,6 +22,7 @@ data class ShadowResourceMetrics(
         "NÚCLEO OFFLINE · RECURSOS DE DATOS\n" +
             "Archivos medidos: " + assetCount + "\n" +
             "Tamaño de assets: " + "%.2f".format(bytes / 1_000_000.0) + " MB\n" +
+            "Pesos GGUF incluidos: " + "%.2f".format(modelBytes / 1_000_000.0) + " MB\n" +
             "Presupuesto máximo: " + "%.0f".format(maxBytes / 1_000_000.0) + " MB\n" +
             "Porcentaje: " + "%.2f".format(percentUsed) + "%\n\n" +
             "Referencias documentales (no ejercicios): " + sourceRecords + "\n" +
@@ -29,7 +31,8 @@ data class ShadowResourceMetrics(
             "Familias revisadas incorporadas: " + approvedFamilies + "\n\n" +
             "Los tamaños corresponden a los assets de catálogo, índices y " +
             "licencias incluidos; no representan RAM, tamaño total de APK " +
-            "ni el código compilado. No existe un modelo generativo instalado."
+            "ni el código compilado. El GGUF requiere RAM y una CPU ARM64; " +
+            "el diálogo generado es experimental y no decide rutinas."
 }
 
 /** Cuenta bytes decodificados de recursos locales; no necesita permisos de Internet. */
@@ -54,7 +57,21 @@ object ShadowResourceMetricsReader {
                     }
                 }
             }
+            require(manifest.getBoolean("modelWeightsIncluded"))
+            val modelPath = manifest.getString("modelAssetPath")
+            require(modelPath == ShadowLocalLanguageModel.MODEL_ASSET)
+            var modelBytes = 0L
+            context.assets.open(modelPath).use { stream ->
+                val buffer = ByteArray(64 * 1024)
+                while (true) {
+                    val count = stream.read(buffer)
+                    if (count < 0) break
+                    modelBytes += count
+                }
+            }
+            total += modelBytes
             val limit = manifest.getLong("storageBudgetBytes")
+            require(total <= limit)
             require(limit == 90_000_000L)
             ShadowResourceMetrics(
                 bytes = total,
@@ -63,7 +80,8 @@ object ShadowResourceMetricsReader {
                 nominalNames = manifest.getInt("nominalNamesByCategory"),
                 proposedGroups = manifest.getInt("proposedGroups"),
                 approvedFamilies = manifest.getInt("biomechanicallyApprovedGroups"),
-                assetCount = files.length()
+                assetCount = files.length() + 1,
+                modelBytes = modelBytes
             )
         }
 }
