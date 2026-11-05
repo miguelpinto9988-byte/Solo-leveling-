@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Solo Leveling Gym Breaker</string>
-    <string name="channel_name">Alarmas de entrenamiento</string>
-    <string name="alarm_title">Tu entrenamiento programado</string>
-    <string name="alarm_body">Puedes revisar tu sesión o ajustar el horario cuando lo necesites.</string>
-</resources>
